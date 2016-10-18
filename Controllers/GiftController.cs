@@ -1,41 +1,20 @@
 namespace WebApplication.Controllers
 {
-    using System.Linq;
-    using System.Collections.Generic;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using WebApplication.Data;
-    using WebApplication.Models;
+    using Microsoft.Extensions.Logging;
 
-    [Authorize]
-    [Route("api/gift")]
-    public class GiftApiController : ControllerBase
+    public class GiftController : Controller
     {
-        private ApplicationDbContext _dbContext;
+        private readonly ILogger _logger;
 
-        public GiftApiController (ApplicationDbContext dbConctext)
+        public GiftController (ILoggerFactory loggerFactory)
         {
-          _dbContext = dbConctext;
+            _logger = loggerFactory.CreateLogger<GiftController>();
         }
 
-        [HttpGet]
-        public IEnumerable<Gift> Index()
+        public IActionResult Index()
         {
-            return _dbContext.Gifts.ToList();
-        }
-
-        [HttpPost]
-        public IActionResult Post([FromBody]Gift gift)
-        {
-            var result = _dbContext.Gifts.Add(gift);
-            _dbContext.SaveChanges();
-            return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
-        }
-
-        [HttpGet("{id}", Name = "GetGift")]
-        public IActionResult GetById(int id)
-        {
-            return Ok(_dbContext.Gifts.First(g => g.Id == id));
+            return View();
         }
     }
 }

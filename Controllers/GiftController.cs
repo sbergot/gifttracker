@@ -7,6 +7,7 @@ namespace WebApplication.Controllers
     using WebApplication.Data;
     using WebApplication.Models;
 
+    [Authorize]
     [Route("api/gift")]
     public class GiftApiController : ControllerBase
     {
@@ -32,9 +33,9 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet("{id}", Name = "GetGift")]
-        public IActionResult GetById(int giftId)
+        public IActionResult GetById(int id)
         {
-            return Ok(_dbContext.Gifts.First(g => g.Id == giftId));
+            return Ok(_dbContext.Gifts.First(g => g.Id == id));
         }
     }
 }

@@ -1,12 +1,13 @@
 /// <binding Clean='clean' />
 "use strict";
 
-var gulp = require("gulp"),
+var gulp   = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     tsc    = require("gulp-typescript"),
-    uglify = require("gulp-uglify");
+    uglify = require("gulp-uglify"),
+    exec   = require('child_process').exec;
 
 var webroot = "./wwwroot/";
 
@@ -24,10 +25,19 @@ var paths = {
 var tsProject = tsc.createProject("tsconfig.json");
 
 gulp.task("build:ts", function(cb) {
-    var tsResult = gulp.src(paths.ts).pipe(tsProject());
-    // var tsResult = tsProject.src().pipe(tsProject());
+    var tsResult = tsProject.src().pipe(tsProject());
     return tsResult.js.pipe(gulp.dest(paths.tsDest));
 });
+
+gulp.task('build:cs', function (cb) {
+  exec('dotnet build', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
+});
+
+gulp.task('build', ['build:cs', 'build:ts']);
 
 gulp.task('watch:ts', ['build:ts'], function() {
     gulp.watch(paths.ts, ['build:ts']);

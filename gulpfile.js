@@ -5,18 +5,33 @@ var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
+    tsc    = require("gulp-typescript"),
     uglify = require("gulp-uglify");
 
 var webroot = "./wwwroot/";
 
 var paths = {
     js: webroot + "js/**/*.js",
+    ts: "./typescript/*.ts",
     minJs: webroot + "js/**/*.min.js",
     css: webroot + "css/**/*.css",
     minCss: webroot + "css/**/*.min.css",
     concatJsDest: webroot + "js/site.min.js",
+    tsDest: webroot + "js",
     concatCssDest: webroot + "css/site.min.css"
 };
+
+var tsProject = tsc.createProject("tsconfig.json");
+
+gulp.task("build:ts", function(cb) {
+    var tsResult = gulp.src(paths.ts).pipe(tsProject());
+    // var tsResult = tsProject.src().pipe(tsProject());
+    return tsResult.js.pipe(gulp.dest(paths.tsDest));
+});
+
+gulp.task('watch:ts', ['build:ts'], function() {
+    gulp.watch(paths.ts, ['build:ts']);
+});
 
 gulp.task("clean:js", function (cb) {
     rimraf(paths.concatJsDest, cb);

@@ -3,5 +3,18 @@
 <div id="gift-list" />
 
 @section Scripts {
-    <script src="~/js/gift.js"></script>
+    <!--<script src="~/js/gift.js"></script>-->
+    <script>
+        SystemJS.config({
+            baseURL: '/js',
+            meta: {
+                'jquery': {
+                    format: 'global',
+                    exports: 'jQuery'
+                }
+            }
+        });
+        SystemJS.import("gift.js");
+    </script>
+
 }

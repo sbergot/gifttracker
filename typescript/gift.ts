@@ -29,3 +29,5 @@ function getGifts() : JQueryXHR
 {
     return jquery.getJSON(gifturl);
 }
+
+getGifts().then((r) => console.log(r));

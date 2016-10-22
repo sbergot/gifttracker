@@ -46,7 +46,9 @@
 
 	"use strict";
 	var jquery = __webpack_require__(1);
+	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"bootstrap\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	var gifturl = "./api/gift";
+	var giftIdAttr = "gift-id";
 	function postJson(url, payload) {
 	    var settings = {
 	        url: url,
@@ -63,12 +65,17 @@
 	    return jquery.getJSON(gifturl);
 	}
 	function viewGift(gift) {
-	    return "\n    <div class=\"panel panel-default\">\n        <div class=\"panel-body\">\n            <dl class=\"dl-horizontal\">\n                <dt>Titre</dt>\n                <dd>" + gift.title + "</dd>\n                <dt>Description</dt>\n                <dd>" + gift.description + "</dd>\n            </dl>\n            <button onclick=\"alert(" + gift.id + ")\">\n                <span class=\"glyphicon glyphicon-pencil\" />\n            </button>\n        </div>\n    </div>\n    ";
+	    return "\n    <div class=\"panel panel-default gift-view\" " + giftIdAttr + "=\"" + gift.id + "\">\n        <div class=\"panel-body\">\n            <dl class=\"dl-horizontal\">\n                <dt>Titre</dt>\n                <dd>" + gift.title + "</dd>\n                <dt>Description</dt>\n                <dd>" + gift.description + "</dd>\n            </dl>\n            <button>\n                <span class=\"glyphicon glyphicon-pencil\" />\n            </button>\n        </div>\n    </div>\n    ";
 	}
 	// function
 	function renderState(state) {
 	    var giftsHtml = state.gifts.map(viewGift).join("");
 	    jquery("#gift-list").append(giftsHtml);
+	    jquery(".gift-view").map(function (i, e) {
+	        var view = $(e);
+	        var id = view.attr(giftIdAttr);
+	        view.find("button").click(function () { alert(id); });
+	    });
 	}
 	var state = {
 	    gifts: []

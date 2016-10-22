@@ -1,5 +1,6 @@
 import * as jquery from "jquery"
 import * as lodash from "lodash"
+import "bootstrap"
 
 interface Gift {
     id : Number;
@@ -13,6 +14,7 @@ interface State {
 }
 
 let gifturl = "./api/gift";
+let giftIdAttr = "gift-id";
 
 function postJson<T>(url : string, payload : T) : JQueryXHR
 {
@@ -37,7 +39,7 @@ function getGifts() : JQueryPromise<Gift[]>
 
 function viewGift(gift : Gift) : string {
     return `
-    <div class="panel panel-default">
+    <div class="panel panel-default gift-view" ${giftIdAttr}="${gift.id}">
         <div class="panel-body">
             <dl class="dl-horizontal">
                 <dt>Titre</dt>
@@ -45,7 +47,7 @@ function viewGift(gift : Gift) : string {
                 <dt>Description</dt>
                 <dd>${gift.description}</dd>
             </dl>
-            <button onclick="alert(${gift.id})">
+            <button>
                 <span class="glyphicon glyphicon-pencil" />
             </button>
         </div>
@@ -58,6 +60,11 @@ function viewGift(gift : Gift) : string {
 function renderState(state : State) {
     let giftsHtml = state.gifts.map(viewGift).join("");
     jquery("#gift-list").append(giftsHtml);
+    jquery(".gift-view").map((i, e) => {
+        let view = $(e);
+        let id = view.attr(giftIdAttr);
+        view.find("button").click(() => { alert(id); });
+    });
 }
 
 let state : State = {

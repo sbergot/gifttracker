@@ -3,7 +3,7 @@
     {
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "module": "system",
+        "module": "commonjs",
         "outDir": "./wwwroot/js"
     }
 }

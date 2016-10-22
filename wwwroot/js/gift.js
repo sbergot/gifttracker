@@ -62,7 +62,24 @@
 	function getGifts() {
 	    return jquery.getJSON(gifturl);
 	}
-	getGifts().then(function (r) { return console.log(r); });
+	function viewGift(gift) {
+	    return "\n    <div class=\"panel panel-default\">\n        <div class=\"panel-body\">\n            <dl class=\"dl-horizontal\">\n                <dt>Titre</dt>\n                <dd>" + gift.title + "</dd>\n                <dt>Description</dt>\n                <dd>" + gift.description + "</dd>\n            </dl>\n            <button onclick=\"alert(" + gift.id + ")\">\n                <span class=\"glyphicon glyphicon-pencil\" />\n            </button>\n        </div>\n    </div>\n    ";
+	}
+	// function
+	function renderState(state) {
+	    var giftsHtml = state.gifts.map(viewGift).join("");
+	    jquery("#gift-list").append(giftsHtml);
+	}
+	var state = {
+	    gifts: []
+	};
+	getGifts().then(function (response) {
+	    if (response === undefined) {
+	        return;
+	    }
+	    state.gifts = response;
+	    renderState(state);
+	});
 
 
 /***/ },

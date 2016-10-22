@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
+    "@types/bootstrap": "^3.3.32",
     "@types/jquery": "^2.0.33",
+    "@types/lodash": "^4.14.37",
     "rimraf": "2.5.2",
     "ts-loader": "^0.9.5",
     "typescript": "2.0.3",

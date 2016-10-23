@@ -7,6 +7,7 @@ let state : State = {
     currentEdit : null
 };
 
+view.mountModal(state);
 
 data.getGifts().then((response) => {
     if (response === undefined) {
@@ -15,5 +16,4 @@ data.getGifts().then((response) => {
     let gifts = response as Gift[];
     state.gifts = lodash.keyBy(gifts, (g) => g.id);
     view.renderState(state);
-    mountModal(state);
 });

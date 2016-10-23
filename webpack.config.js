@@ -9,7 +9,7 @@ module.exports = {
         "bootstrap" : "jQuery",
         "lodash" : "_"
     },
-    entry: './typescript/gift.ts',
+    entry: './typescript/main.gift.ts',
     output: {
         filename: 'wwwroot/js/gift.js'
     },

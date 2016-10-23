@@ -1,6 +1,7 @@
 import * as jquery from "jquery"
 import * as lodash from "lodash"
 import "bootstrap"
+import { putGift } from "./data.gift"
 
 let giftIdAttr = "gift-id";
 
@@ -30,7 +31,7 @@ export function renderState(state : State) {
     jquery(".gift-view").map((i, e) => {
         let view = $(e);
         let id = parseInt(view.attr(giftIdAttr));
-        view.find("button").click(() => { editGift(id) });
+        view.find("button").click(() => { editGift(state, id); });
     });
 }
 
@@ -47,10 +48,11 @@ export function mountModal(state : State)
         currentGift.description = jquery("#gift-edit-description").val();
         jquery("#gift-edit").modal("toggle");
         renderState(state);
+        putGift(currentGift);
     });
 }
 
-function editGift(giftId : number) {
+function editGift(state : State, giftId : number) {
     state.currentEdit = giftId;
     let gift = state.gifts[giftId];
     jquery("#gift-edit-title").val(gift.title);

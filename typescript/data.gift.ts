@@ -2,12 +2,12 @@ import * as jquery from "jquery"
 
 let gifturl = "./api/gift";
 
-function postJson<T>(url : string, payload : T) : JQueryXHR
+function sendJson<T>(url : string, verb : string, payload : T) : JQueryXHR
 {
     let settings : JQueryAjaxSettings = {
         url : url,
-        method : "POST",
-        data : payload,
+        method : verb,
+        data : JSON.stringify(payload),
         headers : {"Content-Type" : "application/json"}
     };
     return jquery.ajax(settings);
@@ -15,7 +15,12 @@ function postJson<T>(url : string, payload : T) : JQueryXHR
 
 export function postGift(gift : Gift) : JQueryPromise<Gift>
 {
-    return postJson(gifturl, gift);
+    return sendJson(gifturl, "POST", gift);
+}
+
+export function putGift(gift : Gift) : JQueryPromise<Gift>
+{
+    return sendJson(gifturl + `/${gift.id}`, "PUT", gift);
 }
 
 export function getGifts() : JQueryPromise<Gift[]>

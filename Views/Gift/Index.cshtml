@@ -1,6 +1,6 @@
 <div id="gift-list"></div>
 
-@{ Html.RenderPartial("_GiftEditPartial"); }
+@await Html.PartialAsync("_GiftEditPartial")
 
 @section Scripts {
     <script src="~/js/gift.js"></script>

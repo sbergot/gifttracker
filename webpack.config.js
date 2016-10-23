@@ -2,7 +2,8 @@ var webpack = require('webpack');
 
 module.exports = {
     externals : {
-        "jquery" : "jQuery"
+        "jquery" : "jQuery",
+        "bootstrap" : "jQuery"
     },
     entry: './typescript/gift.ts',
     output: {

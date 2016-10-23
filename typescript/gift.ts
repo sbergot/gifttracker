@@ -63,7 +63,7 @@ function renderState(state : State) {
     jquery(".gift-view").map((i, e) => {
         let view = $(e);
         let id = view.attr(giftIdAttr);
-        view.find("button").click(() => { alert(id); });
+        view.find("button").click(() => { jquery("#gift-edit").modal(); });
     });
 }
 

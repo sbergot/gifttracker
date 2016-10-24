@@ -1,9 +1,11 @@
 import * as jquery from "jquery"
 import * as lodash from "lodash"
 import "bootstrap"
-import { putGift } from "./data.gift"
+import * as data from "./data.gift"
 
 let giftIdAttr = "gift-id";
+let giftEditClass = "gift-edit";
+let giftDeleteClass = "gift-delete";
 
 function viewGift(gift : Gift) : string {
     return `
@@ -15,8 +17,11 @@ function viewGift(gift : Gift) : string {
                 <dt>Description</dt>
                 <dd>${gift.description}</dd>
             </dl>
-            <button>
+            <button class="${giftEditClass}">
                 <span class="glyphicon glyphicon-pencil" />
+            </button>
+            <button class="${giftDeleteClass}">
+                <span class="glyphicon glyphicon-remove" />
             </button>
         </div>
     </div>
@@ -31,7 +36,8 @@ export function renderState(state : State) {
     jquery(".gift-view").map((i, e) => {
         let view = $(e);
         let id = parseInt(view.attr(giftIdAttr));
-        view.find("button").click(() => { editGift(state, id); });
+        view.find(`.${giftEditClass}`).click(() => { editGift(state, id); });
+        view.find(`.${giftDeleteClass}`).click(() => { deleteGift(state, id); });
     });
 }
 
@@ -48,7 +54,7 @@ export function mountModal(state : State)
         currentGift.description = jquery("#gift-edit-description").val();
         jquery("#gift-edit").modal("toggle");
         renderState(state);
-        putGift(currentGift);
+        data.putGift(currentGift);
     });
 }
 
@@ -58,4 +64,10 @@ function editGift(state : State, giftId : number) {
     jquery("#gift-edit-title").val(gift.title);
     jquery("#gift-edit-description").val(gift.description);
     jquery("#gift-edit").modal();
+}
+
+function deleteGift(state : State, giftId : number) {
+    delete state.gifts[giftId];
+    renderState(state);
+    data.deleteGift(giftId);
 }

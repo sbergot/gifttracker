@@ -10,11 +10,11 @@ namespace WebApplication.Controllers.Api
 
     [Authorize]
     [Route("api/gift")]
-    public class GiftController : ControllerBase
+    public class GiftApiController : ControllerBase
     {
         private ApplicationDbContext _dbContext;
 
-        public GiftController (ApplicationDbContext dbConctext)
+        public GiftApiController (ApplicationDbContext dbConctext)
         {
           _dbContext = dbConctext;
         }
@@ -48,12 +48,22 @@ namespace WebApplication.Controllers.Api
             if (!exists) {
                 return NotFound();
             }
-            _dbContext.Attach(inputGift);
+            _dbContext.Gifts.Attach(inputGift);
             _dbContext.Entry(inputGift).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return Ok(inputGift);
         }
 
+        [HttpDelete]
+        [Route("{id:int}")]
+        public IActionResult Delte(int id)
+        {
+            var gift = new Gift { Id = id };
+            _dbContext.Gifts.Attach(gift);
+            _dbContext.Gifts.Remove(gift);
+            _dbContext.SaveChanges();
+            return Ok();
+        }
 
         [HttpGet("{id}", Name = "GetGift")]
         public IActionResult GetById(int id)

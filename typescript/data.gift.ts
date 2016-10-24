@@ -20,7 +20,12 @@ export function postGift(gift : Gift) : JQueryPromise<Gift>
 
 export function putGift(gift : Gift) : JQueryPromise<Gift>
 {
-    return sendJson(gifturl + `/${gift.id}`, "PUT", gift);
+    return sendJson(`${gifturl}/${gift.id}`, "PUT", gift);
+}
+
+export function deleteGift(giftId : number) : JQueryPromise<Gift>
+{
+    return sendJson(`${gifturl}/${giftId}`, "DELETE", {});
 }
 
 export function getGifts() : JQueryPromise<Gift[]>

@@ -24,8 +24,10 @@
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-controller="Gift" asp-action="Index">Gifts</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
+                @RenderSection("header", required : false)
             </div>
         </div>
     </div>

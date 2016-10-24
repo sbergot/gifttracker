@@ -56,6 +56,9 @@ export function mountModal(state : State)
         renderState(state);
         data.putGift(currentGift);
     });
+    jquery("#gift-create").on("click", () => {
+        openGiftEditModal();
+    });
 }
 
 function editGift(state : State, giftId : number) {
@@ -63,6 +66,9 @@ function editGift(state : State, giftId : number) {
     let gift = state.gifts[giftId];
     jquery("#gift-edit-title").val(gift.title);
     jquery("#gift-edit-description").val(gift.description);
+}
+
+function openGiftEditModal() {
     jquery("#gift-edit").modal();
 }
 

@@ -1,3 +1,8 @@
+# Technique
+pas de manipulation d'état interne
+action => http request => get all gifts => render
+
+# Features
 gift => gift idea?
 - occurence
 - prix

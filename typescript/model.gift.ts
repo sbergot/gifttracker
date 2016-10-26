@@ -6,6 +6,6 @@ interface Gift {
 }
 
 interface State {
-    gifts : {[index : number] : Gift | undefined };
+    gifts : {[index : number] : Gift };
     currentEdit : number | null;
 }

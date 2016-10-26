@@ -92,13 +92,6 @@ export function mountStatics(state : State) {
         const prefix = "gift-create";
         jquery(`#${prefix}-title`).val("");
         jquery(`#${prefix}-description`).val("");
-        const newgift : Gift = {
-            id : 0,
-            applicationUserId : 0,
-            title : "",
-            description : ""
-        };
-        state
         toggleModal("gift-create");
     });
 }

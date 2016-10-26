@@ -1,4 +1,5 @@
-<div class="modal fade" id="gift-edit" tabindex="-1">
+@{ string idPrefix = Model; }
+<div class="modal fade" id="@idPrefix" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,19 +13,19 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="gift-edit-title">Title</label>
-                        <input class="form-control" id="gift-edit-title" placeholder="Title">
+                        <label for="@idPrefix-title">Title</label>
+                        <input class="form-control" id="@idPrefix-title" placeholder="Title">
                     </div>
                     <div class="form-group">
-                        <label for="gift-edit-description">Description</label>
-                        <textarea rows="5" class="form-control" id="gift-edit-description" placeholder="Description">
+                        <label for="@idPrefix-description">Description</label>
+                        <textarea rows="5" class="form-control" id="@idPrefix-description" placeholder="Description">
                         </textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="gift-edit-save">Save changes</button>
+                <button type="button" class="btn btn-primary" id="@idPrefix-save">Save changes</button>
             </div>
         </div>
     </div>

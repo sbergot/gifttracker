@@ -7,7 +7,7 @@ let state : State = {
     currentEdit : null
 };
 
-view.mountModal(state);
+view.mountStatics(state);
 
 data.getGifts().then((response) => {
     if (response === undefined) {

@@ -56,7 +56,7 @@ namespace WebApplication.Controllers.Api
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delte(int id)
+        public IActionResult Delete(int id)
         {
             var gift = new Gift { Id = id };
             _dbContext.Gifts.Attach(gift);

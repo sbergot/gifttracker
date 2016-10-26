@@ -3,9 +3,9 @@ import * as lodash from "lodash"
 import "bootstrap"
 import * as data from "./data.gift"
 
-let giftIdAttr = "gift-id";
-let giftEditClass = "gift-edit";
-let giftDeleteClass = "gift-delete";
+const giftIdAttr = "gift-id";
+const giftEditClass = "gift-edit";
+const giftDeleteClass = "gift-delete";
 
 function viewGift(gift : Gift) : string {
     return `
@@ -31,45 +31,91 @@ function viewGift(gift : Gift) : string {
 // function
 
 export function renderState(state : State) {
-    let giftsHtml = lodash.values(state.gifts).map(viewGift).join("");
+    const giftsHtml = lodash.values(state.gifts).map(viewGift).join("");
     jquery("#gift-list").html(giftsHtml);
     jquery(".gift-view").map((i, e) => {
-        let view = $(e);
-        let id = parseInt(view.attr(giftIdAttr));
-        view.find(`.${giftEditClass}`).click(() => { editGift(state, id); });
-        view.find(`.${giftDeleteClass}`).click(() => { deleteGift(state, id); });
+        const view = $(e);
+        const id = parseInt(view.attr(giftIdAttr));
+        view.find(`.${giftEditClass}`).click(() => {
+            editGift(state, id);
+        });
+        view.find(`.${giftDeleteClass}`).click(() => {
+            deleteGift(state, id);
+        });
     });
 }
 
-export function mountModal(state : State)
+function mountModal(state : State, prefix : string)
 {
-    jquery("#gift-edit-save").on("click", () => {
-        let currentEdit = state.currentEdit;
-        if (currentEdit === null) {
+    jquery(`#${prefix}-save`).on("click", () => {
+        const title = jquery(`#${prefix}-title`).val();
+        const description = jquery(`#${prefix}-description`).val();
+        const currentEdit = state.currentEdit;
+        if (currentEdit == null) {
+            const newGift = {
+                id : 0,
+                applicationUserId : 0,
+                title : title,
+                description : description
+            };
+            data.postGift(newGift).then((r) => {
+                if (r == undefined) {
+                    return;
+                }
+                state.gifts[r.id] = r;
+                renderState(state);
+            });
+            toggleModal(prefix);
+            return;
+        }
+
+        const currentGift = state.gifts[currentEdit];
+        if (currentGift === undefined) {
             console.error("cannot save because current edit gift id is null");
             return;
         }
-        let currentGift = state.gifts[currentEdit];
-        currentGift.title = jquery("#gift-edit-title").val();
-        currentGift.description = jquery("#gift-edit-description").val();
-        jquery("#gift-edit").modal("toggle");
-        renderState(state);
+        currentGift.title = jquery(`#${prefix}-title`).val();
+        currentGift.description = jquery(`#${prefix}-description`).val();
         data.putGift(currentGift);
+        renderState(state);
+        state.currentEdit = null;
+        toggleModal(prefix);
+        jquery(`#${prefix}-title`).val("");
+        jquery(`#${prefix}-description`).val("");
     });
-    jquery("#gift-create").on("click", () => {
-        openGiftEditModal();
+}
+
+export function mountStatics(state : State) {
+    mountModal(state, "gift-edit");
+    mountModal(state, "gift-create");
+    jquery("#gift-create-open").on("click", () => {
+        const prefix = "gift-create";
+        jquery(`#${prefix}-title`).val("");
+        jquery(`#${prefix}-description`).val("");
+        const newgift : Gift = {
+            id : 0,
+            applicationUserId : 0,
+            title : "",
+            description : ""
+        };
+        state
+        toggleModal("gift-create");
     });
 }
 
 function editGift(state : State, giftId : number) {
     state.currentEdit = giftId;
-    let gift = state.gifts[giftId];
+    const gift = state.gifts[giftId];
+    if (gift === undefined) {
+        return;
+    }
     jquery("#gift-edit-title").val(gift.title);
     jquery("#gift-edit-description").val(gift.description);
+    toggleModal("gift-edit");
 }
 
-function openGiftEditModal() {
-    jquery("#gift-edit").modal();
+function toggleModal(id : string) {
+    jquery("#" + id).modal("toggle");
 }
 
 function deleteGift(state : State, giftId : number) {

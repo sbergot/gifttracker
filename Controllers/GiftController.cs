@@ -1,8 +1,10 @@
 namespace WebApplication.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
 
+    [Authorize]
     public class GiftController : Controller
     {
         private readonly ILogger _logger;

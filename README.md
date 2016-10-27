@@ -1,25 +1,31 @@
-# Technique
-pas de manipulation d'état interne
-action => http request => get all gifts => render
+# améliorations graphiques
+- marge bouton header
+- deux colonnes?
+- marge corps
 
-# Features
-gift => gift idea?
-- occurence
-- prix
+# ajouter models
 
-habilitation pour chaque personne:
+## Gift
+### Prix
+### TargetContactId
+
+## Occurence
+### evennement ( noel | anniversaire )
+### année
+### ContactId
+
+## Contact
+### Nom/Prénom
+### Droits
+3 flags:
 - voir les idées pour moi
 - voir les idées pour elle
 - voir les idées pour les autres
 
-vue d'arrivé: liste des prochains evt avec la liste des personnes concernées & statut des cadeaux
+# ajouter vue
+liste des prochaines occurences avec la liste des personnes concernées & statut des cadeaux
 
-evt: titre + date dans l'année
-
-occurence: evt + année + personne concernée
-
-bien pour gérer distinctement annivs & noël
-
+# autres
 pouvoir lister les cadeaux pour une personne
     filtre sur mes idées ou les idées des autres
 

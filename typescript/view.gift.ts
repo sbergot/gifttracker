@@ -28,6 +28,15 @@ function viewGift(gift : Gift) : string {
     `;
 }
 
+function makeGift(title : string, description : string) : Gift {
+    return {
+        id : -1,
+        applicationUserId : -1,
+        title : title,
+        description : description
+    }
+}
+
 export class GiftApp
 {
     state : State;
@@ -37,7 +46,10 @@ export class GiftApp
 
     public start() {
         this.mountStatics();
+        this.refreshGifts();
+    }
 
+    refreshGifts() {
         data.getGifts().then((response) => {
             if (response === undefined) {
                 return;
@@ -45,13 +57,54 @@ export class GiftApp
             const gifts = response as Gift[];
             this.state.gifts = lodash.keyBy(gifts, (g) => g.id);
             this.renderState();
+            this.mountGiftButtons();
         });
     }
 
     renderState() {
         const giftsHtml = lodash.values(this.state.gifts).map(viewGift).join("");
         jquery("#gift-list").html(giftsHtml);
-        this.mountGiftButtons();
+    }
+
+    mountStatics() {
+        this.mountEditGiftModal();
+        this.mountCreateGiftButton();
+    }
+
+    mountEditGiftModal()
+    {
+        jquery('#gift-edit-save').on("click", () => this.saveGift());
+        jquery('#gift-edit').on("hide.bs.modal", () => {
+            jquery('#gift-edit-title').val("");
+            jquery('#gift-edit-description').val("");
+            this.state.currentEdit = null;
+        });
+    }
+
+    mountCreateGiftButton() {
+        jquery("#gift-create-open").on("click", () => {
+            jquery('#gift-edit-title').val("");
+            jquery('#gift-edit-description').val("");
+            const newGift = makeGift("", "");
+            this.openModal(newGift);
+        });
+    }
+
+    saveGift() {
+        const title = jquery('#gift-edit-title').val();
+        const description = jquery('#gift-edit-description').val();
+        const currentEdit = this.state.currentEdit;
+        let request : JQueryPromise<Gift>;
+        if (currentEdit == null) {
+            const newGift = makeGift(title, description);
+            request = data.postGift(newGift);
+        } else {
+            const currentGift = this.state.gifts[currentEdit];
+            currentGift.title = title;
+            currentGift.description = description;
+            request = data.putGift(currentGift);
+        }
+        request.then(() => this.refreshGifts());
     }
 
     mountGiftButtons() {
@@ -67,69 +120,22 @@ export class GiftApp
         });
     }
 
-    mountModal(prefix : string)
-    {
-        jquery(`#${prefix}-save`).on("click", () => {
-            const title = jquery(`#${prefix}-title`).val();
-            const description = jquery(`#${prefix}-description`).val();
-            const currentEdit = this.state.currentEdit;
-            if (currentEdit == null) {
-                const newGift = {
-                    id : 0,
-                    applicationUserId : 0,
-                    title : title,
-                    description : description
-                };
-                data.postGift(newGift).then((r) => {
-                    if (r == undefined) {
-                        return;
-                    }
-                    this.state.gifts[r.id] = r;
-                    this.renderState();
-                });
-                this.toggleModal(prefix);
-                return;
-            }
-
-            const currentGift = this.state.gifts[currentEdit];
-            currentGift.title = jquery(`#${prefix}-title`).val();
-            currentGift.description = jquery(`#${prefix}-description`).val();
-            data.putGift(currentGift);
-            this.renderState();
-            this.state.currentEdit = null;
-            this.toggleModal(prefix);
-            jquery(`#${prefix}-title`).val("");
-            jquery(`#${prefix}-description`).val("");
-        });
-    }
-
-    mountStatics() {
-        this.mountModal("gift-edit");
-        this.mountModal("gift-create");
-        jquery("#gift-create-open").on("click", () => {
-            const prefix = "gift-create";
-            jquery(`#${prefix}-title`).val("");
-            jquery(`#${prefix}-description`).val("");
-            this.toggleModal(prefix);
-        });
-    }
-
     editGift(giftId : number) {
         this.state.currentEdit = giftId;
         const gift = this.state.gifts[giftId];
-        jquery("#gift-edit-title").val(gift.title);
-        jquery("#gift-edit-description").val(gift.description);
-        this.toggleModal("gift-edit");
-    }
-
-    toggleModal(id : string) {
-        jquery("#" + id).modal("toggle");
+        this.openModal(gift);
     }
 
     deleteGift(giftId : number) {
         delete this.state.gifts[giftId];
         this.renderState();
         data.deleteGift(giftId);
+    }
+    
+    openModal(gift : Gift) {
+        jquery("#gift-edit-title").val(gift.title);
+        jquery("#gift-edit-description").val(gift.description);
+        jquery('#gift-edit').modal("show");
     }
 }
 

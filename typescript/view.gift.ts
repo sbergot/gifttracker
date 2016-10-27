@@ -30,8 +30,8 @@ function viewGift(gift : Gift) : string {
 
 function makeGift(title : string, description : string) : Gift {
     return {
-        id : -1,
-        applicationUserId : -1,
+        id : 0,
+        applicationUserId : 0,
         title : title,
         description : description
     }
@@ -105,6 +105,7 @@ export class GiftApp
             request = data.putGift(currentGift);
         }
         request.then(() => this.refreshGifts());
+        this.closeModal();
     }
 
     mountGiftButtons() {
@@ -127,15 +128,17 @@ export class GiftApp
     }
 
     deleteGift(giftId : number) {
-        delete this.state.gifts[giftId];
-        this.renderState();
-        data.deleteGift(giftId);
+        data.deleteGift(giftId).then(() => this.refreshGifts());
     }
     
     openModal(gift : Gift) {
         jquery("#gift-edit-title").val(gift.title);
         jquery("#gift-edit-description").val(gift.description);
         jquery('#gift-edit').modal("show");
+    }
+
+    closeModal() {
+        jquery('#gift-edit').modal("hide");
     }
 }
 

@@ -4,7 +4,11 @@ namespace WebApplication.Models
     {
         public int Id { get; set; }
 
-        public int ApplicationUserId { get; set; }
+        public int OwnerId { get; set; }
+
+        public int ReceiverId { get; set; }
+
+        public int PriceInCents { get; set; }
 
         public string Title { get; set; }
 

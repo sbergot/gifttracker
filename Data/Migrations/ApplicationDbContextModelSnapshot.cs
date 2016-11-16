@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using WebApplication.Data;
 
 namespace WebApplication.Data.Migrations
 {
@@ -174,15 +176,35 @@ namespace WebApplication.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ApplicationUserId");
-
                     b.Property<string>("Description");
+
+                    b.Property<int>("OwnerId");
+
+                    b.Property<int>("PriceInCents");
+
+                    b.Property<int>("ReceiverId");
 
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
                     b.ToTable("Gifts");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.Occurence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ReceiverId");
+
+                    b.Property<int>("Type");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Occurences");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

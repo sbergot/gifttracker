@@ -1,8 +1,3 @@
-# améliorations graphiques
-- marge bouton header
-- deux colonnes?
-- marge corps
-
 # ajouter models
 
 ## Gift

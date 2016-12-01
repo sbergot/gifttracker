@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using WebApplication.Data;
 
-namespace WebApplication.Data.Migrations
+namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161116221625_create_occurence")]
-    partial class create_occurence
+    [Migration("20161128063642_createdb")]
+    partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -190,6 +190,22 @@ namespace WebApplication.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gifts");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.Occurence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ReceiverId");
+
+                    b.Property<int>("Type");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Occurences");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

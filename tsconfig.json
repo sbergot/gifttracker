@@ -4,6 +4,7 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "module": "commonjs",
+        "lib": ["dom","es5","scripthost","es2015.promise"],
         "outDir": "./wwwroot/js"
     }
 }

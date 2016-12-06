@@ -5,10 +5,15 @@
   "devDependencies": {
     "@types/bootstrap": "^3.3.32",
     "@types/jquery": "^2.0.33",
-    "@types/lodash": "^4.14.37",
+    "@types/lodash": "^4.14.42",
+    "css-loader": "^0.26.1",
     "rimraf": "2.5.2",
     "ts-loader": "^0.9.5",
-    "typescript": "2.0.3",
-    "webpack": "^1.13.2"
+    "typescript": "^2.1.1",
+    "vue": "^2.1.4",
+    "vue-loader": "^10.0.2",
+    "vue-template-compiler": "^2.1.4",
+    "vue-ts-loader": "0.0.3",
+    "webpack": "^1.13.3"
   }
 }

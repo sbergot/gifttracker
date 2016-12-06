@@ -9,17 +9,29 @@ module.exports = {
         "bootstrap" : "jQuery",
         "lodash" : "_"
     },
-    entry: './typescript/main.gift.ts',
+    entry: { 
+        maingift : './typescript/main.gift.ts',
+        app : './typescript/app.ts'
+    },
     output: {
-        filename: 'wwwroot/js/gift.js'
+        path : 'wwwroot/js',
+        filename: '[name].js'
     },
     resolve: {
         root : tsPath,
-        extensions: ['', '.ts']
+        extensions: ['', '.ts', '.vue', '.js']
     },
     module: {
         loaders: [
-            { test: /\.ts$/, loader: 'ts-loader', include: [ tsPath ] }
+            // { test: /\.ts$/, loader: 'ts-loader', include: [ tsPath ] },
+            { test: /\.ts$/, loader: 'vue-ts', include: [ tsPath ] },
+            { test: /\.vue$/, loader: 'vue' }
         ]
+    },
+    vue: {
+      // instruct vue-loader to load TypeScript
+      loaders: { js: 'vue-ts-loader', },
+      // make TS' generated code cooperate with vue-loader
+      esModule: true
     }
 }

@@ -22,5 +22,7 @@ namespace WebApplication.Data
         public DbSet<Gift> Gifts { get; set; }
 
         public DbSet<Occurence> Occurences { get; set; }
+
+        public DbSet<Individual> Individuals { get; set; }
     }
 }

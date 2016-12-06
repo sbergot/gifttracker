@@ -6,7 +6,7 @@ namespace WebApplication.Models
 
         public int OwnerId { get; set; }
 
-        public int ReceiverId { get; set; }
+        public int OccurenceId { get; set; }
 
         public int PriceInCents { get; set; }
 

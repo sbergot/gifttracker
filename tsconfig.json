@@ -4,6 +4,8 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "module": "commonjs",
+        "jsx": "react",
+        "target": "es5",
         "outDir": "./wwwroot/js"
     }
 }

@@ -3,7 +3,9 @@
     {
         "noImplicitAny": true,
         "strictNullChecks": true,
+        "experimentalDecorators": true,
         "module": "commonjs",
+        "target": "es5",
         "lib": ["dom","es5","scripthost","es2015.promise"],
         "outDir": "./wwwroot/js"
     }

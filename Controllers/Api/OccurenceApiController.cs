@@ -8,7 +8,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Models;
 
     [Authorize]
-    [Route("api/gift")]
+    [Route("api/occurence")]
     public class OccurenceApiController : ControllerBase
     {
         private ApplicationDbContext _dbContext;

@@ -1,6 +1,8 @@
 interface Gift {
     id : number;
-    applicationUserId : number;
+    ownerId : number;
+    occurenceId: number;
+    priceInCents: number;
     title : string;
     description : string;
 }

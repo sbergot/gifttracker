@@ -1,25 +1,36 @@
 var webpack = require('webpack');
 var path = require('path');
 
-let tsPath = path.resolve("./typescript");
+const clientPath = path.resolve("./client");
+const tsPath = path.join(clientPath, "typescript");
 
 module.exports = {
     externals : {
         "jquery" : "jQuery",
         "bootstrap" : "jQuery",
-        "lodash" : "_"
+        "lodash" : "_",
+        "react": "React",
+        "react-dom": "ReactDOM"
     },
-    entry: './typescript/main.gift.ts',
+
+    devtool: 'source-map',
+
+    entry: {
+        gift : path.join(clientPath, "index.tsx")
+    },
+
     output: {
-        filename: 'wwwroot/js/gift.js'
+        filename: 'wwwroot/js/[name].js'
     },
+
     resolve: {
-        root : tsPath,
-        extensions: ['', '.ts']
+        root : clientPath,
+        extensions: ['', '.ts', '.tsx']
     },
+
     module: {
         loaders: [
-            { test: /\.ts$/, loader: 'ts-loader', include: [ tsPath ] }
+            { test: /\.tsx?$/, loader: 'awesome-typescript-loader' }
         ]
     }
 }

@@ -1,13 +1,25 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as lodash from "lodash"
-import { GiftView } from "./GiftView"
-import { GiftEdit } from "./GiftEdit"
-import * as data from "../typescript/data.gift"
+import * as lodash from "lodash";
+import * as jquery from "jquery";
+import { GiftView } from "./GiftView";
+import { GiftEdit, NewGift } from "./GiftEdit";
+import * as data from "../typescript/data.gift";
 
 interface GiftAppState {
     gifts : {[index : number] : Gift };
     currentEdit : number | null;
+}
+
+function makeGift() : Gift {
+  return {
+    id : 0,
+    ownerId : 0,
+    occurenceId : 1,
+    priceInCents : 0,
+    title : "",
+    description : ""
+  }
 }
 
 export class GiftApp extends React.Component<undefined, GiftAppState>
@@ -24,6 +36,10 @@ export class GiftApp extends React.Component<undefined, GiftAppState>
   componentDidMount()
   {
     this.refreshGifts();
+    jquery("#gift-create-open").click(() => this.setState({
+      gifts : this.state.gifts,
+      currentEdit : -1
+    }))
   }
 
   refreshGifts()
@@ -41,31 +57,49 @@ export class GiftApp extends React.Component<undefined, GiftAppState>
     this.setState({ currentEdit : null, gifts : this.state.gifts });
   }
 
-  onSave()
-  {}
+  onSave(newGift : NewGift)
+  {
+    let query;
+    if (newGift.isNew)
+    {
+      query = data.postGift(newGift.gift);
+    }
+    else
+    {
+      query = data.putGift(newGift.gift);
+    }
+    this.onClose();
+    query.then(() => this.refreshGifts());
+  }
+
+  onDelete(id : number)
+  {
+    data.deleteGift(id).then(() => this.refreshGifts());
+  }
+
+  getGiftEditView()
+  {
+    const currentIdx = this.state.currentEdit;
+    if (currentIdx == null) {
+      return null;
+    }
+    const currentGift = this.state.gifts[currentIdx];
+    return (
+      <GiftEdit
+        onClose={this.onClose.bind(this)}
+        onSave={this.onSave.bind(this)}
+        gift={currentGift || makeGift()}
+        isNew={currentGift==undefined} />)
+  }
 
   render()
   {
     const gifts = lodash.values(this.state.gifts);
     const giftsView = gifts.map((g : Gift) => (
       <div key={g.id} >
-        <GiftView gift={g} />
+        <GiftView gift={g} onDelete={this.onDelete.bind(this)} />
       </div>
     ));
-    const giftEdit = this.state.currentEdit
-      ? <GiftEdit onClose={this.onClose} onSave={this.onSave} />
-      : null
-    return <div>{giftsView}{giftEdit}</div>;
-  }
-}
-
-function makeGift(title : string, description : string) : Gift {
-  return {
-    id : 0,
-    ownerId : 0,
-    occurenceId : 0,
-    priceInCents : 0,
-    title : title,
-    description : description
+    return <div>{giftsView}{this.getGiftEditView()}</div>;
   }
 }

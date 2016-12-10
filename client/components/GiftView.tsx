@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-export interface GiftProps { gift : Gift }
+export interface GiftProps {
+    gift : Gift;
+    onDelete : (id : number) => void;
+}
 
 export class GiftView extends React.Component<GiftProps, undefined>
 {
@@ -19,7 +22,7 @@ export class GiftView extends React.Component<GiftProps, undefined>
                 <button className="gift-edit">
                     <span className="glyphicon glyphicon-pencil" />
                 </button>
-                <button className="gift-delete">
+                <button className="gift-delete" onClick={() => this.props.onDelete(gift.id)}>
                     <span className="glyphicon glyphicon-remove" />
                 </button>
             </div>

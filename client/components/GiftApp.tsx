@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { observable } from "mobx";
+import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import * as lodash from "lodash";
 import * as jquery from "jquery";
@@ -29,15 +29,6 @@ export class GiftApp extends React.Component<{}, {}>
 
   @observable
   currentEdit : number | null = null;
-
-  constructor(props : undefined)
-  {
-    super(props);
-    this.state = {
-      gifts : [],
-      currentEdit : null
-    };
-  }
 
   componentDidMount()
   {
@@ -86,7 +77,8 @@ export class GiftApp extends React.Component<{}, {}>
     data.deleteGift(id).then(() => this.refreshGifts());
   }
 
-  getGiftEditView()
+  @computed
+  get getGiftEditView()
   {
     const currentIdx = this.currentEdit;
     if (currentIdx == null) {
@@ -112,6 +104,6 @@ export class GiftApp extends React.Component<{}, {}>
           onEdit={this.editGift.bind(this)} />
       </div>
     ));
-    return <div>{giftsView}{this.getGiftEditView()}</div>;
+    return <div>{giftsView}{this.getGiftEditView}</div>;
   }
 }

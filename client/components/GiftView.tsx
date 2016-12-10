@@ -6,7 +6,7 @@ export interface GiftProps {
     onEdit :   (id : number) => void;
 }
 
-export class GiftView extends React.Component<GiftProps, undefined>
+export class GiftView extends React.Component<GiftProps, {}>
 {
     render()
     {

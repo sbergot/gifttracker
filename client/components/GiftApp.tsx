@@ -22,7 +22,7 @@ function makeGift() : Gift {
   }
 }
 
-export class GiftApp extends React.Component<undefined, GiftAppState>
+export class GiftApp extends React.Component<{}, GiftAppState>
 {
   constructor(props : undefined)
   {

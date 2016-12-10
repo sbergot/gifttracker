@@ -1,5 +1,7 @@
 import * as React from "react"
 import * as ReactDom from "react-dom"
+import { observable, computed } from "mobx";
+import { observer } from "mobx-react";
 
 export interface NewGift
 {
@@ -18,12 +20,16 @@ export interface GiftEditState
   gift : Gift;
 }
 
-export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
+@observer
+export class GiftEdit extends React.Component<GiftEditProps, {}>
 {
+  @observable
+  gift : Gift;
+
   constructor(props : GiftEditProps)
   {
     super(props);
-    this.state = { gift : props.gift }
+    this.gift = props.gift;
   }
 
   componentDidMount()
@@ -37,9 +43,10 @@ export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
     $(this.refs["root"]).modal('hide');
   }
 
-  giftTitle()
+  @computed
+  get giftTitle()
   {
-    const gift = this.props.gift;
+    const gift = this.gift;
     if (gift == undefined) {
       return "";
     } else {
@@ -47,9 +54,10 @@ export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
     }
   }
 
-  giftDescription()
+  @computed
+  get giftDescription()
   {
-    const gift = this.props.gift;
+    const gift = this.gift;
     if (gift == undefined) {
       return "";
     } else {
@@ -59,16 +67,12 @@ export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
 
   onTitleChange(event : any)
   {
-    const newState = {... this.state };
-    newState.gift.title = event.target.value;
-    this.setState(newState);
+    this.gift.title = event.target.value;
   }
 
   onDescriptionChange(event : any)
   {
-    const newState = {... this.state };
-    newState.gift.description = event.target.value;
-    this.setState(newState);
+    this.gift.description = event.target.value;
   }
 
   render()
@@ -93,7 +97,7 @@ export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
                     className="form-control"
                     id="gift-edit-title"
                     placeholder="Title"
-                    value={this.giftTitle()}
+                    value={this.giftTitle}
                     onChange={this.onTitleChange.bind(this)} />
                 </div>
                 <div className="form-group">
@@ -103,7 +107,7 @@ export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
                     className="form-control"
                     id="gift-edit-description"
                     placeholder="Description"
-                    value={this.giftDescription()}
+                    value={this.giftDescription}
                     onChange={this.onDescriptionChange.bind(this)} />
                 </div>
               </form>
@@ -121,7 +125,7 @@ export class GiftEdit extends React.Component<GiftEditProps, GiftEditState>
                 className="btn btn-primary" 
                 id="gift-edit-save"
                 onClick={() => this.props.onSave(
-                  { gift : this.state.gift, isNew : this.props.isNew })}>
+                  { gift : this.gift, isNew : this.props.isNew })}>
                 Save changes
               </button>
             </div>

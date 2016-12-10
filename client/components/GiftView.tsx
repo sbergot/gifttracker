@@ -16,7 +16,7 @@ export class GiftView extends React.Component<GiftProps, {}>
             <div className="panel-body">
                 <dl className="dl-horizontal">
                     <dt>Titre</dt>
-                    <dd>{gift.title}</dd>
+                    <dd>{gift.title} {gift.id}</dd>
                     <dt>Description</dt>
                     <dd>{gift.description}</dd>
                 </dl>

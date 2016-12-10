@@ -36,10 +36,15 @@ export class GiftApp extends React.Component<undefined, GiftAppState>
   componentDidMount()
   {
     this.refreshGifts();
-    jquery("#gift-create-open").click(() => this.setState({
+    jquery("#gift-create-open").click(() => this.editGift(-1));
+  }
+
+  editGift(id : number)
+  {
+    this.setState({
       gifts : this.state.gifts,
-      currentEdit : -1
-    }))
+      currentEdit : id
+    });
   }
 
   refreshGifts()
@@ -47,7 +52,7 @@ export class GiftApp extends React.Component<undefined, GiftAppState>
     data.getGifts()
       .then((gifts) => {
         if (gifts != undefined) {
-          this.setState({currentEdit : null, gifts : gifts});
+          this.setState({currentEdit : null, gifts : lodash.keyBy(gifts, g => g.id) });
         }
       });
   }
@@ -97,7 +102,10 @@ export class GiftApp extends React.Component<undefined, GiftAppState>
     const gifts = lodash.values(this.state.gifts);
     const giftsView = gifts.map((g : Gift) => (
       <div key={g.id} >
-        <GiftView gift={g} onDelete={this.onDelete.bind(this)} />
+        <GiftView
+          gift={g}
+          onDelete={this.onDelete.bind(this)}
+          onEdit={this.editGift.bind(this)} />
       </div>
     ));
     return <div>{giftsView}{this.getGiftEditView()}</div>;

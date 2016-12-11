@@ -13,5 +13,7 @@ namespace WebApplication.Models
         public OccurenceType Type { get; set; }
 
         public List<Gift> Gifts { get; set; }
+
+        public Individual Receiver { get; set; }
     }
 }

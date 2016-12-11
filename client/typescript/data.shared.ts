@@ -1,10 +1,18 @@
 import * as jquery from "jquery"
 
-export function sendJson<T>(url : string, verb : string, payload : T) : JQueryXHR
+export enum Verbs
+{
+    GET,
+    POST,
+    PUT,
+    DELETE
+}
+
+export function sendJson<T>(url : string, verb : Verbs, payload : T) : JQueryXHR
 {
     let settings : JQueryAjaxSettings = {
         url : url,
-        method : verb,
+        method : Verbs[verb],
         data : JSON.stringify(payload),
         headers : {"Content-Type" : "application/json"}
     };

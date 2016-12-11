@@ -1,17 +1,8 @@
 import * as jquery from "jquery"
+import { sendJson } from "./data.shared";
+import { Gift } from "./models";
 
 let gifturl = "./api/gift";
-
-function sendJson<T>(url : string, verb : string, payload : T) : JQueryXHR
-{
-    let settings : JQueryAjaxSettings = {
-        url : url,
-        method : verb,
-        data : JSON.stringify(payload),
-        headers : {"Content-Type" : "application/json"}
-    };
-    return jquery.ajax(settings);
-}
 
 export function postGift(gift : Gift) : JQueryPromise<Gift>
 {

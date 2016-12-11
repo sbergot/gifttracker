@@ -3,6 +3,8 @@ import * as ReactDom from "react-dom"
 import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 
+import { Gift } from "../typescript/models";
+
 export interface NewGift
 {
   gift : Gift;

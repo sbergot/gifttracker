@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Gift } from "../typescript/models";
+
 export interface GiftProps {
     gift : Gift;
     onDelete : (id : number) => void;

@@ -1,14 +1,5 @@
 # ajouter models
 
-## Gift
-### Prix
-### TargetContactId
-
-## Occurence
-### evennement ( noel | anniversaire )
-### année
-### ContactId
-
 ## Contact
 ### Nom/Prénom
 ### Droits

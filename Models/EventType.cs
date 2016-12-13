@@ -1,6 +1,6 @@
 namespace WebApplication.Models
 {
-    public enum OccurenceType
+    public enum EventType
     {
         Christmas,
         BirthDay

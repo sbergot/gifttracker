@@ -20,12 +20,15 @@ namespace WebApplication.Data
 
             builder.Entity<Occurence>()
                 .HasOne(o => o.Receiver)
-                .WithMany(i => i.Occurences);
+                .WithMany(i => i.Occurences)
+                .HasForeignKey(o => o.ReceiverId);
         }
 
         public DbSet<Gift> Gifts { get; set; }
 
         public DbSet<Occurence> Occurences { get; set; }
+
+        public DbSet<Event> Events { get; set; }
 
         public DbSet<Individual> Individuals { get; set; }
     }

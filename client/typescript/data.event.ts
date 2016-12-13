@@ -1,7 +1,7 @@
 import { sendJson, Verbs } from "./data.shared"
 import * as models from "./models"
 
-const url = "./api/occurence";
+const url = "./api/event";
 
 export function postOccurence(year : number, type : models.OccurenceType)
 {

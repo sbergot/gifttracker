@@ -7,7 +7,7 @@ export interface Gift {
     description : string;
 }
 
-export enum OccurenceType
+export enum EventType
 {
     Christmas,
     BirthDay
@@ -17,7 +17,13 @@ export interface Occurence
 {
     Id : number;
     ReceiverId : number;
+    EventId: number;
+}
+
+export interface Event
+{
+    Id : number;
     Year : number;
-    Type : OccurenceType;
+    Type : EventType;
     Gifts ?: Gift[];
 }

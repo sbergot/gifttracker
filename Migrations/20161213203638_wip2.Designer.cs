@@ -8,9 +8,10 @@ using WebApplication.Data;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161213203638_wip2")]
+    partial class wip2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
@@ -228,13 +229,15 @@ namespace gifttracker.Migrations
 
                     b.Property<int>("EventId");
 
+                    b.Property<int?>("IndividualId");
+
                     b.Property<int>("ReceiverId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("ReceiverId");
+                    b.HasIndex("IndividualId");
 
                     b.ToTable("Occurences");
                 });
@@ -291,10 +294,9 @@ namespace gifttracker.Migrations
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WebApplication.Models.Individual", "Receiver")
+                    b.HasOne("WebApplication.Models.Individual")
                         .WithMany("Occurences")
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IndividualId");
                 });
         }
     }

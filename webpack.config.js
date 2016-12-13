@@ -16,7 +16,8 @@ module.exports = {
     devtool: 'source-map',
 
     entry: {
-        gift : path.join(clientPath, "index.tsx")
+        gift : path.join(clientPath, "index.gift.tsx"),
+        event : path.join(clientPath, "index.event.tsx")
     },
 
     output: {

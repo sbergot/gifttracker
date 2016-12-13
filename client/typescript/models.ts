@@ -15,15 +15,15 @@ export enum EventType
 
 export interface Occurence
 {
-    Id : number;
-    ReceiverId : number;
-    EventId: number;
+    id : number;
+    receiverId : number;
+    eventId: number;
 }
 
 export interface Event
 {
-    Id : number;
-    Year : number;
-    Type : EventType;
-    Gifts ?: Gift[];
+    id : number;
+    year : number;
+    type : EventType;
+    gifts ?: Gift[];
 }

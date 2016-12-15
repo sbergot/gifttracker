@@ -1,15 +1,20 @@
-# ajouter models
+# mise à jour models
 
-## Contact
-### Nom/Prénom
+## Individus
 ### Droits
 3 flags:
 - voir les idées pour moi
 - voir les idées pour elle
 - voir les idées pour les autres
 
-# ajouter vue
-liste des prochaines occurences avec la liste des personnes concernées & statut des cadeaux
+## cadeaux
+### status
+
+# vue cadeaux
+permettre de sélectionner le destinataire et l'evennement
+
+# vue évennements
+liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées
 
 # autres
 pouvoir lister les cadeaux pour une personne

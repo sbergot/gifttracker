@@ -24,11 +24,21 @@ namespace WebApplication.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<Event> Index()
+        public IActionResult Index()
         {
             var events = _dbContext.Events
+                .GroupJoin(
+                    _dbContext.Gifts,
+                    e => e.Id,
+                    g => g.EventId,
+                    (e, gs) => new {
+                        Id = e.Id,
+                        Type = e.Type,
+                        Year = e.Year,
+                        Gifts = gs
+                    })
                 .ToList();
-            return events;
+            return Ok(events);
         }
 
         private EventType? ParseEventType(string input)

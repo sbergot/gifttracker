@@ -15,6 +15,9 @@ export class EventView extends React.Component<EventViewProp, {}>
     return (
       <div>
         <p>{models.EventType[evt.type]} - {evt.year}</p>
+        <ul>
+          {(evt.gifts || []).map(g => <li>{g.title}</li>)}
+        </ul>
       </div>
     );
   }

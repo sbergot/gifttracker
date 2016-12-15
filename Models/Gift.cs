@@ -4,11 +4,11 @@ namespace WebApplication.Models
     {
         public int Id { get; set; }
 
-        public int PriceInCents { get; set; }
-
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public int PriceInCents { get; set; }
 
         public int OwnerId { get; set; }
 

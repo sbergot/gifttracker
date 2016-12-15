@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace gifttracker.Migrations
 {
-    public partial class create : Migration
+    public partial class init_schema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,18 +62,32 @@ namespace gifttracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Occurences",
+                name: "Events",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
-                    ReceiverId = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Occurences", x => x.Id);
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Individuals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    BirthDay = table.Column<DateTime>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Individuals", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,7 +183,7 @@ namespace gifttracker.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     Description = table.Column<string>(nullable: true),
-                    OccurenceId = table.Column<int>(nullable: false),
+                    EventId = table.Column<int>(nullable: false),
                     OwnerId = table.Column<int>(nullable: false),
                     PriceInCents = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true)
@@ -178,9 +192,9 @@ namespace gifttracker.Migrations
                 {
                     table.PrimaryKey("PK_Gifts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Gifts_Occurences_OccurenceId",
-                        column: x => x.OccurenceId,
-                        principalTable: "Occurences",
+                        name: "FK_Gifts_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -227,9 +241,9 @@ namespace gifttracker.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Gifts_OccurenceId",
+                name: "IX_Gifts_EventId",
                 table: "Gifts",
-                column: "OccurenceId");
+                column: "EventId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -253,13 +267,16 @@ namespace gifttracker.Migrations
                 name: "Gifts");
 
             migrationBuilder.DropTable(
+                name: "Individuals");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Occurences");
+                name: "Events");
         }
     }
 }

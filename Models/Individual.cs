@@ -1,6 +1,6 @@
 namespace WebApplication.Models
 {
-    using System.Collections.Generic;
+    using System;
 
     public class Individual
     {
@@ -10,6 +10,6 @@ namespace WebApplication.Models
 
         public string LastName { get; set; }
 
-        public List<Occurence> Occurences { get; set; }
+        public DateTime BirthDay { get; set; }
     }
 }

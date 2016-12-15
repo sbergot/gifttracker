@@ -192,7 +192,7 @@ namespace gifttracker.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("OccurenceId");
+                    b.Property<int>("EventId");
 
                     b.Property<int>("OwnerId");
 
@@ -202,7 +202,7 @@ namespace gifttracker.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OccurenceId");
+                    b.HasIndex("EventId");
 
                     b.ToTable("Gifts");
                 });
@@ -212,6 +212,8 @@ namespace gifttracker.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("BirthDay");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
@@ -219,24 +221,6 @@ namespace gifttracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Individuals");
-                });
-
-            modelBuilder.Entity("WebApplication.Models.Occurence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EventId");
-
-                    b.Property<int>("ReceiverId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.ToTable("Occurences");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -278,22 +262,9 @@ namespace gifttracker.Migrations
 
             modelBuilder.Entity("WebApplication.Models.Gift", b =>
                 {
-                    b.HasOne("WebApplication.Models.Occurence")
-                        .WithMany("Gifts")
-                        .HasForeignKey("OccurenceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WebApplication.Models.Occurence", b =>
-                {
-                    b.HasOne("WebApplication.Models.Event")
-                        .WithMany("Occurences")
+                    b.HasOne("WebApplication.Models.Event", "Event")
+                        .WithMany()
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebApplication.Models.Individual", "Receiver")
-                        .WithMany("Occurences")
-                        .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

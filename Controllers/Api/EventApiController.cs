@@ -27,8 +27,6 @@ namespace WebApplication.Controllers.Api
         public IEnumerable<Event> Index()
         {
             var events = _dbContext.Events
-                .Include(e => e.Occurences)
-                .ThenInclude(o => o.Gifts)
                 .ToList();
             return events;
         }

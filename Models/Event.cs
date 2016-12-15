@@ -9,7 +9,5 @@ namespace WebApplication.Models
         public int Year { get; set; }
 
         public EventType Type { get; set; }
-
-        public List<Occurence> Occurences { get; set; }
     }
 }

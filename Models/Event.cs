@@ -1,7 +1,5 @@
 namespace WebApplication.Models
 {
-    using System.Collections.Generic;
-
     public class Event
     {
         public int Id { get; set; }

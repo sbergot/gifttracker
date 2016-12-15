@@ -183,9 +183,10 @@ namespace gifttracker.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     Description = table.Column<string>(nullable: true),
-                    EventId = table.Column<int>(nullable: false),
+                    EventId = table.Column<int>(nullable: true),
                     OwnerId = table.Column<int>(nullable: false),
                     PriceInCents = table.Column<int>(nullable: false),
+                    ReceiverId = table.Column<int>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -196,7 +197,19 @@ namespace gifttracker.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Gifts_Individuals_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Gifts_Individuals_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -244,6 +257,16 @@ namespace gifttracker.Migrations
                 name: "IX_Gifts_EventId",
                 table: "Gifts",
                 column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Gifts_OwnerId",
+                table: "Gifts",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Gifts_ReceiverId",
+                table: "Gifts",
+                column: "ReceiverId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -267,9 +290,6 @@ namespace gifttracker.Migrations
                 name: "Gifts");
 
             migrationBuilder.DropTable(
-                name: "Individuals");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -277,6 +297,9 @@ namespace gifttracker.Migrations
 
             migrationBuilder.DropTable(
                 name: "Events");
+
+            migrationBuilder.DropTable(
+                name: "Individuals");
         }
     }
 }

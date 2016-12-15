@@ -192,17 +192,23 @@ namespace gifttracker.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("EventId");
+                    b.Property<int?>("EventId");
 
                     b.Property<int>("OwnerId");
 
                     b.Property<int>("PriceInCents");
+
+                    b.Property<int?>("ReceiverId");
 
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ReceiverId");
 
                     b.ToTable("Gifts");
                 });
@@ -264,8 +270,16 @@ namespace gifttracker.Migrations
                 {
                     b.HasOne("WebApplication.Models.Event", "Event")
                         .WithMany()
-                        .HasForeignKey("EventId")
+                        .HasForeignKey("EventId");
+
+                    b.HasOne("WebApplication.Models.Individual", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication.Models.Individual", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId");
                 });
         }
     }

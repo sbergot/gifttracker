@@ -29,11 +29,11 @@ export class EventApp extends React.Component<{}, {}>
     {
         return (
             <div>
-                {this.events.map((e) => {
+                {this.events.map((e) =>
                     <div key={e.id}>
                         <EventView event={e} />
                     </div>
-                })}
+                )}
             </div>
         );
     }

@@ -14,7 +14,7 @@ export class EventView extends React.Component<EventViewProp, {}>
     const evt  = this.props.event;
     return (
       <div>
-        <p>{evt.type} - {evt.year}</p>
+        <p>{models.EventType[evt.type]} - {evt.year}</p>
       </div>
     );
   }

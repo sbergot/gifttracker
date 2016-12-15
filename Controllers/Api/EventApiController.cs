@@ -31,11 +31,11 @@ namespace WebApplication.Controllers.Api
                     _dbContext.Gifts,
                     e => e.Id,
                     g => g.EventId,
-                    (e, gs) => new {
+                    (e, gs) => new ViewModels.EventWithGifts {
                         Id = e.Id,
                         Type = e.Type,
                         Year = e.Year,
-                        Gifts = gs
+                        Gifts = gs.ToList()
                     })
                 .ToList();
             return Ok(events);

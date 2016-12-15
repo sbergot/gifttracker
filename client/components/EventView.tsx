@@ -4,7 +4,7 @@ import * as models from "../typescript/models";
 
 export interface EventViewProp
 {
-  event : models.Event;
+  event : models.EventWithGifts;
 }
 
 export class EventView extends React.Component<EventViewProp, {}>
@@ -16,7 +16,7 @@ export class EventView extends React.Component<EventViewProp, {}>
       <div>
         <p>{models.EventType[evt.type]} - {evt.year}</p>
         <ul>
-          {(evt.gifts || []).map(g => <li>{g.title}</li>)}
+          {evt.gifts.map(g => <li>{g.title}</li>)}
         </ul>
       </div>
     );

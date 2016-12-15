@@ -25,5 +25,9 @@ export interface Event
     id : number;
     year : number;
     type : EventType;
-    gifts ?: Gift[];
+}
+
+export interface EventWithGifts extends Event
+{
+    gifts : Gift[];
 }

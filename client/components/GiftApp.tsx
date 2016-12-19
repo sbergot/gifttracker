@@ -7,8 +7,8 @@ import * as jquery from "jquery";
 
 import { GiftView } from "./GiftView";
 import { GiftEdit, NewGift } from "./GiftEdit";
-import { Gift } from "../typescript/models";
-import * as data from "../typescript/data.gift";
+import { Gift } from "../models/models.base";
+import * as data from "../data/data.gift";
 
 type GiftMap = {[index : number] : Gift };
 

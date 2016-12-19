@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Gift } from "../typescript/models";
+import { Gift } from "../models/models.base";
 
 export interface GiftProps {
     gift : Gift;

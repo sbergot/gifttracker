@@ -27,7 +27,18 @@ export interface Event
     type : EventType;
 }
 
-export interface EventWithGifts extends Event
+export interface rawIndividual
 {
-    gifts : Gift[];
+    id : number;
+    firstName : string;
+    lastName : string;
+    birthDay : Date;
+}
+
+export interface individual
+{
+    id : number;
+    firstName : string;
+    lastName : string;
+    birthDay : Date;
 }

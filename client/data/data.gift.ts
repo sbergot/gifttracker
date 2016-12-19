@@ -1,6 +1,6 @@
 import * as jquery from "jquery"
 import { sendJson, Verbs } from "./data.shared";
-import { Gift } from "./models";
+import { Gift } from "../models/models.base";
 
 const gifturl = "./api/gift";
 

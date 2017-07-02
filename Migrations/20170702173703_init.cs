@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace gifttracker.Migrations
 {
-    public partial class init_schema : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -79,8 +79,7 @@ namespace gifttracker.Migrations
                 name: "Individuals",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    Id = table.Column<string>(nullable: false),
                     BirthDay = table.Column<DateTime>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
@@ -184,9 +183,9 @@ namespace gifttracker.Migrations
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     Description = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
-                    OwnerId = table.Column<int>(nullable: false),
+                    OwnerId = table.Column<string>(nullable: true),
                     PriceInCents = table.Column<int>(nullable: false),
-                    ReceiverId = table.Column<int>(nullable: true),
+                    ReceiverId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -203,7 +202,7 @@ namespace gifttracker.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Individuals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Gifts_Individuals_ReceiverId",
                         column: x => x.ReceiverId,

@@ -10,11 +10,11 @@ namespace WebApplication.Models
 
         public int PriceInCents { get; set; }
 
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; }
 
         public Individual Owner { get; set; }
 
-        public int? ReceiverId { get; set; }
+        public string ReceiverId { get; set; }
 
         public Individual Receiver { get; set; }
 

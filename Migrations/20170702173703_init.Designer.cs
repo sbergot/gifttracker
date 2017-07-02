@@ -4,17 +4,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using WebApplication.Data;
+using WebApplication.Models;
 
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161215222039_init_schema")]
-    partial class init_schema
+    [Migration("20170702173703_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.0.3");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
@@ -24,10 +25,10 @@ namespace gifttracker.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -133,7 +134,7 @@ namespace gifttracker.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -142,10 +143,10 @@ namespace gifttracker.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -158,7 +159,7 @@ namespace gifttracker.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -195,11 +196,11 @@ namespace gifttracker.Migrations
 
                     b.Property<int?>("EventId");
 
-                    b.Property<int>("OwnerId");
+                    b.Property<string>("OwnerId");
 
                     b.Property<int>("PriceInCents");
 
-                    b.Property<int?>("ReceiverId");
+                    b.Property<string>("ReceiverId");
 
                     b.Property<string>("Title");
 
@@ -216,8 +217,7 @@ namespace gifttracker.Migrations
 
             modelBuilder.Entity("WebApplication.Models.Individual", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<DateTime>("BirthDay");
 
@@ -275,8 +275,7 @@ namespace gifttracker.Migrations
 
                     b.HasOne("WebApplication.Models.Individual", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()

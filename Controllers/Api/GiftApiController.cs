@@ -2,8 +2,10 @@ namespace WebApplication.Controllers.Api
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
@@ -13,10 +15,15 @@ namespace WebApplication.Controllers.Api
     public class GiftApiController : ControllerBase
     {
         private ApplicationDbContext _dbContext;
+        private UserManager<ApplicationUser> _userManager;
 
-        public GiftApiController (ApplicationDbContext dbConctext)
+        public GiftApiController (
+            ApplicationDbContext dbContext,
+            UserManager<ApplicationUser> userManager
+            )
         {
-          _dbContext = dbConctext;
+          _dbContext = dbContext;
+          _userManager = userManager;
         }
 
         [HttpGet]
@@ -26,11 +33,13 @@ namespace WebApplication.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Gift inputGift)
+        async public Task<IActionResult> Post([FromBody]Gift inputGift)
         {
             if (inputGift.Id > 0) {
                 return BadRequest("trying to post a new gift with positive id");
             }
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            inputGift.OwnerId = user.Id;
             var result = _dbContext.Gifts.Add(inputGift);
             _dbContext.SaveChanges();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);

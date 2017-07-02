@@ -45,18 +45,25 @@ namespace WebApplication.Controllers.Api
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
         }
 
+        async private Task<Gift> FetchGift(int id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = user.Id;
+            return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId);
+        }
+
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Put(int id, [FromBody]Gift inputGift)
+        async public Task<IActionResult> Put(int id, [FromBody]Gift inputGift)
         {
             if (inputGift == null) {
                 return BadRequest("gift not provided");
             }
-            inputGift.Id = id;
-            var exists = _dbContext.Gifts.Any(g => g.Id == id);
-            if (!exists) {
-                return NotFound();
+            var storedGift = await FetchGift(id);
+            if (storedGift == null) {
+                return Forbid();
             }
+            inputGift.Id = id;
             _dbContext.Gifts.Attach(inputGift);
             _dbContext.Entry(inputGift).State = EntityState.Modified;
             _dbContext.SaveChanges();
@@ -65,19 +72,25 @@ namespace WebApplication.Controllers.Api
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        async public Task<IActionResult> Delete(int id)
         {
-            var gift = new Gift { Id = id };
-            _dbContext.Gifts.Attach(gift);
-            _dbContext.Gifts.Remove(gift);
+            var storedGift = await FetchGift(id);
+            if (storedGift == null) {
+                return Forbid();
+            }
+            _dbContext.Gifts.Remove(storedGift);
             _dbContext.SaveChanges();
             return Ok();
         }
 
         [HttpGet("{id}", Name = "GetGift")]
-        public IActionResult GetById(int id)
+        async public Task<IActionResult> GetById(int id)
         {
-            return Ok(_dbContext.Gifts.First(g => g.Id == id));
+            var storedGift = await FetchGift(id);
+            if (storedGift == null) {
+                return Forbid();
+            }
+            return Ok(storedGift);
         }
     }
 }

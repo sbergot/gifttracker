@@ -24,14 +24,15 @@ module.exports = {
         filename: 'wwwroot/js/[name].js'
     },
 
+
     resolve: {
-        root : clientPath,
-        extensions: ['', '.ts', '.tsx']
+        extensions: ['.ts', '.tsx'],
+        modules: [clientPath, "node_modules"]
     },
 
     module: {
-        loaders: [
-            { test: /\.tsx?$/, loader: 'awesome-typescript-loader' }
+        rules: [
+            { test: /\.tsx?$/, use: { loader: 'awesome-typescript-loader' } }
         ]
     }
 }

@@ -4,9 +4,14 @@
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
         "module": "commonjs",
         "jsx": "react",
         "target": "es5",
+        "skipLibCheck": true,
         "outDir": "./wwwroot/js"
     }
 }

@@ -1,30 +1,26 @@
-import { sendJson, Verbs } from "./data.shared"
+import { getJson, sendJson, Verbs } from "./data.shared"
 import * as modelsBase from "../models/models.base"
 import * as modelsAggregated from "../models/models.aggregated"
 
 const url = "./api/event";
 
-export function getEvents() : JQueryPromise<modelsAggregated.EventWithGifts[]>
+export async function getEvents() : Promise<modelsAggregated.EventWithGifts[]>
 {
-    return getJSON(url);
+    return getJson<modelsAggregated.EventWithGifts[]>(url);
 }
 
-export function getEventsIndiv() : JQueryPromise<modelsAggregated.EventWithIndividus[]>
+export async function getEventsIndiv() : Promise<modelsAggregated.EventWithIndividus[]>
 {
-    return getEvents().then(r =>
-    {
-        if (r == undefined){
-            return [];
-        }
-        return r.map(e => {
-            return {
-                id : e.id,
-                year : e.year,
-                type : e.type,
-                individuals : []
-            }
-        });
-    })
+    const events = await getEvents();
+
+    return events.map(e => {
+        return {
+            id : e.id,
+            year : e.year,
+            type : e.type,
+            individuals : []
+        };
+    });
 }
 
 export function postEvent(year : number, type : modelsBase.EventType)

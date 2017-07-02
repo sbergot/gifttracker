@@ -14,9 +14,12 @@
     "@types/lodash": "=4.14.43",
     "@types/react": "=0.14.54",
     "@types/react-dom": "=0.14.19",
-    "awesome-typescript-loader": "=3.0.0-beta.9",
+    "awesome-typescript-loader": "^3.2.1",
     "source-map-loader": "=0.1.5",
     "typescript": "=2.4.1",
     "webpack": "=3.0.0"
+  },
+  "scripts": {
+    "dev": "webpack --watch"
   }
 }

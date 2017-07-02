@@ -6,13 +6,33 @@ export enum Verbs
     DELETE
 }
 
-export function sendJson<T>(url : string, verb : Verbs, payload : T) : JQueryXHR
+export async function postJson<T>(url : string, payload : T) : Promise<T>
 {
-    let settings : JQueryAjaxSettings = {
-        url : url,
+    const response = await sendJson(url, Verbs.POST, payload);
+    return await response.json();
+}
+
+export async function putJson<T>(url : string, payload : T) : Promise<T>
+{
+    const response = await sendJson(url, Verbs.PUT, payload);
+    return await response.json();
+}
+
+export async function sendJson<T>(url : string, verb : Verbs, payload : T) : Promise<Response>
+{
+    let settings: RequestInit = {
         method : Verbs[verb],
-        data : JSON.stringify(payload),
-        headers : {"Content-Type" : "application/json"}
+        body : JSON.stringify(payload),
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        credentials: 'include'
     };
-    return jquery.ajax(settings);
+    return await fetch(url, settings);
+}
+
+export async function getJson<T>(url: string): Promise<T>
+{
+    const response = await fetch(url, { credentials: 'include' });
+    return await response.json();
 }

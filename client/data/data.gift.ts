@@ -1,24 +1,25 @@
-import { sendJson, Verbs } from "./data.shared";
+import * as data from "./data.shared";
 import { Gift } from "../models/models.base";
 
 const gifturl = "./api/gift";
 
-export function postGift(gift : Gift) : JQueryPromise<Gift>
+export function postGift(gift : Gift) : Promise<Gift>
 {
-    return sendJson(gifturl, Verbs.POST, gift);
+    return data.postJson(gifturl, gift);
 }
 
-export function putGift(gift : Gift) : JQueryPromise<Gift>
+export function putGift(gift : Gift) : Promise<Gift>
 {
-    return sendJson(`${gifturl}/${gift.id}`, Verbs.PUT, gift);
+    return data.putJson(`${gifturl}/${gift.id}`, gift);
 }
 
-export function deleteGift(giftId : number) : JQueryPromise<Gift>
+export async function deleteGift(giftId : number) : Promise<Gift>
 {
-    return sendJson(`${gifturl}/${giftId}`, Verbs.DELETE, null);
+    const response = await data.sendJson(`${gifturl}/${giftId}`, data.Verbs.DELETE, null);
+    return await response.json();
 }
 
-export function getGifts() : JQueryPromise<Gift[]>
+export async function getGifts() : Promise<Gift[]>
 {
-    return jquery.getJSON(gifturl);
+    return data.getJson<Gift[]>(gifturl);
 }

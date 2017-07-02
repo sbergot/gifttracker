@@ -34,7 +34,15 @@ export class GiftApp extends React.Component<{}, {}>
   componentDidMount()
   {
     this.refreshGifts();
-    jquery("#gift-create-open").click(() => this.editGift(-1));
+    const createBtn = document.getElementById("gift-create-open");
+    if (createBtn != null) {
+       createBtn.onclick = () => this.newGift();
+    }
+  }
+
+  newGift()
+  {
+    this.editGift(-1);
   }
 
   editGift(id : number)
@@ -42,20 +50,20 @@ export class GiftApp extends React.Component<{}, {}>
     this.currentEdit = id;
   }
 
+  closeEditModal()
+  {
+    this.currentEdit = null;
+  }
+
   refreshGifts()
   {
     data.getGifts()
       .then((gifts) => {
         if (gifts != undefined) {
-          this.currentEdit = null;
+          this.closeEditModal();
           this.gifts = lodash.keyBy(gifts, g => g.id);
         }
       });
-  }
-
-  onClose()
-  {
-    this.currentEdit = null;
   }
 
   onSave(newGift : NewGift)
@@ -69,7 +77,7 @@ export class GiftApp extends React.Component<{}, {}>
     {
       query = data.putGift(newGift.gift);
     }
-    this.onClose();
+    this.closeEditModal();
     query.then(() => this.refreshGifts());
   }
 
@@ -88,7 +96,7 @@ export class GiftApp extends React.Component<{}, {}>
     const currentGift = this.gifts[currentIdx];
     return (
       <GiftEdit
-        onClose={this.onClose.bind(this)}
+        onClose={this.closeEditModal.bind(this)}
         onSave={this.onSave.bind(this)}
         gift={currentGift ? {...currentGift} : makeGift()}
         isNew={currentGift==undefined} />)

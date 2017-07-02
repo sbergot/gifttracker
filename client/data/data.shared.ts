@@ -1,5 +1,3 @@
-import * as jquery from "jquery"
-
 export enum Verbs
 {
     GET,

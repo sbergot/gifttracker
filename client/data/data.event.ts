@@ -1,4 +1,3 @@
-import { getJSON } from "jquery"
 import { sendJson, Verbs } from "./data.shared"
 import * as modelsBase from "../models/models.base"
 import * as modelsAggregated from "../models/models.aggregated"

@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom';
 import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import * as lodash from "lodash";
-import * as jquery from "jquery";
 
 import { GiftView } from "./GiftView";
 import { GiftEdit, NewGift } from "./GiftEdit";

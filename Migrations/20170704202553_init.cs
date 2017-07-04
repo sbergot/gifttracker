@@ -76,20 +76,6 @@ namespace gifttracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Individuals",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    BirthDay = table.Column<DateTime>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Individuals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -176,6 +162,28 @@ namespace gifttracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Individuals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    BirthDay = table.Column<DateTime>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Individuals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Individuals_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Gifts",
                 columns: table => new
                 {
@@ -185,7 +193,7 @@ namespace gifttracker.Migrations
                     EventId = table.Column<int>(nullable: true),
                     OwnerId = table.Column<string>(nullable: true),
                     PriceInCents = table.Column<int>(nullable: false),
-                    ReceiverId = table.Column<string>(nullable: true),
+                    ReceiverId = table.Column<int>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -198,9 +206,9 @@ namespace gifttracker.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Gifts_Individuals_OwnerId",
+                        name: "FK_Gifts_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
-                        principalTable: "Individuals",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -266,6 +274,11 @@ namespace gifttracker.Migrations
                 name: "IX_Gifts_ReceiverId",
                 table: "Gifts",
                 column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Individuals_UserId",
+                table: "Individuals",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -292,13 +305,13 @@ namespace gifttracker.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Individuals");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

@@ -12,9 +12,9 @@ namespace WebApplication.Models
 
         public string OwnerId { get; set; }
 
-        public Individual Owner { get; set; }
+        public ApplicationUser Owner { get; set; }
 
-        public string ReceiverId { get; set; }
+        public int? ReceiverId { get; set; }
 
         public Individual Receiver { get; set; }
 

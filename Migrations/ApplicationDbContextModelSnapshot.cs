@@ -199,7 +199,7 @@ namespace gifttracker.Migrations
 
                     b.Property<int>("PriceInCents");
 
-                    b.Property<string>("ReceiverId");
+                    b.Property<int?>("ReceiverId");
 
                     b.Property<string>("Title");
 
@@ -216,7 +216,8 @@ namespace gifttracker.Migrations
 
             modelBuilder.Entity("WebApplication.Models.Individual", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("BirthDay");
 
@@ -224,7 +225,11 @@ namespace gifttracker.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Individuals");
                 });
@@ -272,13 +277,20 @@ namespace gifttracker.Migrations
                         .WithMany()
                         .HasForeignKey("EventId");
 
-                    b.HasOne("WebApplication.Models.Individual", "Owner")
+                    b.HasOne("WebApplication.Models.ApplicationUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.Individual", b =>
+                {
+                    b.HasOne("WebApplication.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
         }
     }

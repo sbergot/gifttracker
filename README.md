@@ -1,7 +1,3 @@
-# stop using jquery
-
-use fetch everywhere
-
 # mise à jour models
 
 ## Individus

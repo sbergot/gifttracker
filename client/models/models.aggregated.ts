@@ -7,5 +7,5 @@ export interface EventWithGifts extends base.Event
 
 export interface EventWithIndividus extends base.Event
 {
-    individuals : base.individual[]
+    individuals : base.rawIndividual[]
 }

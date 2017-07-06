@@ -18,8 +18,12 @@ export class GiftView extends React.Component<GiftProps, {}>
             <div className="panel-body">
                 <dl className="dl-horizontal">
                     <dt>Titre</dt>
-                    <dd>{gift.title} {gift.id}</dd>
+                    <dd>{gift.title}</dd>
                     <dt>Description</dt>
+                    <dd>{gift.description}</dd>
+                    <dt>Prix</dt>
+                    <dd>{gift.priceInCents}</dd>
+                    <dt>Destinataire</dt>
                     <dd>{gift.description}</dd>
                 </dl>
                 <button

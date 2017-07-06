@@ -1,10 +1,11 @@
 export interface Gift {
     id : number;
-    ownerId : number;
+    ownerId : string;
     occurenceId: number;
     priceInCents: number;
     title : string;
     description : string;
+    receiverId : number | null;
 }
 
 export enum EventType
@@ -33,12 +34,5 @@ export interface rawIndividual
     firstName : string;
     lastName : string;
     birthDay : Date;
-}
-
-export interface individual
-{
-    id : number;
-    firstName : string;
-    lastName : string;
-    birthDay : Date;
+    userId : number | null;
 }

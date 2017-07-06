@@ -1,9 +1,7 @@
 namespace WebApplication.Data
 {
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
-    using WebApplication.Models;
     using Microsoft.Extensions.Configuration;
     public class ApplicationDbContextFactory : IDbContextFactory<ApplicationDbContext>
     {

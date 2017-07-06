@@ -14,11 +14,12 @@ type GiftMap = {[index : number] : Gift };
 function makeGift() : Gift {
   return {
     id : 0,
-    ownerId : 0,
+    ownerId : "",
     occurenceId : 1,
     priceInCents : 0,
     title : "",
-    description : ""
+    description : "",
+    receiverId : null
   };
 }
 
@@ -31,9 +32,13 @@ export class GiftApp extends React.Component<{}, {}>
   @observable
   currentEdit : number | null = null;
 
+  constructor() {
+    super();
+    this.refreshGifts();
+  }
+
   componentDidMount()
   {
-    this.refreshGifts();
     const createBtn = document.getElementById("gift-create-open");
     if (createBtn != null) {
        createBtn.onclick = () => this.newGift();

@@ -17,7 +17,8 @@ module.exports = {
 
     entry: {
         gift : path.join(clientPath, "index.gift.tsx"),
-        event : path.join(clientPath, "index.event.tsx")
+        event : path.join(clientPath, "index.event.tsx"),
+        individual : path.join(clientPath, "index.individual.tsx")
     },
 
     output: {

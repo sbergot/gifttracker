@@ -63,6 +63,7 @@ namespace WebApplication.Controllers.Api
             if (storedGift == null) {
                 return Forbid();
             }
+            _dbContext.Entry(storedGift).State = EntityState.Detached;
             inputGift.Id = id;
             _dbContext.Gifts.Attach(inputGift);
             _dbContext.Entry(inputGift).State = EntityState.Modified;

@@ -2,6 +2,7 @@ namespace WebApplication.Controllers.Api
 {
     using System;
     using System.Linq;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ namespace WebApplication.Controllers.Api
         [HttpGet]
         public IActionResult Index()
         {
-            var events = _dbContext.Events
+            List<ViewModels.EventWithGifts> events = _dbContext.Events
                 .GroupJoin(
                     _dbContext.Gifts,
                     e => e.Id,

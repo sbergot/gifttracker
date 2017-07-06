@@ -8,9 +8,11 @@ import { getIndividuals } from "./data/data.individual"
 @observer
 class IndividualApp extends React.Component<{}, {}>
 {
-    individuals: models.rawIndividual[];
+    @observable
+    individuals: models.rawIndividual[] = [];
 
-    constructor() {
+    constructor()
+    {
         super();
         getIndividuals().then((r) => {
             this.individuals = r;
@@ -27,4 +29,4 @@ class IndividualApp extends React.Component<{}, {}>
     }
 }
 
-render(<IndividualApp />, document.getElementById("gift-app"));
+render(<IndividualApp />, document.getElementById("individual-app"));

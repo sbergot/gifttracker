@@ -1,6 +1,6 @@
 import * as React from "react"
 import { render } from "react-dom";
-import * as models from "./models/models.base"
+import { IndividualWithGifts } from "./models/models.aggregated"
 import { observer } from "mobx-react";
 import { observable, computed } from "mobx";
 import { getIndividuals } from "./data/data.individual"
@@ -9,7 +9,7 @@ import { getIndividuals } from "./data/data.individual"
 class IndividualApp extends React.Component<{}, {}>
 {
     @observable
-    individuals: models.rawIndividual[] = [];
+    individuals: IndividualWithGifts[] = [];
 
     constructor()
     {
@@ -23,7 +23,13 @@ class IndividualApp extends React.Component<{}, {}>
     {
         return <div>
             {this.individuals.map(i =>
-                <div>{i.firstName} {i.lastName}</div>
+                <div key={i.id}>{i.firstName} {i.lastName}
+                    <ul>
+                        {i.gifts.map(g =>
+                            <li key={g.id}>{g.title}</li>
+                        )}
+                    </ul>
+                </div>
             )}
         </div>;
     }

@@ -1,3 +1,4 @@
-DELETE FROM "Gifts";
-DELETE FROM "Events";
-DELETE FROM "Individuals";
+DELETE FROM public."Gifts";
+DELETE FROM public."Individuals";
+DELETE FROM public."Events";
+

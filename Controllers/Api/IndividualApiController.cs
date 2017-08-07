@@ -7,6 +7,7 @@ namespace WebApplication.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
+    using WebApplication.ViewModels;
 
     [Authorize]
     [Route("api/individual")]
@@ -25,9 +26,20 @@ namespace WebApplication.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<Individual> Index()
+        public IEnumerable<IndividualWithGifts> Index()
         {
-            return _dbContext.Individuals.ToList();
+            return _dbContext.Individuals.GroupJoin(
+                _dbContext.Gifts,
+                i => i.Id,
+                g => g.ReceiverId,
+                (i, gs) => new IndividualWithGifts {
+                    Id = i.Id,
+                    BirthDay = i.BirthDay,
+                    FirstName = i.FirstName,
+                    LastName = i.LastName,
+                    UserId = i.UserId,
+                    Gifts = gs.ToList()
+                }).ToList();
         }
     }
 }

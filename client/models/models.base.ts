@@ -28,7 +28,7 @@ export interface Event
     type : EventType;
 }
 
-export interface rawIndividual
+export interface Individual
 {
     id : number;
     firstName : string;

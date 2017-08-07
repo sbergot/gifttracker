@@ -5,6 +5,6 @@ namespace WebApplication.ViewModels
 
     public class IndividualWithGifts : Individual
     {
-        public List<Individual> Individuals { get; set; }
+        public List<Gift> Gifts { get; set; }
     }
 }

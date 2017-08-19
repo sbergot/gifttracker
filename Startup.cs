@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
+
+
 
 namespace WebApplication
 {
@@ -21,7 +23,6 @@ namespace WebApplication
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
             }
 
@@ -31,7 +32,6 @@ namespace WebApplication
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
@@ -42,10 +42,16 @@ namespace WebApplication
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddGoogle(options => {
+                options.ClientId = "746883940309-u02mtkurgh8ha54bf361iv0r5v63q0tl.apps.googleusercontent.com";
+                options.ClientSecret = "nDnaB7YKhSVB-Bzv-cwcp9g6";
+                options.Scope.Add("email");
+                options.Scope.Add("openid");
+            });
+
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -55,7 +61,6 @@ namespace WebApplication
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -63,17 +68,7 @@ namespace WebApplication
             }
 
             app.UseStaticFiles();
-
-            app.UseIdentity();
-
-            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            app.UseGoogleAuthentication(new GoogleOptions
-            {
-                ClientId = "746883940309-u02mtkurgh8ha54bf361iv0r5v63q0tl.apps.googleusercontent.com",
-                ClientSecret = "nDnaB7YKhSVB-Bzv-cwcp9g6",
-                Scope = { "email", "openid" }
-            });
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

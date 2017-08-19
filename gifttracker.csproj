@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>gifttracker</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>gifttracker</PackageId>
+    <UserSecretsId>aspnet-WebApplication-0799fe3e-6eaf-4c5f-b40e-7c6bfd5dfa9a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

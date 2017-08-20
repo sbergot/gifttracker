@@ -8,6 +8,13 @@
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+  <header class="navbar container grid-md">
+    <section class="navbar-section">
+      <a asp-page="/Index" class="navbar-brand mr-10">Home</a>
+    </section>
+    <section class="navbar-section" id="custom-section">
+    </section>
+  </header>
 
   <div class="container grid-md">
     @RenderBody()

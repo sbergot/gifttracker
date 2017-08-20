@@ -6,6 +6,7 @@ export interface Gift {
     title : string;
     description : string;
     receiverId : number | null;
+    receiver : Individual | null;
 }
 
 export enum EventType

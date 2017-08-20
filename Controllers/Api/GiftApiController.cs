@@ -27,9 +27,14 @@ namespace WebApplication.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<Gift> Index()
+        async public Task<IEnumerable<Gift>> Index()
         {
-            return _dbContext.Gifts.ToList();
+            var userId = await GetUserId();
+            return _dbContext
+                .Gifts
+                .Where(g => g.OwnerId == userId)
+                .Include(g => g.Receiver)
+                .ToList();
         }
 
         [HttpPost]
@@ -38,8 +43,7 @@ namespace WebApplication.Controllers.Api
             if (inputGift.Id > 0) {
                 return BadRequest("trying to post a new gift with positive id");
             }
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            inputGift.OwnerId = user.Id;
+            inputGift.OwnerId = await GetUserId();
             var result = _dbContext.Gifts.Add(inputGift);
             _dbContext.SaveChanges();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
@@ -47,9 +51,14 @@ namespace WebApplication.Controllers.Api
 
         async private Task<Gift> FetchGift(int id)
         {
+            var userId = await GetUserId();
+            return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId);
+        }
+
+        async private Task<string> GetUserId() {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
-            return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId);
+            return userId;
         }
 
         [HttpPut]

@@ -19,7 +19,8 @@ function makeGift() : Gift {
     priceInCents : 0,
     title : "",
     description : "",
-    receiverId : null
+    receiverId : null,
+    receiver : null
   };
 }
 
@@ -92,7 +93,7 @@ export class GiftApp extends React.Component<{}, {}>
   }
 
   @computed
-  get getGiftEditView()
+  get giftEditView()
   {
     const currentIdx = this.currentEdit;
     if (currentIdx == null) {
@@ -118,6 +119,10 @@ export class GiftApp extends React.Component<{}, {}>
           onEdit={this.editGift.bind(this)} />
       </div>
     ));
-    return <div>{giftsView}{this.getGiftEditView}</div>;
+    return <div>
+        <button onClick={() => this.newGift()} >New</button>
+        {giftsView}
+        {this.giftEditView}
+      </div>;
   }
 }

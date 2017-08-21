@@ -5,7 +5,7 @@ permettre de sélectionner le destinataire et l'evennement
 ajouter un champ lien
 
 ## vue évennements
-liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne
+liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne en cliquant sur son nom.
 
 ## vue personne
 timeline des cadeaux offerts à cette personne (par tout le monde)

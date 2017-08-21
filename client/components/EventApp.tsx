@@ -3,14 +3,13 @@ import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 
 import { EventView } from "./EventView"
-import { EventWithGifts } from "../models/models.aggregated"
 import { getEvents } from "../data/data.event"
 
 @observer
 export class EventApp extends React.Component<{}, {}>
 {
     @observable
-    events : EventWithGifts[] = [];
+    events : GT.EventWithGifts[] = [];
 
     componentDidMount()
     {

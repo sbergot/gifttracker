@@ -1,6 +1,5 @@
 import * as React from "react"
 import { render } from "react-dom";
-import { IndividualWithGifts } from "./models/models.aggregated"
 import { observer } from "mobx-react";
 import { observable, computed } from "mobx";
 import { getIndividuals } from "./data/data.individual"
@@ -9,7 +8,7 @@ import { getIndividuals } from "./data/data.individual"
 class IndividualApp extends React.Component<{}, {}>
 {
   @observable
-  individuals: IndividualWithGifts[] = [];
+  individuals: GT.IndividualWithGifts[] = [];
 
   constructor()
   {

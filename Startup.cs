@@ -49,7 +49,7 @@ namespace WebApplication
                 options.Scope.Add("openid");
             });
 
-            services.AddMvc();
+            services.AddMvc().AddRazorPagesOptions(options => { options.Conventions.AuthorizeFolder("/"); });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -5,123 +5,62 @@ import { observer } from "mobx-react";
 import * as lodash from "lodash";
 
 import { GiftView } from "./GiftView";
-import { GiftEdit, NewGift } from "./GiftEdit";
-import { Gift } from "../models/models.base";
-import * as data from "../data/data.gift";
+import { GiftEdit } from "./GiftEdit";
+import { GiftStore } from "../stores/store.gift"
 
-type GiftMap = {[index : number] : Gift };
-
-function makeGift() : Gift {
-  return {
-    id : 0,
-    ownerId : "",
-    occurenceId : 1,
-    priceInCents : 0,
-    title : "",
-    description : "",
-    receiverId : null,
-    receiver : null
-  };
-}
+interface GiftAppProps { store: GiftStore }
 
 @observer
-export class GiftApp extends React.Component<{}, {}>
+export class GiftApp extends React.Component<GiftAppProps, {}>
 {
   @observable
-  gifts : GiftMap = {};
+  store : GiftStore
 
-  @observable
-  currentEdit : number | null = null;
-
-  constructor() {
+  constructor(props: GiftAppProps) {
     super();
-    this.refreshGifts();
-  }
-
-  componentDidMount()
-  {
-    const createBtn = document.getElementById("gift-create-open");
-    if (createBtn != null) {
-       createBtn.onclick = () => this.newGift();
-    }
-  }
-
-  newGift()
-  {
-    this.editGift(-1);
-  }
-
-  editGift(id : number)
-  {
-    this.currentEdit = id;
+    this.store = props.store;
   }
 
   closeEditModal()
   {
-    this.currentEdit = null;
+    this.store.cancelEdition();
   }
 
-  refreshGifts()
+  onSave(gift : GT.Gift)
   {
-    data.getGifts()
-      .then((gifts) => {
-        if (gifts != undefined) {
-          this.closeEditModal();
-          this.gifts = lodash.keyBy(gifts, g => g.id);
-        }
-      });
-  }
-
-  onSave(newGift : NewGift)
-  {
-    let query;
-    if (newGift.isNew)
-    {
-      query = data.postGift(newGift.gift);
-    }
-    else
-    {
-      query = data.putGift(newGift.gift);
-    }
+    this.store.saveGift(gift);
     this.closeEditModal();
-    query.then(() => this.refreshGifts());
-  }
-
-  onDelete(id : number)
-  {
-    data.deleteGift(id).then(() => this.refreshGifts());
   }
 
   @computed
   get giftEditView()
   {
-    const currentIdx = this.currentEdit;
-    if (currentIdx == null) {
+    const currentGift = this.store.getCurrentGift();
+    if (currentGift == null) {
       return null;
     }
-    const currentGift = this.gifts[currentIdx];
     return (
       <GiftEdit
         onClose={this.closeEditModal.bind(this)}
         onSave={this.onSave.bind(this)}
-        gift={currentGift ? {...currentGift} : makeGift()}
-        isNew={currentGift==undefined} />)
+        gift={currentGift ? {...currentGift} : this.store.makeGift()}
+      />)
   }
 
   render()
   {
-    const gifts = lodash.values(this.gifts);
-    const giftsView = gifts.map((g : Gift) => (
-      <div key={g.id} >
-        <GiftView
-          gift={g}
-          onDelete={this.onDelete.bind(this)}
-          onEdit={this.editGift.bind(this)} />
-      </div>
-    ));
+    const gifts = lodash.values(this.store.gifts);
     return <div>
-        <button onClick={() => this.newGift()} >New</button>
-        {giftsView}
+        <button onClick={() => this.store.newGift()} >New</button>
+        {
+          gifts.map((g : GT.Gift) => (
+            <div key={g.id} >
+              <GiftView
+                gift={g}
+                onDelete={this.store.deleteGift.bind(this.store)}
+                onEdit={this.store.editGift.bind(this.store)} />
+            </div>))
+        }
         {this.giftEditView}
       </div>;
   }

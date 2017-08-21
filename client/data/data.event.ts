@@ -1,15 +1,13 @@
 import { getJson, sendJson, Verbs } from "./data.shared"
-import * as modelsBase from "../models/models.base"
-import * as modelsAggregated from "../models/models.aggregated"
 
 const url = "./api/event";
 
-export async function getEvents() : Promise<modelsAggregated.EventWithGifts[]>
+export async function getEvents() : Promise<GT.EventWithGifts[]>
 {
-    return getJson<modelsAggregated.EventWithGifts[]>(url);
+    return getJson<GT.EventWithGifts[]>(url);
 }
 
-export async function getEventsIndiv() : Promise<modelsAggregated.EventWithIndividus[]>
+export async function getEventsIndiv() : Promise<GT.EventWithIndividus[]>
 {
     const events = await getEvents();
 
@@ -23,8 +21,8 @@ export async function getEventsIndiv() : Promise<modelsAggregated.EventWithIndiv
     });
 }
 
-export function postEvent(year : number, type : modelsBase.EventType)
+export function postEvent(year : number, type : GT.EventType)
 {
-    const typeRepr : string = modelsBase.EventType[type];
+    const typeRepr : string = GT.EventType[type];
     sendJson(`${url}/${year}/${typeRepr}`, Verbs.POST, null);
 }

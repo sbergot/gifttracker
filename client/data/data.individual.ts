@@ -1,9 +1,8 @@
 import * as data from "./data.shared";
-import { IndividualWithGifts } from '../models/models.aggregated'
 
 const individualurl = "./api/individual";
 
-export async function getIndividuals() : Promise<IndividualWithGifts[]>
+export async function getIndividuals() : Promise<GT.IndividualWithGifts[]>
 {
-    return data.getJson<IndividualWithGifts[]>(individualurl);
+    return data.getJson<GT.IndividualWithGifts[]>(individualurl);
 }

@@ -1,16 +1,16 @@
-import * as base from './models.base'
+namespace GT {
+    export interface EventWithGifts extends Event
+    {
+        gifts : Gift[];
+    }
 
-export interface EventWithGifts extends base.Event
-{
-    gifts : base.Gift[];
-}
+    export interface EventWithIndividus extends Event
+    {
+        individuals : Individual[]
+    }
 
-export interface EventWithIndividus extends base.Event
-{
-    individuals : base.Individual[]
-}
-
-export interface IndividualWithGifts extends base.Individual
-{
-    gifts : base.Gift[];
+    export interface IndividualWithGifts extends Individual
+    {
+        gifts : Gift[];
+    }
 }

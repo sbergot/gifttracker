@@ -41,5 +41,26 @@ DO $$
 
     INSERT INTO public."Gifts"(
         "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('a description', evt_1, user_id, 54, indiv_1, 'a title');
+        VALUES ('a very nice box', evt_1, user_id, 254, indiv_1, 'a box');
+
+    INSERT INTO public."Gifts"(
+        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
+        VALUES ('an expensive toy', evt_1, user_id, 614, indiv_1, 'a toy');
+
+    INSERT INTO public."Gifts"(
+        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
+        VALUES ('an big bag', evt_1, user_id, 157, indiv_1, 'a big bag');
+
+    INSERT INTO public."Gifts"(
+        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
+        VALUES ('an big bag', evt_2, user_id, 157, indiv_1, 'a big bag');
+
+    INSERT INTO public."Gifts"(
+        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
+        VALUES ('a very nice box', evt_1, user_id, 254, indiv_2, 'a box');
+
+    INSERT INTO public."Gifts"(
+        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
+        VALUES ('an expensive toy', evt_1, user_id, 614, indiv_2, 'a toy');
+
 END; $$;

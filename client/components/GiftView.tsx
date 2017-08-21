@@ -1,9 +1,7 @@
 import * as React from 'react';
 
-import { Gift } from "../models/models.base";
-
 export interface GiftProps {
-    gift : Gift;
+    gift : GT.Gift;
     onDelete : (id : number) => void;
     onEdit :   (id : number) => void;
 }

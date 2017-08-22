@@ -9,19 +9,24 @@
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-  <header class="navbar container grid-md">
+  <header class="navbar container grid-lg">
     <section class="brand">
       <div class="brand-icon">
-        @Html.Partial("_icon")
+        <a asp-page="/">@Html.Partial("_icon")</a>
       </div>
       <span class="brand-title">
         giftTracker
       </span>
     </section>
+    <section class="navbar-section" id="custom-section">
+    </section>
+    <section class="navbar-section" id="logoff-section">
+    </section>
   </header>
 
 
   <div class="container grid-md">
+    <h1>@ViewData["Title"]</h1>
     @RenderBody()
   </div>
 

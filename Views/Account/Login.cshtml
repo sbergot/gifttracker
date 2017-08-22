@@ -8,41 +8,33 @@
   ViewData["Title"] = "Log in";
 }
 
-<div class="container grid-md">
-  <h2>@ViewData["Title"]</h2>
-  <div class="columns">
-    <div class="column col-4">
-      <section>
-        <h4>Use one of the following service to log in.</h4>
-        @{
-          var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-          <form
-            asp-controller="Account"
-            asp-action="ExternalLogin"
-            asp-route-returnurl="@ViewData["ReturnUrl"]"
-            method="post"
-            class="form-horizontal">
-            <div>
-              <p>
-                @foreach (var provider in loginProviders)
-                {
-                  <button
-                  type="submit"
-                  class="btn"
-                  name="provider"
-                  value="@provider.Name"
-                  title="Log in using your @provider.DisplayName account">
-                    @provider.Name
-                  </button>
-                }
-              </p>
-            </div>
-          </form>
+<h1>@ViewData["Title"]</h2>
+<h2>Use one of the following service to log in.</h4>
+@{
+  var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+  <form
+    asp-controller="Account"
+    asp-action="ExternalLogin"
+    asp-route-returnurl="@ViewData["ReturnUrl"]"
+    method="post"
+    class="form-horizontal">
+    <div>
+      <p>
+        @foreach (var provider in loginProviders)
+        {
+          <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          name="provider"
+          value="@provider.Name"
+          title="Log in using your @provider.DisplayName account">
+            @provider.Name
+          </button>
         }
-      </section>
+      </p>
     </div>
-  </div>
-</div>
+  </form>
+}
 
 @section Scripts {
   @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

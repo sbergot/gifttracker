@@ -10,3 +10,17 @@ body {
 header {
     margin-bottom: 20px;
 }
+
+header > section.brand {
+    margin-right: 20px;
+}
+
+.brand-icon {
+    width:30px;
+    float:left;
+}
+
+.brand-title {
+    font-size:1.5em;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}

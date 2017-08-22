@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "lodash": "=4.17.4",
-    "mobx": "=3.1.16",
+    "mobx": "=3.2.2",
     "mobx-react": "=4.2.2",
     "react": "=15.6.1",
     "react-dom": "=15.6.1"
@@ -12,8 +12,8 @@
   "devDependencies": {
     "@types/bootstrap": "=3.3.32",
     "@types/lodash": "=4.14.43",
-    "@types/react": "=0.14.54",
-    "@types/react-dom": "=0.14.19",
+    "@types/react": "=15.0.8",
+    "@types/react-dom": "=15.5.4",
     "awesome-typescript-loader": "^3.2.1",
     "source-map-loader": "=0.1.5",
     "typescript": "=2.4.1",

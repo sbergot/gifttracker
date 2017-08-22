@@ -20,7 +20,6 @@ export class EventApp extends React.Component<{}, {}>
         });
     }
 
-
     render()
     {
         return (

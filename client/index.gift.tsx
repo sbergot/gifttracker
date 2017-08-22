@@ -1,8 +1,9 @@
 import * as React from "react"
 import { render } from "react-dom";
+import { Provider } from "mobx-react";
 import { GiftApp } from "./components/GiftApp"
 import { GiftStore } from "./stores/store.gift"
 
-const store = new GiftStore();
+const giftStore = new GiftStore();
 
-render(<GiftApp store={store} />, document.getElementById("gift-app"));
+render((<GiftApp giftStore={giftStore} />), document.getElementById("gift-app"));

@@ -1,24 +1,19 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { observable, computed } from "mobx";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import * as lodash from "lodash";
 
 import { GiftView } from "./GiftView";
 import { GiftEdit } from "./GiftEdit";
 import { GiftStore } from "../stores/store.gift"
 
-interface GiftAppProps { store: GiftStore }
-
 @observer
-export class GiftApp extends React.Component<GiftAppProps, {}>
+export class GiftApp extends React.Component<{ giftStore: GiftStore }, {}>
 {
-  @observable
-  store : GiftStore
-
-  constructor(props: GiftAppProps) {
-    super();
-    this.store = props.store;
+  get store()
+  {
+    return this.props.giftStore;
   }
 
   closeEditModal()

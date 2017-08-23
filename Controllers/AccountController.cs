@@ -80,7 +80,7 @@ namespace WebApplication.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToPage("~");
+            return RedirectToPage("/Index");
         }
 
         //
@@ -205,7 +205,7 @@ namespace WebApplication.Controllers
             }
             else
             {
-                return RedirectToPage("/");
+                return RedirectToPage("/Index");
             }
         }
 

@@ -14,12 +14,8 @@ export class GiftView extends React.Component<GiftProps, {}>
         return (
         <div className="gift-view">
             <dl>
-                <dt>Title</dt>
-                <dd>{gift.title}</dd>
-                <dt>Description</dt>
-                <dd>{gift.description}</dd>
-                <dt>Price</dt>
-                <dd>{gift.priceInCents}</dd>
+                <dt>{gift.title} - {gift.priceInCents / 100} €</dt>
+                <dd>Description</dd>
                 {
                     gift.receiver !== null ? [
                         <dt key="receiver-label" >Receiver</dt>,

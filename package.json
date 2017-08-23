@@ -20,6 +20,7 @@
     "webpack": "=3.0.0"
   },
   "scripts": {
-    "dev": "webpack --watch"
+    "dev": "webpack",
+    "watch": "webpack --watch"
   }
 }

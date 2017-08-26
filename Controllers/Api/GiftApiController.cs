@@ -6,25 +6,21 @@ namespace WebApplication.Controllers.Api
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
 
     [Authorize]
     [Route("api/gift")]
-    public class GiftApiController : ControllerBase
+    public class GiftApiController : ApiControllerBase
     {
-        private ApplicationDbContext _dbContext;
-        private UserManager<ApplicationUser> _userManager;
-
-        public GiftApiController (
+        public GiftApiController(
             ApplicationDbContext dbContext,
-            UserManager<ApplicationUser> userManager
-            )
-        {
-          _dbContext = dbContext;
-          _userManager = userManager;
-        }
+            ILoggerFactory loggerFactory,
+            UserManager<ApplicationUser> userManager)
+            : base(dbContext, loggerFactory, userManager)
+        {}
 
         [HttpGet]
         async public Task<IEnumerable<Gift>> Index()
@@ -47,18 +43,6 @@ namespace WebApplication.Controllers.Api
             var result = _dbContext.Gifts.Add(inputGift);
             _dbContext.SaveChanges();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
-        }
-
-        async private Task<Gift> FetchGift(int id)
-        {
-            var userId = await GetUserId();
-            return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId);
-        }
-
-        async private Task<string> GetUserId() {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userId = user.Id;
-            return userId;
         }
 
         [HttpPut]
@@ -101,6 +85,12 @@ namespace WebApplication.Controllers.Api
                 return Forbid();
             }
             return Ok(storedGift);
+        }
+
+        async private Task<Gift> FetchGift(int id)
+        {
+            var userId = await GetUserId();
+            return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId);
         }
     }
 }

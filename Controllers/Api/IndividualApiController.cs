@@ -2,34 +2,32 @@ namespace WebApplication.Controllers.Api
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Models;
     using WebApplication.ViewModels;
 
     [Authorize]
     [Route("api/individual")]
-    public class IndividualApiController : ControllerBase
+    public class IndividualApiController : ApiControllerBase
     {
-        private ApplicationDbContext _dbContext;
-        private UserManager<ApplicationUser> _userManager;
-
-        public IndividualApiController (
+        public IndividualApiController(
             ApplicationDbContext dbContext,
-            UserManager<ApplicationUser> userManager
-            )
-        {
-          _dbContext = dbContext;
-          _userManager = userManager;
-        }
+            ILoggerFactory loggerFactory,
+            UserManager<ApplicationUser> userManager)
+            : base(dbContext, loggerFactory, userManager)
+        {}
 
         [HttpGet]
-        public IEnumerable<IndividualWithGifts> Index()
+        async public Task<IEnumerable<IndividualWithGifts>> Index()
         {
+            var userId = await GetUserId();
             return _dbContext.Individuals.GroupJoin(
-                _dbContext.Gifts,
+                _dbContext.Gifts.Where(g => g.OwnerId == userId),
                 i => i.Id,
                 g => g.ReceiverId,
                 (i, gs) => new IndividualWithGifts {

@@ -1,57 +1,51 @@
 namespace WebApplication.Controllers.Api
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
 
     [Authorize]
     [Route("api/event")]
-    public class EventApiController : ControllerBase
+    public class EventApiController : ApiControllerBase
     {
-        private ApplicationDbContext _dbContext;
-        private readonly ILogger _logger;
-
-        public EventApiController (ApplicationDbContext dbConctext, ILoggerFactory loggerFactory)
-        {
-          _dbContext = dbConctext;
-          _logger = loggerFactory.CreateLogger<EventApiController>();
-        }
+        public EventApiController(
+            ApplicationDbContext dbContext,
+            ILoggerFactory loggerFactory,
+            UserManager<ApplicationUser> userManager)
+            : base(dbContext, loggerFactory, userManager)
+        {}
 
         [HttpGet]
-        public IActionResult Index()
+        async public Task<IActionResult> Index()
         {
+            var userId = await GetUserId();
             List<ViewModels.EventWithGifts> events = _dbContext.Events
                 .GroupJoin(
-                    _dbContext.Gifts,
-                    e => e.Id,
-                    g => g.EventId,
-                    (e, gs) => new ViewModels.EventWithGifts {
-                        Id = e.Id,
-                        Type = e.Type,
-                        Year = e.Year,
+                    _dbContext.Gifts
+                        .Where(g => g.OwnerId == userId),
+                    evt => evt.Id,
+                    gift => gift.EventId,
+                    (evt, gs) => new ViewModels.EventWithGifts {
+                        Id = evt.Id,
+                        Type = evt.Type,
+                        Year = evt.Year,
                         Gifts = gs.ToList()
                     })
                 .ToList();
-            return Ok(events);
-        }
-
-        private EventType? ParseEventType(string input)
-        {
-            EventType? result = null;
-            try
+            List<WebApplication.Models.Individual> individuals = _dbContext.Individuals.ToList();
+            ViewModels.TimeLine result = new ViewModels.TimeLine 
             {
-                result = (EventType)Enum.Parse(typeof(EventType), input);
-            }
-            catch (System.ArgumentException)
-            {
-                _logger.LogInformation("wrong event type: {0}", input);
-            }
-            return result;
+                Events = events,
+                Individuals = individuals
+            };
+            return Ok(result);
         }
 
         [HttpPost("{year}/{type}")]
@@ -73,5 +67,18 @@ namespace WebApplication.Controllers.Api
             return Ok(_dbContext.Events.First(o => o.Year == o.Year && o.Type == type));
         }
 
+        private EventType? ParseEventType(string input)
+        {
+            EventType? result = null;
+            try
+            {
+                result = (EventType)Enum.Parse(typeof(EventType), input);
+            }
+            catch (System.ArgumentException)
+            {
+                _logger.LogInformation("wrong event type: {0}", input);
+            }
+            return result;
+        }
     }
 }

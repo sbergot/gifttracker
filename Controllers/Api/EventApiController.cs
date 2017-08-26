@@ -6,6 +6,7 @@ namespace WebApplication.Controllers.Api
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
@@ -26,20 +27,18 @@ namespace WebApplication.Controllers.Api
         async public Task<IActionResult> Index()
         {
             var userId = await GetUserId();
-            List<ViewModels.EventWithGifts> events = _dbContext.Events
+            List<ViewModels.EventWithGifts> events = await _dbContext.Events
                 .GroupJoin(
                     _dbContext.Gifts
                         .Where(g => g.OwnerId == userId),
                     evt => evt.Id,
                     gift => gift.EventId,
                     (evt, gs) => new ViewModels.EventWithGifts {
-                        Id = evt.Id,
-                        Type = evt.Type,
-                        Year = evt.Year,
+                        Event = evt,
                         Gifts = gs.ToList()
                     })
-                .ToList();
-            List<WebApplication.Models.Individual> individuals = _dbContext.Individuals.ToList();
+                .ToListAsync();
+            List<WebApplication.Models.Individual> individuals = await _dbContext.Individuals.ToListAsync();
             ViewModels.TimeLine result = new ViewModels.TimeLine
             {
                 Events = events,

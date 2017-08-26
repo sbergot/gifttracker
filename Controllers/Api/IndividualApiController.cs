@@ -31,11 +31,7 @@ namespace WebApplication.Controllers.Api
                 i => i.Id,
                 g => g.ReceiverId,
                 (i, gs) => new IndividualWithGifts {
-                    Id = i.Id,
-                    BirthDay = i.BirthDay,
-                    FirstName = i.FirstName,
-                    LastName = i.LastName,
-                    UserId = i.UserId,
+                    Individual = i,
                     Gifts = gs.ToList()
                 }).ToList();
         }

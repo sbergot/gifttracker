@@ -4,13 +4,26 @@ namespace GT {
         gifts : Gift[];
     }
 
-    export interface EventWithIndividus extends Event
+    export interface IndividualWithGifts
     {
-        individuals : Individual[]
+        individual: Individual;
+        gifts : Gift[];
     }
 
-    export interface IndividualWithGifts extends Individual
+    export interface TimeLineData
     {
-        gifts : Gift[];
+        events: EventWithGifts[];
+        Individuals: Individual[];
+    }
+
+    export interface EventWithIndividuals
+    {
+        event: Event;
+        individuals: IndividualWithGifts[];
+    }
+
+    export interface TimeLineViewModel
+    {
+        events: EventWithIndividuals[];
     }
 }

@@ -1,28 +1,14 @@
 import { getJson, sendJson, Verbs } from "./data.shared"
 
-const url = "./api/event";
+const URL = "./api/event";
 
-export async function getEvents() : Promise<GT.EventWithGifts[]>
+export async function getEvents() : Promise<GT.TimeLineData>
 {
-    return getJson<GT.EventWithGifts[]>(url);
-}
-
-export async function getEventsIndiv() : Promise<GT.EventWithIndividus[]>
-{
-    const events = await getEvents();
-
-    return events.map(e => {
-        return {
-            id : e.id,
-            year : e.year,
-            type : e.type,
-            individuals : []
-        };
-    });
+    return getJson<GT.TimeLineData>(URL);
 }
 
 export function postEvent(year : number, type : GT.EventType)
 {
     const typeRepr : string = GT.EventType[type];
-    sendJson(`${url}/${year}/${typeRepr}`, Verbs.POST, null);
+    sendJson(`${URL}/${year}/${typeRepr}`, Verbs.POST, null);
 }

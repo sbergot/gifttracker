@@ -40,7 +40,7 @@ namespace WebApplication.Controllers.Api
                     })
                 .ToList();
             List<WebApplication.Models.Individual> individuals = _dbContext.Individuals.ToList();
-            ViewModels.TimeLine result = new ViewModels.TimeLine 
+            ViewModels.TimeLine result = new ViewModels.TimeLine
             {
                 Events = events,
                 Individuals = individuals

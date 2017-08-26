@@ -1,8 +1,8 @@
 import * as data from "./data.shared";
 
-const individualurl = "./api/individual";
+const INDIVIDUAL_API_URL = "./api/individual";
 
 export async function getIndividuals() : Promise<GT.IndividualWithGifts[]>
 {
-    return data.getJson<GT.IndividualWithGifts[]>(individualurl);
+    return data.getJson<GT.IndividualWithGifts[]>(INDIVIDUAL_API_URL);
 }

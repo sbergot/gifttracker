@@ -1,11 +1,6 @@
 import * as React from 'react';
 
-export interface EventViewProp
-{
-  event : GT.EventWithGifts;
-}
-
-export class EventView extends React.Component<EventViewProp, {}>
+export class EventView extends React.Component<GT.EventWithIndividuals, {}>
 {
   render()
   {
@@ -14,7 +9,7 @@ export class EventView extends React.Component<EventViewProp, {}>
       <div>
         <p>{GT.EventType[evt.type]} - {evt.year}</p>
         <ul>
-          {evt.gifts.map(g => <li>{g.title}</li>)}
+          {this.props.individuals.map(i => <li>{i.individual.firstName}</li>)}
         </ul>
       </div>
     );

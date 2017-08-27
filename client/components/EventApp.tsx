@@ -4,29 +4,22 @@ import { observer } from "mobx-react";
 
 import { EventView } from "./EventView"
 import { getEvents } from "../data/data.event"
+import { TimelineStore } from "../stores/store.timeline"
 
 @observer
-export class EventApp extends React.Component<{}, {}>
+export class EventApp extends React.Component<{ store: TimelineStore}, {}>
 {
-    @observable
-    events : GT.EventWithGifts[] = [];
-
-    componentDidMount()
-    {
-        getEvents().then((events) => {
-            if (events != undefined) {
-                this.events = events;
-            }
-        });
+    get store() {
+        return this.props.store;
     }
 
     render()
     {
         return (
             <div>
-                {this.events.map((e) =>
-                    <div key={e.id}>
-                        <EventView event={e} />
+                {this.store.timelineViewModel.events.map((e) =>
+                    <div key={e.event.id}>
+                        <EventView {...e} />
                     </div>
                 )}
             </div>

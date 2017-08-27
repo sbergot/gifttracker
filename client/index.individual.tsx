@@ -22,7 +22,7 @@ class IndividualApp extends React.Component<{}, {}>
   {
     return <div>
       {this.individuals.map(i =>
-        <div key={i.id}>{i.firstName} {i.lastName}
+        <div key={i.individual.id}>{i.individual.firstName} {i.individual.lastName}
           <ul>
             {i.gifts.map(g =>
               <li key={g.id}>{g.title}</li>

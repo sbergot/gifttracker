@@ -21,6 +21,7 @@ export class TimelineStore
     @computed
     get timelineViewModel(): GT.TimeLineViewModel
     {
+        if (!this.timelinedata) { return { events: [] } }
         const events = this.timelinedata.events;
         const indivs = this.timelinedata.individuals;
         const newevts = events.map((evt) => {

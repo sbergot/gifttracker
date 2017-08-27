@@ -10,19 +10,19 @@ namespace GT {
         receiver : Individual | null;
     }
 
-    export enum EventType
-    {
-        Christmas,
-        BirthDay
-    };
-    
     export interface Occurence
     {
         id : number;
         receiverId : number;
         eventId: number;
     }
-    
+
+    export enum EventType
+    {
+        Christmas,
+        BirthDay
+    };
+
     export interface Event
     {
         id : number;

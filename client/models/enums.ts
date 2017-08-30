@@ -1,5 +1,5 @@
 export enum EventType
 {
     Christmas,
-    BirthDay
+    Birthday
 };

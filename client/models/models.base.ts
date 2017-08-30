@@ -20,7 +20,7 @@ namespace GT {
     export enum EventType
     {
         Christmas,
-        BirthDay
+        Birthday
     };
 
     export interface Event

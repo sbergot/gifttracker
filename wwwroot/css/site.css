@@ -28,11 +28,47 @@ header > section.brand {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-.gift-list-elt {
-    display: inline;
+.individual-list {
+    list-style-type: none;
+}
+
+.individual-list-elt {
+    font-size: 18px;
+    font-weight: bold;
     margin-right: 10px;
 }
 
-.gift-list-elt:hover {
-    font-weight: bold;
+.gift-list {
+    display: inline;
+    margin: 0px;
+}
+
+.gift-list-empty {
+    font-size: 18px;
+    color: #888888;
+    font-style: italic;
+}
+
+.gift-list-elt {
+    display: inline;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.gift-list-elt+.gift-list-elt::before {
+    content: '| ';
+}
+
+.gift-list-elt-ctrls {
+    display: none;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.gift-list-elt:hover > .gift-list-elt-ctrls {
+    display: unset;
+}
+
+.gift-list-elt-ctrls > i:hover {
+    background-color: #cccccc;
 }

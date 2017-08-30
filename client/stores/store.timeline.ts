@@ -31,7 +31,7 @@ export class TimelineStore
                 individuals: indivs.map((i: GT.Individual) => {
                     return {
                         individual: i,
-                        gifts: giftsByReceiver[i.id]
+                        gifts: giftsByReceiver[i.id] || []
                     }
                 })
             };

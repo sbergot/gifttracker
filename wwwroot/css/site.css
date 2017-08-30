@@ -16,7 +16,10 @@ header > section.brand {
 }
 
 .brand-icon {
-    width:30px;
+    background: url("../icons/present.svg");
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
     float:left;
 }
 

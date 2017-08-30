@@ -19,7 +19,14 @@ export class EventView extends React.Component<GT.EventWithIndividuals, {}>
       <div>
         <p>{showEventType(evt.type)} - {evt.year}</p>
         <ul>
-          {this.props.individuals.map(i => <li>{i.individual.firstName}</li>)}
+          {this.props.individuals.map(i => <li key={i.individual.id}>
+            {i.individual.firstName}
+            <ul>
+              {i.gifts.map(g =>
+                <li key={g.id}>{g.title}</li>
+              )}
+            </ul>
+            </li>)}
         </ul>
       </div>
     );

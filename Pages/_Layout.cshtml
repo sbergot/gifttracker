@@ -9,11 +9,9 @@
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-  <header class="navbar container grid-lg">
+  <header class="navbar container grid-md">
     <section class="brand">
-      <div class="brand-icon">
-        <a asp-page="/">@Html.Partial("_icon")</a>
-      </div>
+      <a class="brand-icon" asp-page="/"></a>
       <span class="brand-title">
         giftTracker
       </span>
@@ -32,6 +30,10 @@
     <h1>@ViewData["Title"]</h1>
     @RenderBody()
   </div>
+
+  <footer class="container grid-md">
+    <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+  </footer>
 
   <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.3.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.js"></script>

@@ -23,7 +23,7 @@ export class EventView extends React.Component<GT.EventWithIndividuals, {}>
             <span className="individual-list-elt">
               {i.individual.firstName}:
             </span>
-            {i.gifts.length === 0 ? 
+            {i.gifts.length === 0 ?
             <span className="gift-list-empty">nothing :-(</span> :
             <ul className="gift-list">
               {i.gifts.map(g =>
@@ -33,11 +33,9 @@ export class EventView extends React.Component<GT.EventWithIndividuals, {}>
                     <i className="icon icon-edit" />
                     <i className="icon icon-cross" />
                   </span>
-                </li>
-              )}
-            </ul>
-            }
-            </li>)}
+                </li>)}
+            </ul>}
+          </li>)}
         </ul>
       </div>
     );

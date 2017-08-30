@@ -12,10 +12,10 @@ export function putGift(gift : GT.Gift) : Promise<GT.Gift>
     return data.putJson(`${gifturl}/${gift.id}`, gift);
 }
 
-export async function deleteGift(giftId : number) : Promise<GT.Gift>
+export async function deleteGift(giftId : number) : Promise<Response>
 {
     const response = await data.sendJson(`${gifturl}/${giftId}`, data.Verbs.DELETE, null);
-    return await response.json();
+    return response;
 }
 
 export async function getGifts() : Promise<GT.Gift[]>

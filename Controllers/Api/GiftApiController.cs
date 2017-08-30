@@ -39,6 +39,7 @@ namespace WebApplication.Controllers.Api
             if (inputGift.Id > 0) {
                 return BadRequest("trying to post a new gift with positive id");
             }
+            inputGift.Id = 0;
             inputGift.OwnerId = await GetUserId();
             var result = _dbContext.Gifts.Add(inputGift);
             _dbContext.SaveChanges();

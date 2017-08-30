@@ -2,8 +2,8 @@ import * as React from 'react';
 
 export interface GiftProps {
     gift : GT.Gift;
-    onDelete : (id : number) => void;
-    onEdit :   (id : number) => void;
+    onDelete : () => void;
+    onEdit :   () => void;
 }
 
 export class GiftView extends React.Component<GiftProps, {}>
@@ -15,7 +15,7 @@ export class GiftView extends React.Component<GiftProps, {}>
         <div className="gift-view">
             <dl>
                 <dt>{gift.title} - {gift.priceInCents / 100} €</dt>
-                <dd>Description</dd>
+                <dd>{gift.description}</dd>
                 {
                     gift.receiver !== null ? [
                         <dt key="receiver-label" >Receiver</dt>,
@@ -27,12 +27,12 @@ export class GiftView extends React.Component<GiftProps, {}>
             </dl>
             <button
                 className="gift-edit btn btn-primary btn-action btn-lg"
-                onClick={() => this.props.onEdit(gift.id)}>
+                onClick={() => this.props.onEdit()}>
                 <i className="icon icon-edit" />
             </button>
             <button
                 className="gift-delete btn btn-primary btn-action btn-lg"
-                onClick={() => this.props.onDelete(gift.id)}>
+                onClick={() => this.props.onDelete()}>
                 <i className="icon icon-cross" />
             </button>
         </div>

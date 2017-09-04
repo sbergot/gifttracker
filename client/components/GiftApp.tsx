@@ -46,11 +46,7 @@ export class GiftApp extends React.Component<{ giftStore: GiftStore, giftEditSto
       return null;
     }
     return (
-      <GiftEdit
-        onClose={() => this.closeEditModal()}
-        onSave={(g) => this.onSave(g)}
-        gift={currentGift}
-      />)
+      <GiftEdit store={this.props.giftEditStore} />)
   }
 
   render()

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { EventType } from '../models/enums'
+import { GiftEditStore } from "../stores/store.giftedit";
 
 function showEventType(et: EventType): string {
   switch(et) {
@@ -10,28 +11,40 @@ function showEventType(et: EventType): string {
   }
 }
 
-export class EventView extends React.Component<GT.EventWithIndividuals, {}>
+interface EventViewProps
 {
+  event: GT.EventWithIndividuals;
+  editGift: (gift: GT.Gift) => void;
+  deleteGift: (gift: GT.Gift) => void;
+}
+
+export class EventView extends React.Component<EventViewProps, {}>
+{
+  get individuals()
+  {
+    return this.props.event.individuals;
+  }
+
   render()
   {
-    const evt  = this.props.event;
+    const evt  = this.props.event.event;
     return (
       <div>
         <h2>{showEventType(evt.type)} - {evt.year}</h2>
         <ul className="individual-list">
-          {this.props.individuals.map(i => <li key={i.individual.id}>
+          {this.individuals.map(indiv => <li key={indiv.individual.id}>
             <span className="individual-list-elt">
-              {i.individual.firstName}:
+              {indiv.individual.firstName}:
             </span>
-            {i.gifts.length === 0 ?
+            {indiv.gifts.length === 0 ?
             <span className="gift-list-empty">nothing :-(</span> :
             <ul className="gift-list">
-              {i.gifts.map(g =>
+              {indiv.gifts.map(g =>
                 <li className="gift-list-elt" key={g.id}>
                   {g.title}
                   <span className="gift-list-elt-ctrls">
-                    <i className="icon icon-edit" />
-                    <i className="icon icon-cross" />
+                    <i className="icon icon-edit" onClick={() => this.props.editGift(g)} />
+                    <i className="icon icon-cross" onClick={() => this.props.deleteGift(g)} />
                   </span>
                 </li>)}
             </ul>}

@@ -38,17 +38,6 @@ export class GiftApp extends React.Component<{ giftStore: GiftStore, giftEditSto
     this.giftsEdit.deleteGift(gift).then(() => this.gifts.refreshGifts());
   }
 
-  @computed
-  get giftEditView()
-  {
-    const currentGift = this.giftsEdit.getCurrentGift();
-    if (currentGift == null) {
-      return null;
-    }
-    return (
-      <GiftEdit store={this.props.giftEditStore} />)
-  }
-
   render()
   {
     const gifts = this.gifts.gifts;
@@ -63,7 +52,7 @@ export class GiftApp extends React.Component<{ giftStore: GiftStore, giftEditSto
                 onEdit={() => this.giftsEdit.editGift(g)} />
             </div>))
         }
-        {this.giftEditView}
+        <GiftEdit store={this.props.giftEditStore} onSave={() => this.gifts.refreshGifts()} />
       </div>;
   }
 }

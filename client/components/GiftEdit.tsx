@@ -7,6 +7,7 @@ import { GiftEditStore } from "../stores/store.giftedit"
 export interface GiftEditProps
 {
   store: GiftEditStore
+  onSave: () => void;
 }
 
 @observer
@@ -24,6 +25,13 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
     return !!this.gift;
   }
 
+  async save()
+  {
+    await this.props.store.saveGift(this.gift!);
+    this.props.store.cancelEdition();
+    this.props.onSave();
+  }
+
   render()
   {
     return (
@@ -33,7 +41,7 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
           (this.isOpen)
             ? <GiftEditForm
                 gift={this.gift!}
-                save={() => this.props.store.saveGift(this.gift!)}
+                save={() => this.save()}
                 close={() => this.props.store.cancelEdition()}/>
             : null
         }

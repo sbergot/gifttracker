@@ -1,11 +1,14 @@
 # MVP
 
 ## édition cadeaux
-permettre de sélectionner le destinataire et l'evennement
-ajouter un champ lien
+- permettre de sélectionner le destinataire et l'evennement
+- valider les entrées du formulaire (prix, url?)
 
 ## vue évennements
 liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne en cliquant sur son nom.
+
+- utiliser le lien comme ancre
+- permettre d'ajouter un cadeau à quelqu'un
 
 ## vue personne
 timeline des cadeaux offerts à cette personne (par tout le monde)

@@ -69,11 +69,11 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
     this.gift = props.gift;
   }
 
-  onTitleChange(event : any) { this.gift.title = event.target.value; }
-
-  onPriceChange(event : any) { this.gift.priceInCents = event.target.value; }
-
-  onDescriptionChange(event : any) { this.gift.description = event.target.value; }
+  onGiftChange = (event: React.FormEvent<HTMLElement>) => {
+    const target = (event.target as HTMLInputElement);
+    const field = target.name as keyof GT.Gift;
+    this.gift[field] = target.value;
+  }
 
   render()
   {
@@ -91,18 +91,20 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
               <input
                 className="form-input"
                 id="gift-edit-title"
-                placeholder="Title"
+                placeholder="A short title"
+                name="title"
                 value={this.gift.title}
-                onChange={this.onTitleChange.bind(this)} />
+                onChange={this.onGiftChange} />
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="gift-edit-price">Price</label>
               <input
                 className="form-input"
                 id="gift-edit-price"
-                placeholder="Price"
+                placeholder="The price in cents of the gift"
+                name="priceInCents"
                 value={this.gift.priceInCents}
-                onChange={this.onPriceChange.bind(this)} />
+                onChange={this.onGiftChange} />
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="gift-edit-description">Description</label>
@@ -110,9 +112,20 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 rows={5}
                 className="form-input"
                 id="gift-edit-description"
-                placeholder="Description"
+                placeholder="detailed descript of the gift"
+                name="description"
                 value={this.gift.description}
-                onChange={this.onDescriptionChange.bind(this)} />
+                onChange={this.onGiftChange} />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-url">Url</label>
+              <input
+                className="form-input"
+                id="gift-edit-url"
+                placeholder="An url to a website"
+                value={this.gift.url}
+                name="url"
+                onChange={this.onGiftChange} />
             </div>
           </form>
         </div>

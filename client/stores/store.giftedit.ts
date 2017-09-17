@@ -19,6 +19,7 @@ export class GiftEditStore {
       priceInCents : 0,
       title : "",
       description : "",
+      url : "",
       receiverId : null,
       receiver : null
     };

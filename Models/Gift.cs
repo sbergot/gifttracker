@@ -10,6 +10,8 @@ namespace WebApplication.Models
 
         public int PriceInCents { get; set; }
 
+        public string Url { get; set; }
+
         public string OwnerId { get; set; }
 
         public ApplicationUser Owner { get; set; }

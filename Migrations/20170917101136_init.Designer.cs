@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170819093510_init")]
+    [Migration("20170917101136_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -209,6 +209,8 @@ namespace gifttracker.Migrations
                     b.Property<int?>("ReceiverId");
 
                     b.Property<string>("Title");
+
+                    b.Property<string>("Url");
 
                     b.HasKey("Id");
 

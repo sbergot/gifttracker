@@ -201,7 +201,8 @@ namespace gifttracker.Migrations
                     OwnerId = table.Column<string>(type: "text", nullable: true),
                     PriceInCents = table.Column<int>(type: "int4", nullable: false),
                     ReceiverId = table.Column<int>(type: "int4", nullable: true),
-                    Title = table.Column<string>(type: "text", nullable: true)
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Url = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

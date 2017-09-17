@@ -209,6 +209,8 @@ namespace gifttracker.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<string>("Url");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");

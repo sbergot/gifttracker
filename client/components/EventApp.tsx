@@ -14,9 +14,8 @@ export class EventApp extends React.Component<{ store: TimelineStore, editStore:
         return this.props.store;
     }
 
-    async editGift(g: GT.Gift) {
-        await this.props.editStore.editGift(g);
-        this.props.store.refreshTimelineData();
+    editGift(g: GT.Gift) {
+        this.props.editStore.editGift(g);
     }
 
     async deleteGift(g: GT.Gift) {

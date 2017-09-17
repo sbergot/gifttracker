@@ -5,7 +5,6 @@ import { observer, inject } from "mobx-react";
 import * as lodash from "lodash";
 
 import { GiftView } from "./GiftView";
-import { GiftEdit } from "./GiftEdit";
 import { GiftEditStore } from "../stores/store.giftedit"
 import { GiftStore } from "../stores/store.gift"
 
@@ -52,7 +51,6 @@ export class GiftApp extends React.Component<{ giftStore: GiftStore, giftEditSto
                 onEdit={() => this.giftsEdit.editGift(g)} />
             </div>))
         }
-        <GiftEdit store={this.props.giftEditStore} onSave={() => this.gifts.refreshGifts()} />
       </div>;
   }
 }

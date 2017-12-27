@@ -3,10 +3,12 @@ import * as ReactDom from "react-dom"
 import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import { GiftEditStore } from "../stores/store.giftedit"
+import { ReferentialStore } from "../stores/store.referential"
 
 export interface GiftEditProps
 {
-  store: GiftEditStore
+  store: GiftEditStore;
+  referentialStore: ReferentialStore;
   onSave: () => void;
 }
 
@@ -41,6 +43,7 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
           (this.isOpen)
             ? <GiftEditForm
                 gift={this.gift!}
+                individuals={this.props.referentialStore.referentialdata.individuals}
                 save={() => this.save()}
                 close={() => this.props.store.cancelEdition()}/>
             : null
@@ -53,6 +56,7 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
 interface GiftEditFormProps
 {
   gift: GT.Gift;
+  individuals: GT.Individual[];
   save: (gift: GT.Gift) => void;
   close: () => void;
 }
@@ -77,6 +81,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
 
   render()
   {
+    //var individuals = this.props.
     return (
     <div className="modal-container">
       <div className="modal-header">
@@ -126,6 +131,24 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 value={this.gift.url}
                 name="url"
                 onChange={this.onGiftChange} />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-receiver">Receiver</label>
+              <select
+                className="form-input"
+                id="gift-edit-receiver"
+                value={(this.gift.receiverId || -1).toString()}
+                name="receiverId"
+                onChange={this.onGiftChange} >
+                <option value="">no receiver</option>
+                {
+                  this.props.individuals.map(i => (
+                  <option value={i.id}>
+                    { `${i.firstName} ${i.lastName}` }
+                  </option>
+                    ))
+                }
+              </select>
             </div>
           </form>
         </div>

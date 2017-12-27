@@ -27,4 +27,10 @@ namespace GT {
     {
         events: EventWithIndividuals[];
     }
+
+    export interface ReferentialData
+    {
+        individuals: Individual[];
+        events: Event[];
+    }
 }

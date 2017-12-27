@@ -1,7 +1,9 @@
 # MVP
 
+# gérer les réponses en erreurs en renvoyent du json pour les api
+
 ## édition cadeaux
-- permettre de sélectionner le destinataire et l'evennement
+- permettre de sélectionner l'evennement
 - valider les entrées du formulaire (prix, url?)
 
 ## vue évennements

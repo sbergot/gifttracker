@@ -24,13 +24,25 @@ export class EventApp extends React.Component<{ store: TimelineStore, editStore:
         this.props.store.refreshTimelineData();
     }
 
+    createGift(event: GT.Event, individual: GT.Individual) {
+        const newGift = this.props.editStore.makeGift();
+        newGift.eventId = event.id;
+        newGift.receiverId = individual.id;
+        this.props.editStore.editGift(newGift);
+    }
+
     render()
     {
         return (
             <div>
                 {sortByEvents(this.store.timelineViewModel.events, e => e.event).map((e) =>
                     <div key={e.event.id}>
-                        <EventView event={e} editGift={(g) => this.editGift(g)} deleteGift={(g) => this.deleteGift(g)} />
+                        <EventView
+                            event={e}
+                            editGift={(g) => this.editGift(g)}
+                            deleteGift={(g) => this.deleteGift(g)}
+                            createGift={(e, i) => this.createGift(e, i)}
+                        />
                     </div>
                 )}
             </div>

@@ -7,6 +7,7 @@ interface EventViewProps
   event: GT.EventWithIndividuals;
   editGift: (gift: GT.Gift) => void;
   deleteGift: (gift: GT.Gift) => void;
+  createGift: (event: GT.Event, individual: GT.Individual) => void;
 }
 
 export class EventView extends React.Component<EventViewProps, {}>
@@ -34,18 +35,27 @@ export class EventView extends React.Component<EventViewProps, {}>
             <span className="individual-list-elt">
               {indiv.individual.firstName}:
             </span>
-            {indiv.gifts.length === 0 ?
-            <span className="gift-list-empty">nothing :-(</span> :
-            <ul className="gift-list">
-              {indiv.gifts.map(g =>
-                <li className="gift-list-elt" key={g.id}>
-                  {this.renderGiftTitle(g)}
-                  <span className="gift-list-elt-ctrls">
-                    <i className="icon icon-edit" onClick={() => this.props.editGift(g)} />
-                    <i className="icon icon-cross" onClick={() => this.props.deleteGift(g)} />
-                  </span>
-                </li>)}
-            </ul>}
+            {
+              indiv.gifts.length === 0
+              ? <span className="gift-list-empty">nothing :-(</span>
+              : <ul className="gift-list">
+                {indiv.gifts.map(g =>
+                  <li className="gift-list-elt" key={g.id}>
+                    {this.renderGiftTitle(g)}
+                    <span className="gift-list-elt-ctrls">
+                      <button className="btn btn-sm">
+                        <i className="icon icon-edit" onClick={() => this.props.editGift(g)} />
+                      </button>
+                      <button className="btn btn-sm">
+                        <i className="icon icon-cross" onClick={() => this.props.deleteGift(g)} />
+                      </button>
+                    </span>
+                  </li>)}
+              </ul>
+            }
+            <button className="gift-list-elt-add btn btn-sm">
+              <i className="icon icon-plus" onClick={() => this.props.createGift(evt, indiv.individual)} />
+            </button>
           </li>))}
         </ul>
       </div>

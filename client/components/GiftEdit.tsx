@@ -86,7 +86,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
   {
     //var individuals = this.props.
     return (
-    <div className="modal-container">
+    <div className="modal-container" id="gift-edit-modal">
       <div className="modal-header">
         <button className="btn btn-clear float-right" onClick={this.props.close}></button>
         <div className="modal-title h4">Edit gift</div>

@@ -47,6 +47,7 @@ header > section.brand {
     font-size: 18px;
     color: #888888;
     font-style: italic;
+    margin-right: 10px;
 }
 
 .gift-list-elt {
@@ -69,6 +70,6 @@ header > section.brand {
     display: unset;
 }
 
-.gift-list-elt-ctrls > i:hover {
-    background-color: #cccccc;
+#gift-edit-modal > .modal-body {
+    max-height: 600px;
 }

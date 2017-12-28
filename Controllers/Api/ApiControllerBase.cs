@@ -27,8 +27,12 @@ namespace WebApplication.Controllers.Api
 
         async protected Task<string> GetUserId() {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userId = user.Id;
-            return userId;
+            return user.Id;
+        }
+
+        async protected Task<int> GetCurrentIndividualId() {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            return user.IndividualId;
         }
     }
 }

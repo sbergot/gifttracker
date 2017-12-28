@@ -25,7 +25,7 @@ namespace WebApplication.Controllers.Api
         [HttpGet]
         async public Task<IEnumerable<IndividualWithGifts>> Index()
         {
-            var userId = await GetUserId();
+            var userId = await GetCurrentIndividualId();
             return _dbContext.Individuals.GroupJoin(
                 _dbContext.Gifts.Where(g => g.OwnerId == userId),
                 i => i.Id,

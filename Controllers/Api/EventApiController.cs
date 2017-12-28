@@ -26,7 +26,7 @@ namespace WebApplication.Controllers.Api
         [HttpGet]
         async public Task<IActionResult> Index()
         {
-            var userId = await GetUserId();
+            var userId = await GetCurrentIndividualId();
             List<ViewModels.EventWithGifts> events = await _dbContext.Events
                 .GroupJoin(
                     _dbContext.Gifts

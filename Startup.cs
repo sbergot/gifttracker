@@ -8,8 +8,6 @@ using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
 
-
-
 namespace WebApplication
 {
     public class Startup
@@ -49,7 +47,10 @@ namespace WebApplication
                 options.Scope.Add("openid");
             });
 
-            services.AddMvc().AddRazorPagesOptions(options => { options.Conventions.AuthorizeFolder("/"); });
+            services.AddMvc().AddRazorPagesOptions(options =>
+                { options.Conventions.AuthorizeFolder("/"); });
+
+            services.AddScoped<WebApplication.Controllers.Api.ApiExceptionFilter>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

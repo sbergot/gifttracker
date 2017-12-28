@@ -7,6 +7,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Data;
     using WebApplication.Models;
 
+    [ServiceFilter(typeof(ApiExceptionFilter))]
     public class ApiControllerBase : ControllerBase
     {
         protected readonly ApplicationDbContext _dbContext;

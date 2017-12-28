@@ -21,7 +21,9 @@ export class GiftEditStore {
       description : "",
       url : "",
       receiverId : null,
-      receiver : null
+      receiver : null,
+      eventId: null,
+      event: null
     };
   }
 

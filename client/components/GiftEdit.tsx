@@ -44,6 +44,7 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
             ? <GiftEditForm
                 gift={this.gift!}
                 individuals={this.props.referentialStore.referentialdata.individuals}
+                events={this.props.referentialStore.referentialdata.events}
                 save={() => this.save()}
                 close={() => this.props.store.cancelEdition()}/>
             : null
@@ -57,6 +58,7 @@ interface GiftEditFormProps
 {
   gift: GT.Gift;
   individuals: GT.Individual[];
+  events: GT.Event[];
   save: (gift: GT.Gift) => void;
   close: () => void;
 }
@@ -102,27 +104,6 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 onChange={this.onGiftChange} />
             </div>
             <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-price">Price</label>
-              <input
-                className="form-input"
-                id="gift-edit-price"
-                placeholder="The price in cents of the gift"
-                name="priceInCents"
-                value={this.gift.priceInCents}
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-description">Description</label>
-              <textarea
-                rows={5}
-                className="form-input"
-                id="gift-edit-description"
-                placeholder="detailed descript of the gift"
-                name="description"
-                value={this.gift.description}
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
               <label className="form-label" htmlFor="gift-edit-url">Url</label>
               <input
                 className="form-input"
@@ -149,6 +130,45 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                     ))
                 }
               </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-event">Event</label>
+              <select
+                className="form-input"
+                id="gift-edit-event"
+                value={(this.gift.eventId || -1).toString()}
+                name="eventId"
+                onChange={this.onGiftChange} >
+                <option value="">no event</option>
+                {
+                  this.props.events.map(e => (
+                  <option value={e.id}>
+                    { `${e.type} ${e.year}` }
+                  </option>
+                    ))
+                }
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-price">Price</label>
+              <input
+                className="form-input"
+                id="gift-edit-price"
+                placeholder="The price in cents of the gift"
+                name="priceInCents"
+                value={this.gift.priceInCents}
+                onChange={this.onGiftChange} />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-description">Description</label>
+              <textarea
+                rows={5}
+                className="form-input"
+                id="gift-edit-description"
+                placeholder="detailed descript of the gift"
+                name="description"
+                value={this.gift.description}
+                onChange={this.onGiftChange} />
             </div>
           </form>
         </div>

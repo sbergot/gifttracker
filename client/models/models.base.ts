@@ -9,6 +9,8 @@ namespace GT {
         url : string;
         receiverId : number | null;
         receiver : Individual | null;
+        eventId : number | null;
+        event : Event | null;
     }
 
     export interface Occurence

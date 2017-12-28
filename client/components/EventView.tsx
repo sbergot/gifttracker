@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { GiftEditStore } from "../stores/store.giftedit";
-import { showEvent } from './ViewHelpers';
-import { sortByIndividuals } from '../stores/storeHelpers'
+import { sortByIndividuals, showEvent } from '../services/service.referential'
 
 interface EventViewProps
 {

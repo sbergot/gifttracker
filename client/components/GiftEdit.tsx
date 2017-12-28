@@ -4,7 +4,7 @@ import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import { GiftEditStore } from "../stores/store.giftedit"
 import { ReferentialStore } from "../stores/store.referential"
-import { showEvent } from './ViewHelpers';
+import { showEvent } from '../services/service.referential';
 
 export interface GiftEditProps
 {

@@ -1,6 +1,6 @@
 import * as data from "../data/data.referential";
 import { observable, computed } from "mobx";
-import { sortEvents, sortIndividuals } from './storeHelpers';
+import { sortEvents, sortIndividuals } from '../services/service.referential';
 
 export class ReferentialStore
 {

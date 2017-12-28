@@ -6,7 +6,7 @@ import { EventView } from "./EventView"
 import { getEvents } from "../data/data.event"
 import { TimelineStore } from "../stores/store.timeline"
 import { GiftEditStore } from "../stores/store.giftedit";
-import { sortByEvents } from '../stores/storeHelpers'
+import { sortByEvents } from '../services/service.referential'
 
 @observer
 export class EventApp extends React.Component<{ store: TimelineStore, editStore: GiftEditStore }, {}>

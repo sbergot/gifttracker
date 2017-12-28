@@ -3,9 +3,9 @@
 ## vue évennements
 liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne en cliquant sur son nom.
 
-- ordonner les évennements par année desc & les individus par ordre alphabétique
-- utiliser le lien comme ancre
-- permettre d'ajouter un cadeau à quelqu'un sur un evennement
+- [x] ordonner les évennements par année desc & les individus par ordre alphabétique
+- [x] utiliser le lien comme ancre
+- [ ] permettre d'ajouter un cadeau à quelqu'un sur un evennement
 
 ## vue personne
 timeline des cadeaux offerts à cette personne (par tout le monde)

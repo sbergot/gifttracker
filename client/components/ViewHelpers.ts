@@ -8,3 +8,7 @@ export function showEventType(et: EventType): string {
         return 'Christmas'
     }
 }
+
+export function showEvent(event: GT.Event): string {
+    return `${showEventType(event.type)} - ${event.year}`;
+}

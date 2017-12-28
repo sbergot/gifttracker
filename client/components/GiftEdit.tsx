@@ -4,7 +4,7 @@ import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import { GiftEditStore } from "../stores/store.giftedit"
 import { ReferentialStore } from "../stores/store.referential"
-import { showEventType } from './ViewHelpers';
+import { showEvent } from './ViewHelpers';
 
 export interface GiftEditProps
 {
@@ -110,7 +110,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 className="form-input"
                 id="gift-edit-url"
                 placeholder="An url to a website"
-                value={this.gift.url}
+                value={this.gift.url || ""}
                 name="url"
                 onChange={this.onGiftChange} />
             </div>
@@ -125,7 +125,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 <option value="">no receiver</option>
                 {
                   this.props.individuals.map(i => (
-                  <option value={i.id}>
+                  <option key={i.id} value={i.id}>
                     { `${i.firstName} ${i.lastName}` }
                   </option>
                     ))
@@ -143,9 +143,9 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 <option value="">no event</option>
                 {
                   this.props.events.map(e => (
-                  <option value={e.id}>
-                    { `${showEventType(e.type)} ${e.year}` }
-                  </option>
+                    <option key={e.id} value={e.id}>
+                      {showEvent(e)}
+                    </option>
                     ))
                 }
               </select>

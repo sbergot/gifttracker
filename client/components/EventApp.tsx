@@ -6,6 +6,7 @@ import { EventView } from "./EventView"
 import { getEvents } from "../data/data.event"
 import { TimelineStore } from "../stores/store.timeline"
 import { GiftEditStore } from "../stores/store.giftedit";
+import { sortByEvents } from '../stores/storeHelpers'
 
 @observer
 export class EventApp extends React.Component<{ store: TimelineStore, editStore: GiftEditStore }, {}>
@@ -27,7 +28,7 @@ export class EventApp extends React.Component<{ store: TimelineStore, editStore:
     {
         return (
             <div>
-                {this.store.timelineViewModel.events.map((e) =>
+                {sortByEvents(this.store.timelineViewModel.events, e => e.event).map((e) =>
                     <div key={e.event.id}>
                         <EventView event={e} editGift={(g) => this.editGift(g)} deleteGift={(g) => this.deleteGift(g)} />
                     </div>

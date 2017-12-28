@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { GiftEditStore } from "../stores/store.giftedit";
-import { showEventType } from './ViewHelpers';
+import { showEvent } from './ViewHelpers';
+import { sortByIndividuals } from '../stores/storeHelpers'
 
 interface EventViewProps
 {
@@ -16,14 +17,21 @@ export class EventView extends React.Component<EventViewProps, {}>
     return this.props.event.individuals;
   }
 
+  renderGiftTitle(gift: GT.Gift) {
+    return gift.url
+        ? <a href={gift.url} >{gift.title}</a>
+        : gift.title;
+  }
+
   render()
   {
     const evt  = this.props.event.event;
     return (
       <div>
-        <h2>{showEventType(evt.type)} - {evt.year}</h2>
+        <h2>{showEvent(evt)}</h2>
         <ul className="individual-list">
-          {this.individuals.map(indiv => <li key={indiv.individual.id}>
+          {sortByIndividuals(this.individuals, i => i.individual).map(indiv => (
+          <li key={indiv.individual.id}>
             <span className="individual-list-elt">
               {indiv.individual.firstName}:
             </span>
@@ -32,14 +40,14 @@ export class EventView extends React.Component<EventViewProps, {}>
             <ul className="gift-list">
               {indiv.gifts.map(g =>
                 <li className="gift-list-elt" key={g.id}>
-                  {g.title}
+                  {this.renderGiftTitle(g)}
                   <span className="gift-list-elt-ctrls">
                     <i className="icon icon-edit" onClick={() => this.props.editGift(g)} />
                     <i className="icon icon-cross" onClick={() => this.props.deleteGift(g)} />
                   </span>
                 </li>)}
             </ul>}
-          </li>)}
+          </li>))}
         </ul>
       </div>
     );

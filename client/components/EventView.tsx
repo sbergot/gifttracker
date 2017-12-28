@@ -1,15 +1,6 @@
 import * as React from 'react';
-import { EventType } from '../models/enums'
 import { GiftEditStore } from "../stores/store.giftedit";
-
-function showEventType(et: EventType): string {
-  switch(et) {
-    case EventType.Birthday:
-      return 'Birthday';
-    case EventType.Christmas:
-      return 'Christmas'
-  }
-}
+import { showEventType } from './ViewHelpers';
 
 interface EventViewProps
 {

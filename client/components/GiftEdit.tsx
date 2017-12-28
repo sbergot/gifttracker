@@ -4,6 +4,7 @@ import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import { GiftEditStore } from "../stores/store.giftedit"
 import { ReferentialStore } from "../stores/store.referential"
+import { showEventType } from './ViewHelpers';
 
 export interface GiftEditProps
 {
@@ -143,7 +144,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                 {
                   this.props.events.map(e => (
                   <option value={e.id}>
-                    { `${e.type} ${e.year}` }
+                    { `${showEventType(e.type)} ${e.year}` }
                   </option>
                     ))
                 }

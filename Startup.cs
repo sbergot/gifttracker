@@ -50,7 +50,7 @@ namespace WebApplication
             services.AddMvc().AddRazorPagesOptions(options =>
                 { options.Conventions.AuthorizeFolder("/"); });
 
-            services.AddScoped<WebApplication.Controllers.Api.ApiExceptionFilter>();
+            services.AddScoped<WebApplication.Filters.ApiExceptionFilter>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

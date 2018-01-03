@@ -1,4 +1,4 @@
-namespace WebApplication.Controllers.Api
+namespace WebApplication.Filters
 {
     using System;
     using System.Threading.Tasks;
@@ -31,5 +31,4 @@ namespace WebApplication.Controllers.Api
             context.HttpContext.Response.StatusCode = 500;
         }
     }
-
 }

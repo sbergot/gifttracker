@@ -6,8 +6,10 @@ namespace WebApplication.Controllers.Api
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Models;
+    using WebApplication.Filters;
 
     [ServiceFilter(typeof(ApiExceptionFilter))]
+    [ModelValidationFilter]
     public class ApiControllerBase : ControllerBase
     {
         protected readonly ApplicationDbContext _dbContext;

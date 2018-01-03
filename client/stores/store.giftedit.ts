@@ -14,7 +14,7 @@ export class GiftEditStore {
   makeGift() : GT.Gift {
     return {
       id : NEW_GIFT_ID,
-      ownerId : "",
+      ownerId : 0,
       occurenceId : 1,
       priceInCents : 0,
       title : "",

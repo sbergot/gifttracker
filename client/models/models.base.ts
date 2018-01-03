@@ -1,7 +1,7 @@
 namespace GT {
     export interface Gift {
         id : number;
-        ownerId : string;
+        ownerId : number;
         occurenceId: number;
         priceInCents: number;
         title : string;

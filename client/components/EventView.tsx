@@ -43,18 +43,21 @@ export class EventView extends React.Component<EventViewProps, {}>
                   <li className="gift-list-elt" key={g.id}>
                     {this.renderGiftTitle(g)}
                     <span className="gift-list-elt-ctrls">
-                      <button className="btn btn-sm">
-                        <i className="icon icon-edit" onClick={() => this.props.editGift(g)} />
+                      <button className="btn btn-sm" onClick={() => this.props.editGift(g)}>
+                        <i className="icon icon-edit" />
                       </button>
-                      <button className="btn btn-sm">
-                        <i className="icon icon-cross" onClick={() => this.props.deleteGift(g)} />
+                      <button className="btn btn-sm" onClick={() => this.props.deleteGift(g)}>
+                        <i className="icon icon-cross" />
                       </button>
                     </span>
                   </li>)}
               </ul>
             }
-            <button className="gift-list-elt-add btn btn-sm">
-              <i className="icon icon-plus" onClick={() => this.props.createGift(evt, indiv.individual)} />
+            <button
+              className="gift-list-elt-add btn btn-sm"
+              onClick={() => this.props.createGift(evt, indiv.individual)}
+            >
+              <i className="icon icon-plus" />
             </button>
           </li>))}
         </ul>

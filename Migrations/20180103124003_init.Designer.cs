@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180103045440_init")]
+    [Migration("20180103124003_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -243,6 +243,20 @@ namespace gifttracker.Migrations
                     b.ToTable("Individuals");
                 });
 
+            modelBuilder.Entity("WebApplication.Models.UserMail", b =>
+                {
+                    b.Property<string>("Mail")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("IndividualId");
+
+                    b.HasKey("Mail");
+
+                    b.HasIndex("IndividualId");
+
+                    b.ToTable("UserMails");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -309,6 +323,14 @@ namespace gifttracker.Migrations
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.UserMail", b =>
+                {
+                    b.HasOne("WebApplication.Models.Individual", "Individual")
+                        .WithMany()
+                        .HasForeignKey("IndividualId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

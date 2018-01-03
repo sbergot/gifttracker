@@ -143,6 +143,24 @@ namespace gifttracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserMails",
+                columns: table => new
+                {
+                    Mail = table.Column<string>(nullable: false),
+                    IndividualId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMails", x => x.Mail);
+                    table.ForeignKey(
+                        name: "FK_UserMails_Individuals_IndividualId",
+                        column: x => x.IndividualId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -283,6 +301,11 @@ namespace gifttracker.Migrations
                 name: "IX_Gifts_ReceiverId",
                 table: "Gifts",
                 column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMails_IndividualId",
+                table: "UserMails",
+                column: "IndividualId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -304,6 +327,9 @@ namespace gifttracker.Migrations
 
             migrationBuilder.DropTable(
                 name: "Gifts");
+
+            migrationBuilder.DropTable(
+                name: "UserMails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

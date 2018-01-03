@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using WebApplication.Data;
 using WebApplication.Models;
 using WebApplication.ViewModels.AccountViewModels;
 
@@ -16,15 +17,18 @@ namespace WebApplication.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        protected readonly ApplicationDbContext _dbContext;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -143,13 +147,21 @@ namespace WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                // we have stored mails of knwon people to be able to link them automatically
+                // to the corresponding individual
+                var usermail = _dbContext.UserMails.SingleOrDefault(m => m.Mail == user.Email);
+                if (usermail != null)
+                {
+                    user.IndividualId = usermail.IndividualId;
+                }
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

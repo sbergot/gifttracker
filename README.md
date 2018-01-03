@@ -1,13 +1,5 @@
 # Now
 
-# lien account / individu
-- [x] créer fonction getcurrentindividu basée sur le lien user/individu et getcurrentuser
-- [x] migrer lien gift owner vers l'individu. Migrer les controllers qui se basent sur ce lien.
-- [x] refaire la migration initiale
-- [x] alimenter le lien individu vers user dans le script init
-- [ ] ajouter la liste de mails dans l'individu
-- [ ] alimenter le lien individu vers user à la création du compte
-
 ## status sur le cadeau
 ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
 
@@ -16,6 +8,9 @@ ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
 - [ ] edit status + link in the gift edit modal
 
 # Next
+
+## layout
+display user name at the top
 
 ## vue personne
 timeline des cadeaux offerts à cette personne (par tout le monde)

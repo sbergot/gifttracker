@@ -18,9 +18,9 @@ DO $$
         VALUES ('John', 'Smith', '1985-05-24')
     RETURNING "Id" INTO indiv_2;
 
-    user_id := (SELECT "Id" FROM public."AspNetUsers" LIMIT 1);
-
-    UPDATE public."AspNetUsers" set "IndividualId" = indiv_1;
+    INSERT INTO public."UserMails"(
+        "Mail", "IndividualId")
+        VALUES ('simon.bergot@gmail.com', indiv_1);
 
     INSERT INTO public."Events"(
         "Type", "Year")

@@ -3,8 +3,8 @@
 # lien account / individu
 - [x] créer fonction getcurrentindividu basée sur le lien user/individu et getcurrentuser
 - [x] migrer lien gift owner vers l'individu. Migrer les controllers qui se basent sur ce lien.
-- [ ] refaire la migration initiale
-- [ ] alimenter le lien individu vers user dans le script init
+- [x] refaire la migration initiale
+- [x] alimenter le lien individu vers user dans le script init
 - [ ] ajouter la liste de mails dans l'individu
 - [ ] alimenter le lien individu vers user à la création du compte
 

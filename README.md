@@ -9,6 +9,9 @@ ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
 - [ ] update client models
 - [ ] edit status + link in the gift edit modal
 
+## layout édition
+- [ ] split the edition form into 2 columns
+
 # Next
 
 ## gestion des individus
@@ -19,17 +22,6 @@ ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
 - [ ] lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
 - [ ] par défaut un compte voit les individus des groupes auxquels il appartient
 - [ ] dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
-
-## layout
-display user name at the top
-
-## vue personne
-timeline des cadeaux offerts à cette personne (par tout le monde)
-
-## vue évennements
-liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne en cliquant sur son nom.
-
-- [ ] naviguer vers la page d'une personne
 
 ## gestion des events
 - [ ] les events sont administrés par requêtes
@@ -43,6 +35,17 @@ flags sur un cadeau (ou sur un lien user / individu?):
 - permettre aux autres de voir l'idée
 
 L'owner voit toujours l'idée
+
+## layout général
+- [ ] display user name at the top
+
+## vue personne
+timeline des cadeaux offerts à cette personne (par tout le monde)
+
+## vue évennements
+liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne en cliquant sur son nom.
+
+- [ ] naviguer vers la page d'une personne
 
 ## édition cadeaux
 - [ ] valider les entrées du formulaire (prix, url?)

@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170917101136_init")]
+    [Migration("20180103043020_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace gifttracker.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -144,6 +144,8 @@ namespace gifttracker.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<int>("IndividualId");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -168,6 +170,8 @@ namespace gifttracker.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IndividualId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -202,7 +206,7 @@ namespace gifttracker.Migrations
 
                     b.Property<int?>("EventId");
 
-                    b.Property<string>("OwnerId");
+                    b.Property<int>("OwnerId");
 
                     b.Property<int>("PriceInCents");
 
@@ -234,11 +238,7 @@ namespace gifttracker.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Individuals");
                 });
@@ -288,26 +288,28 @@ namespace gifttracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("WebApplication.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("WebApplication.Models.Individual", "Individual")
+                        .WithMany()
+                        .HasForeignKey("IndividualId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("WebApplication.Models.Gift", b =>
                 {
                     b.HasOne("WebApplication.Models.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId");
 
-                    b.HasOne("WebApplication.Models.ApplicationUser", "Owner")
+                    b.HasOne("WebApplication.Models.Individual", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId");
-                });
-
-            modelBuilder.Entity("WebApplication.Models.Individual", b =>
-                {
-                    b.HasOne("WebApplication.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

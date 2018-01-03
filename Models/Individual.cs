@@ -11,9 +11,5 @@ namespace WebApplication.Models
         public string LastName { get; set; }
 
         public DateTime BirthDay { get; set; }
-
-        public string UserId { get; set; }
-
-        public ApplicationUser User { get; set; }
     }
 }

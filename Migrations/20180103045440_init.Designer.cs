@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180103043020_init")]
+    [Migration("20180103045440_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,7 +144,7 @@ namespace gifttracker.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int>("IndividualId");
+                    b.Property<int?>("IndividualId");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -292,8 +292,7 @@ namespace gifttracker.Migrations
                 {
                     b.HasOne("WebApplication.Models.Individual", "Individual")
                         .WithMany()
-                        .HasForeignKey("IndividualId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IndividualId");
                 });
 
             modelBuilder.Entity("WebApplication.Models.Gift", b =>

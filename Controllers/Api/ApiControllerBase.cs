@@ -30,7 +30,7 @@ namespace WebApplication.Controllers.Api
             return user.Id;
         }
 
-        async protected Task<int> GetCurrentIndividualId() {
+        async protected Task<int?> GetCurrentIndividualId() {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             return user.IndividualId;
         }

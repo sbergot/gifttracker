@@ -143,7 +143,7 @@ namespace gifttracker.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int>("IndividualId");
+                    b.Property<int?>("IndividualId");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -291,8 +291,7 @@ namespace gifttracker.Migrations
                 {
                     b.HasOne("WebApplication.Models.Individual", "Individual")
                         .WithMany()
-                        .HasForeignKey("IndividualId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IndividualId");
                 });
 
             modelBuilder.Entity("WebApplication.Models.Gift", b =>

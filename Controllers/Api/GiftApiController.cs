@@ -26,9 +26,13 @@ namespace WebApplication.Controllers.Api
         async public Task<IEnumerable<Gift>> Index()
         {
             var userId = await GetCurrentIndividualId();
+            if (!userId.HasValue)
+            {
+                return new Gift[] {};
+            }
             return _dbContext
                 .Gifts
-                .Where(g => g.OwnerId == userId)
+                .Where(g => g.OwnerId == userId.Value)
                 .Include(g => g.Receiver)
                 .ToList();
         }
@@ -40,7 +44,9 @@ namespace WebApplication.Controllers.Api
                 return BadRequest("trying to post a new gift with positive id");
             }
             inputGift.Id = 0;
-            inputGift.OwnerId = await GetCurrentIndividualId();
+            var userId = await GetCurrentIndividualId();
+            if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
+            inputGift.OwnerId = userId.Value;
             var result = _dbContext.Gifts.Add(inputGift);
             _dbContext.SaveChanges();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
@@ -89,7 +95,8 @@ namespace WebApplication.Controllers.Api
         async private Task<Gift> FetchGift(int id)
         {
             var userId = await GetCurrentIndividualId();
-            return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId);
+            if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
+           return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId.Value);
         }
     }
 }

@@ -3,11 +3,22 @@
 ## status sur le cadeau
 ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
 
-- [ ] enum gift status (None/Reserved/Bought)
-- [ ] gift link to individual_id "Buyer"
+- [x] enum gift status (None/Reserved/Bought)
+- [x] gift link to individual_id "Buyer"
+- [ ] update init script
+- [ ] update client models
 - [ ] edit status + link in the gift edit modal
 
 # Next
+
+## gestion des individus
+- [ ] Création de groupes d'individus (admin only)
+- [ ] Lien d'apartenance nn entre un individu et un groupe (admin only)
+- [ ] Chaque individu a une liste de mails connus (admin). Pas de doublon possible dans la liste complète de mails
+- [ ] A la création du compte, le compte est rattaché à un individu connu selon le mail
+- [ ] lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
+- [ ] par défaut un compte voit les individus des groupes auxquels il appartient
+- [ ] dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
 
 ## layout
 display user name at the top
@@ -19,15 +30,6 @@ timeline des cadeaux offerts à cette personne (par tout le monde)
 liste des prochaines occurences avec la liste des personnes concernées et les idées cadeaux associées. Chanque cadeau n'est représenté que par son lien et son titre. Il est possible de supprimer, d'ajouter, ou d'éditer les cadeaux, ou simplement de suivre le lien. Il est possible d'aller sur la page d'une personne en cliquant sur son nom.
 
 - [ ] naviguer vers la page d'une personne
-
-## gestion des individus
-- [ ] Création de groupes d'individus (admin only)
-- [ ] Lien d'apartenance nn entre un individu et un groupe (admin only)
-- [ ] Chaque individu a une liste de mails connus (admin). Pas de doublon possible dans la liste complète de mails
-- [ ] A la création du compte, le compte est rattaché à un individu connu selon le mail
-- [ ] lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
-- [ ] par défaut un compte voit les individus des groupes auxquels il appartient
-- [ ] dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
 
 ## gestion des events
 - [ ] les events sont administrés par requêtes

@@ -111,17 +111,25 @@ namespace gifttracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    BuyerId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
                     OwnerId = table.Column<int>(nullable: false),
                     PriceInCents = table.Column<int>(nullable: false),
                     ReceiverId = table.Column<int>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Gifts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Gifts_Individuals_BuyerId",
+                        column: x => x.BuyerId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Gifts_Events_EventId",
                         column: x => x.EventId,
@@ -286,6 +294,11 @@ namespace gifttracker.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Gifts_BuyerId",
+                table: "Gifts",
+                column: "BuyerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gifts_EventId",

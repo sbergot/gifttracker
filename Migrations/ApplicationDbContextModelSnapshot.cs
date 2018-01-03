@@ -201,6 +201,8 @@ namespace gifttracker.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("BuyerId");
+
                     b.Property<string>("Description");
 
                     b.Property<int?>("EventId");
@@ -211,11 +213,15 @@ namespace gifttracker.Migrations
 
                     b.Property<int?>("ReceiverId");
 
+                    b.Property<int>("Status");
+
                     b.Property<string>("Title");
 
                     b.Property<string>("Url");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BuyerId");
 
                     b.HasIndex("EventId");
 
@@ -310,6 +316,10 @@ namespace gifttracker.Migrations
 
             modelBuilder.Entity("WebApplication.Models.Gift", b =>
                 {
+                    b.HasOne("WebApplication.Models.Individual", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("BuyerId");
+
                     b.HasOne("WebApplication.Models.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId");

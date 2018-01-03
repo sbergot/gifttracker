@@ -23,5 +23,11 @@ namespace WebApplication.Models
         public int? EventId { get; set; }
 
         public Event Event { get; set; }
+
+        public GiftStatus Status { get; set; }
+
+        public int? BuyerId { get; set; }
+
+        public Individual Buyer { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace WebApplication.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<UserMail>().HasKey(m => m.Mail);
+            builder.Entity<Gift>().Property(g => g.Status).HasDefaultValue(GiftStatus.None);
         }
 
         public DbSet<Gift> Gifts { get; set; }

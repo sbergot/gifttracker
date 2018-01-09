@@ -15,15 +15,17 @@ export class GiftEditStore {
     return {
       id : NEW_GIFT_ID,
       ownerId : 0,
-      occurenceId : 1,
       priceInCents : 0,
       title : "",
       description : "",
       url : "",
       receiverId : null,
       receiver : null,
+      buyerId : null,
+      buyer : null,
       eventId: null,
-      event: null
+      event: null,
+      status: GT.GiftStatus.None
     };
   }
 

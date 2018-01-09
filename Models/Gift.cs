@@ -20,14 +20,14 @@ namespace WebApplication.Models
 
         public Individual Receiver { get; set; }
 
+        public int? BuyerId { get; set; }
+
+        public Individual Buyer { get; set; }
+
         public int? EventId { get; set; }
 
         public Event Event { get; set; }
 
         public GiftStatus Status { get; set; }
-
-        public int? BuyerId { get; set; }
-
-        public Individual Buyer { get; set; }
     }
 }

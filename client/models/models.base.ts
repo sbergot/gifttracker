@@ -1,16 +1,18 @@
 namespace GT {
     export interface Gift {
         id : number;
-        ownerId : number;
-        occurenceId: number;
-        priceInCents: number;
         title : string;
         description : string;
+        priceInCents: number;
         url : string;
+        ownerId : number;
         receiverId : number | null;
         receiver : Individual | null;
+        buyerId : number | null;
+        buyer : Individual | null;
         eventId : number | null;
         event : Event | null;
+        status : GiftStatus
     }
 
     export interface Occurence
@@ -24,6 +26,13 @@ namespace GT {
     {
         Christmas,
         Birthday
+    };
+
+    export enum GiftStatus
+    {
+        None,
+        Reserved,
+        Bought
     };
 
     export interface Event

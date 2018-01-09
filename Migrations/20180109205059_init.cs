@@ -117,7 +117,7 @@ namespace gifttracker.Migrations
                     OwnerId = table.Column<int>(nullable: false),
                     PriceInCents = table.Column<int>(nullable: false),
                     ReceiverId = table.Column<int>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false, defaultValue: 0),
                     Title = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },

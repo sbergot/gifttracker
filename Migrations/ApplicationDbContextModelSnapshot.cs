@@ -213,7 +213,9 @@ namespace gifttracker.Migrations
 
                     b.Property<int?>("ReceiverId");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title");
 

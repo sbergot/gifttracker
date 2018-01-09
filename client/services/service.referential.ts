@@ -1,5 +1,4 @@
 import * as lodash from "lodash";
-import { EventType } from '../models/enums'
 
 export function sortEvents(events: GT.Event[]): GT.Event[] {
     return sortByEvents(events, i => i);
@@ -25,12 +24,12 @@ export function sortByIndividuals<T>(individuals: T[], convert: (i: T) => GT.Ind
         .value();
 }
 
-export function showEventType(et: EventType): string {
+export function showEventType(et: GT.EventType): string {
     switch(et) {
-        case EventType.Birthday:
-        return 'Birthday';
-        case EventType.Christmas:
-        return 'Christmas'
+        case GT.EventType.Birthday:
+            return 'Birthday';
+        case GT.EventType.Christmas:
+            return 'Christmas'
     }
 }
 

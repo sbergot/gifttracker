@@ -4,7 +4,7 @@ import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import { GiftEditStore } from "../stores/store.giftedit"
 import { ReferentialStore } from "../stores/store.referential"
-import { showEvent } from '../services/service.referential';
+import { showEvent, showGiftStatus, allGiftStatus } from '../services/service.referential';
 
 export interface GiftEditProps
 {
@@ -133,6 +133,24 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
               </select>
             </div>
             <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-buyer">Buyer</label>
+              <select
+                className="form-input"
+                id="gift-edit-buyer"
+                value={(this.gift.buyerId || -1).toString()}
+                name="buyerId"
+                onChange={this.onGiftChange} >
+                <option value="">no buyer</option>
+                {
+                  this.props.individuals.map(i => (
+                  <option key={i.id} value={i.id}>
+                    { `${i.firstName} ${i.lastName}` }
+                  </option>
+                    ))
+                }
+              </select>
+            </div>
+            <div className="form-group">
               <label className="form-label" htmlFor="gift-edit-event">Event</label>
               <select
                 className="form-input"
@@ -145,6 +163,23 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                   this.props.events.map(e => (
                     <option key={e.id} value={e.id}>
                       {showEvent(e)}
+                    </option>
+                    ))
+                }
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="gift-edit-status">Status</label>
+              <select
+                className="form-input"
+                id="gift-edit-status"
+                value={(this.gift.status || 0).toString()}
+                name="status"
+                onChange={this.onGiftChange} >
+                {
+                  allGiftStatus.map(s => (
+                    <option key={s} value={s}>
+                      {showGiftStatus(s)}
                     </option>
                     ))
                 }

@@ -29,10 +29,23 @@ export function showEventType(et: GT.EventType): string {
         case GT.EventType.Birthday:
             return 'Birthday';
         case GT.EventType.Christmas:
-            return 'Christmas'
+            return 'Christmas';
     }
 }
 
 export function showEvent(event: GT.Event): string {
     return `${showEventType(event.type)} - ${event.year}`;
 }
+
+export function showGiftStatus(gs: GT.GiftStatus): string {
+    switch(gs) {
+        case GT.GiftStatus.None:
+            return 'None';
+        case GT.GiftStatus.Reserved:
+            return 'Reserved';
+        case GT.GiftStatus.Bought:
+            return 'Bought';
+    }
+}
+
+export const allGiftStatus = [ GT.GiftStatus.None, GT.GiftStatus.Reserved, GT.GiftStatus.Bought ];

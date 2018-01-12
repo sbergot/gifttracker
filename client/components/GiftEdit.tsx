@@ -94,117 +94,127 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
       <div className="modal-body">
         <div className="content">
           <form>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-title">Title</label>
-              <input
-                className="form-input"
-                id="gift-edit-title"
-                placeholder="A short title"
-                name="title"
-                value={this.gift.title}
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-url">Url</label>
-              <input
-                className="form-input"
-                id="gift-edit-url"
-                placeholder="An url to a website"
-                value={this.gift.url || ""}
-                name="url"
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-receiver">Receiver</label>
-              <select
-                className="form-input"
-                id="gift-edit-receiver"
-                value={(this.gift.receiverId || -1).toString()}
-                name="receiverId"
-                onChange={this.onGiftChange} >
-                <option value="">no receiver</option>
-                {
-                  this.props.individuals.map(i => (
-                  <option key={i.id} value={i.id}>
-                    { `${i.firstName} ${i.lastName}` }
-                  </option>
-                    ))
-                }
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-buyer">Buyer</label>
-              <select
-                className="form-input"
-                id="gift-edit-buyer"
-                value={(this.gift.buyerId || -1).toString()}
-                name="buyerId"
-                onChange={this.onGiftChange} >
-                <option value="">no buyer</option>
-                {
-                  this.props.individuals.map(i => (
-                  <option key={i.id} value={i.id}>
-                    { `${i.firstName} ${i.lastName}` }
-                  </option>
-                    ))
-                }
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-event">Event</label>
-              <select
-                className="form-input"
-                id="gift-edit-event"
-                value={(this.gift.eventId || -1).toString()}
-                name="eventId"
-                onChange={this.onGiftChange} >
-                <option value="">no event</option>
-                {
-                  this.props.events.map(e => (
-                    <option key={e.id} value={e.id}>
-                      {showEvent(e)}
-                    </option>
-                    ))
-                }
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-status">Status</label>
-              <select
-                className="form-input"
-                id="gift-edit-status"
-                value={(this.gift.status || 0).toString()}
-                name="status"
-                onChange={this.onGiftChange} >
-                {
-                  allGiftStatus.map(s => (
-                    <option key={s} value={s}>
-                      {showGiftStatus(s)}
-                    </option>
-                    ))
-                }
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-price">Price</label>
-              <input
-                className="form-input"
-                id="gift-edit-price"
-                placeholder="The price in cents of the gift"
-                name="priceInCents"
-                value={this.gift.priceInCents}
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-description">Description</label>
-              <textarea
-                rows={5}
-                className="form-input"
-                id="gift-edit-description"
-                placeholder="detailed descript of the gift"
-                name="description"
-                value={this.gift.description}
-                onChange={this.onGiftChange} />
+            <div className="container">
+              <div className="columns">
+                <div className="column col-12">
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-title">Title</label>
+                    <input
+                      className="form-input"
+                      id="gift-edit-title"
+                      placeholder="A short title"
+                      name="title"
+                      value={this.gift.title}
+                      onChange={this.onGiftChange} />
+                  </div>
+                </div>
+                <div className="column col-6">
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-receiver">Receiver</label>
+                    <select
+                      className="form-input"
+                      id="gift-edit-receiver"
+                      value={(this.gift.receiverId || -1).toString()}
+                      name="receiverId"
+                      onChange={this.onGiftChange} >
+                      <option value="">no receiver</option>
+                      {
+                        this.props.individuals.map(i => (
+                        <option key={i.id} value={i.id}>
+                          { `${i.firstName} ${i.lastName}` }
+                        </option>
+                          ))
+                      }
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-buyer">Buyer</label>
+                    <select
+                      className="form-input"
+                      id="gift-edit-buyer"
+                      value={(this.gift.buyerId || -1).toString()}
+                      name="buyerId"
+                      onChange={this.onGiftChange} >
+                      <option value="">no buyer</option>
+                      {
+                        this.props.individuals.map(i => (
+                        <option key={i.id} value={i.id}>
+                          { `${i.firstName} ${i.lastName}` }
+                        </option>
+                          ))
+                      }
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-event">Event</label>
+                    <select
+                      className="form-input"
+                      id="gift-edit-event"
+                      value={(this.gift.eventId || -1).toString()}
+                      name="eventId"
+                      onChange={this.onGiftChange} >
+                      <option value="">no event</option>
+                      {
+                        this.props.events.map(e => (
+                          <option key={e.id} value={e.id}>
+                            {showEvent(e)}
+                          </option>
+                          ))
+                      }
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-status">Status</label>
+                    <select
+                      className="form-input"
+                      id="gift-edit-status"
+                      value={(this.gift.status || 0).toString()}
+                      name="status"
+                      onChange={this.onGiftChange} >
+                      {
+                        allGiftStatus.map(s => (
+                          <option key={s} value={s}>
+                            {showGiftStatus(s)}
+                          </option>
+                          ))
+                      }
+                    </select>
+                  </div>
+                </div>
+                <div className="column col-6">
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-url">Url</label>
+                    <input
+                      className="form-input"
+                      id="gift-edit-url"
+                      placeholder="An url to a website"
+                      value={this.gift.url || ""}
+                      name="url"
+                      onChange={this.onGiftChange} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-price">Price</label>
+                    <input
+                      className="form-input"
+                      id="gift-edit-price"
+                      placeholder="The price in cents of the gift"
+                      name="priceInCents"
+                      value={this.gift.priceInCents}
+                      onChange={this.onGiftChange} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-description">Description</label>
+                    <textarea
+                      rows={5}
+                      className="form-input"
+                      id="gift-edit-description"
+                      placeholder="detailed descript of the gift"
+                      name="description"
+                      value={this.gift.description}
+                      onChange={this.onGiftChange} />
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>

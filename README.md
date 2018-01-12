@@ -1,17 +1,5 @@
 # Now
 
-## status sur le cadeau
-ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
-
-- [x] enum gift status (None/Reserved/Bought)
-- [x] gift link to individual_id "Buyer"
-- [x] update init script
-- [x] update client models
-- [ ] edit status + link in the gift edit modal
-
-## layout édition
-- [ ] split the edition form into 2 columns
-
 ## init data
 - [ ] init real individual names
 

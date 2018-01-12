@@ -1,4 +1,5 @@
 import * as lodash from "lodash";
+import { GiftStatus, EventType } from '../models/enums';
 
 export function sortEvents(events: GT.Event[]): GT.Event[] {
     return sortByEvents(events, i => i);
@@ -24,11 +25,11 @@ export function sortByIndividuals<T>(individuals: T[], convert: (i: T) => GT.Ind
         .value();
 }
 
-export function showEventType(et: GT.EventType): string {
+export function showEventType(et: EventType): string {
     switch(et) {
-        case GT.EventType.Birthday:
+        case EventType.Birthday:
             return 'Birthday';
-        case GT.EventType.Christmas:
+        case EventType.Christmas:
             return 'Christmas';
     }
 }
@@ -37,15 +38,15 @@ export function showEvent(event: GT.Event): string {
     return `${showEventType(event.type)} - ${event.year}`;
 }
 
-export function showGiftStatus(gs: GT.GiftStatus): string {
+export function showGiftStatus(gs: GiftStatus): string {
     switch(gs) {
-        case GT.GiftStatus.None:
+        case GiftStatus.None:
             return 'None';
-        case GT.GiftStatus.Reserved:
+        case GiftStatus.Reserved:
             return 'Reserved';
-        case GT.GiftStatus.Bought:
+        case GiftStatus.Bought:
             return 'Bought';
     }
 }
 
-export const allGiftStatus = [ GT.GiftStatus.None, GT.GiftStatus.Reserved, GT.GiftStatus.Bought ];
+export const allGiftStatus = [ GiftStatus.None, GiftStatus.Reserved, GiftStatus.Bought ];

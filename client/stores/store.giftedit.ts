@@ -1,5 +1,6 @@
 import { observable } from "mobx";
 import * as data from "../data/data.gift";
+import { GiftStatus } from '../models/enums';
 
 const NEW_GIFT_ID = -1;
 
@@ -25,7 +26,7 @@ export class GiftEditStore {
       buyer : null,
       eventId: null,
       event: null,
-      status: GT.GiftStatus.None
+      status: GiftStatus.None
     };
   }
 

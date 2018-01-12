@@ -1,9 +1,8 @@
 # Now
 
 ## init data
-- [ ] init real individual names
-
-# Next
+- [x] init real individual names
+- [ ] put real birthdates
 
 ## gestion des individus
 - [ ] Création de groupes d'individus (admin only)
@@ -13,6 +12,8 @@
 - [ ] lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
 - [ ] par défaut un compte voit les individus des groupes auxquels il appartient
 - [ ] dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
+
+# Next
 
 ## gestion des events
 - [ ] les events sont administrés par requêtes

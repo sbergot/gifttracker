@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180109205059_init")]
+    [Migration("20180113150537_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,6 +251,31 @@ namespace gifttracker.Migrations
                     b.ToTable("Individuals");
                 });
 
+            modelBuilder.Entity("WebApplication.Models.IndividualGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IndividualGroup");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualInGroup", b =>
+                {
+                    b.Property<int>("IndividualId");
+
+                    b.Property<int>("GroupId");
+
+                    b.HasKey("IndividualId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("IndividualInGroups");
+                });
+
             modelBuilder.Entity("WebApplication.Models.UserMail", b =>
                 {
                     b.Property<string>("Mail")
@@ -335,6 +360,19 @@ namespace gifttracker.Migrations
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualInGroup", b =>
+                {
+                    b.HasOne("WebApplication.Models.IndividualGroup", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication.Models.Individual", "Individual")
+                        .WithMany()
+                        .HasForeignKey("IndividualId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApplication.Models.UserMail", b =>

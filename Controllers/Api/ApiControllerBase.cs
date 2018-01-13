@@ -52,5 +52,14 @@ namespace WebApplication.Controllers.Api
                 .ToList();
 
         }
+
+        protected IQueryable<Gift> GetVisibleGifts(int userId) {
+            return _dbContext
+                .Gifts
+                .Where(g => (userId == g.OwnerId)
+                    || (g.IsVisibleToReceiver ?? false) && (userId == g.ReceiverId)
+                    || (g.IsVisibleToOthers ?? false) && (userId != g.ReceiverId)
+                );
+        }
     }
 }

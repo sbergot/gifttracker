@@ -8,8 +8,11 @@ flags sur une idée de cadeau:
 Seul l'owner peut modifier le flag
 L'owner voit toujours l'idée
 
-- [ ] créer les flags sur la table gift (VisibleToReceiver, VisibleToOthers)
-- [ ] implémenter les règles de visibilité
+- [x] créer les flags sur la table gift (VisibleToReceiver, VisibleToOthers)
+- [x] implémenter les règles de visibilité
+- [ ] si on veut éditer une idée et que l'on n'est pas owner, la modale s'affiche en désactivée
+- [ ] afficher le owner de l'idée dans la boîte d'édition
+- [ ] corriger erreur forbidden qui donne redirect/404
 - [ ] permettre à l'owner de modifier les flags dans l'édition de l'idée
 
 # Next

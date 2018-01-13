@@ -30,11 +30,7 @@ namespace WebApplication.Controllers.Api
             {
                 return new Gift[] {};
             }
-            return _dbContext
-                .Gifts
-                .Where(g => g.OwnerId == userId.Value)
-                .Include(g => g.Receiver)
-                .ToList();
+            return this.GetVisibleGifts(userId.Value).ToList();
         }
 
         [HttpPost]

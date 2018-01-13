@@ -1,4 +1,5 @@
 DO $$
+
     DECLARE sbergot int;
     DECLARE cabollengier int;
     DECLARE mbergot int;
@@ -13,11 +14,26 @@ DO $$
     DECLARE nhenderson int;
     DECLARE gbollengier int;
     DECLARE adegroote int;
+
+    DECLARE group_bergot int;
+    DECLARE group_bollengier int;
+
     DECLARE evt_1 int;
     DECLARE evt_2 int;
     DECLARE evt_3 int;
     DECLARE evt_4 int;
+
     BEGIN
+
+    INSERT INTO public."IndividualGroup"(
+        "Name")
+        VALUES ('Bergot')
+    RETURNING "Id" INTO group_bergot;
+
+    INSERT INTO public."IndividualGroup"(
+        "Name")
+        VALUES ('Bollengier')
+    RETURNING "Id" INTO group_bollengier;
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -28,6 +44,14 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('simon.bergot@gmail.com', sbergot);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (sbergot, group_bergot);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (sbergot, group_bollengier);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Camille', 'Bollengier', '1985-03-19')
@@ -36,6 +60,14 @@ DO $$
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
         VALUES ('camille.bollengier@gmail.com', cabollengier);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (cabollengier, group_bergot);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (cabollengier, group_bollengier);
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -46,6 +78,10 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('mathieu.bergot@gmail.com', mbergot);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (mbergot, group_bergot);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('David', 'Bergot', '1983-02-24')
@@ -54,6 +90,10 @@ DO $$
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
         VALUES ('david.bergot@gmail.com', dbergot);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (dbergot, group_bergot);
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -64,6 +104,10 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('francoise.marie.bergot@gmail.com', fbergot);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (fbergot, group_bergot);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Jean-Yves', 'Bergot', '1957-07-04')
@@ -72,6 +116,10 @@ DO $$
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
         VALUES ('jeanyves.bergot@gmail.com', jybergot);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (jybergot, group_bergot);
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -82,6 +130,10 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('cyrille.bollengier@gmail.com', cybollengier);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (cybollengier, group_bollengier);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Clément', 'Bollengier', '1988-02-07')
@@ -90,6 +142,10 @@ DO $$
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
         VALUES ('clement.bollengier@gmail.com', clbollengier);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (clbollengier, group_bollengier);
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -100,6 +156,10 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('rose.marie.bollengier@gmail.com', rmbollengier);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (rmbollengier, group_bollengier);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Marcel', 'Bollengier', '1950-03-13')
@@ -108,6 +168,10 @@ DO $$
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
         VALUES ('mbollengier@gmail.com', mbollengier);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (mbollengier, group_bollengier);
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -118,6 +182,10 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('berangere.rossi@gmail.com', brossi);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (brossi, group_bergot);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Narelle', 'Henderson', '1987-01-30')
@@ -126,6 +194,10 @@ DO $$
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
         VALUES ('narelle.henderson@hotmail.com', nhenderson);
+
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (nhenderson, group_bergot);
 
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
@@ -136,6 +208,10 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('georginarivera.sanchez@gmail.com', gbollengier);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (gbollengier, group_bollengier);
+
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Aurélie', 'Degroote', '1988-04-06')
@@ -145,14 +221,18 @@ DO $$
         "Mail", "IndividualId")
         VALUES ('aurelie.degroote@gmail.com', adegroote);
 
+    INSERT INTO public."IndividualInGroups"(
+        "IndividualId", "GroupId")
+        VALUES (adegroote, group_bollengier);
+
     INSERT INTO public."Events"(
         "Type", "Year")
-        VALUES (0, 2016)
+        VALUES (0, 2018)
     RETURNING "Id" INTO evt_1;
 
     INSERT INTO public."Events"(
         "Type", "Year")
-        VALUES (1, 2016)
+        VALUES (1, 2018)
     RETURNING "Id" INTO evt_2;
 
     INSERT INTO public."Events"(

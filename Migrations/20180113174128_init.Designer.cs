@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180113154029_init")]
+    [Migration("20180113174128_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,6 +207,14 @@ namespace gifttracker.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int?>("EventId");
+
+                    b.Property<bool?>("IsVisibleToOthers")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsVisibleToReceiver")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<int>("OwnerId");
 

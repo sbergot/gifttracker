@@ -29,5 +29,9 @@ namespace WebApplication.Models
         public Event Event { get; set; }
 
         public GiftStatus Status { get; set; }
+
+        public bool? IsVisibleToReceiver { get; set; }
+
+        public bool? IsVisibleToOthers { get; set; }
     }
 }

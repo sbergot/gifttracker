@@ -127,6 +127,8 @@ namespace gifttracker.Migrations
                     BuyerId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
+                    IsVisibleToOthers = table.Column<bool>(nullable: true, defaultValue: false),
+                    IsVisibleToReceiver = table.Column<bool>(nullable: true, defaultValue: false),
                     OwnerId = table.Column<int>(nullable: false),
                     PriceInCents = table.Column<int>(nullable: false),
                     ReceiverId = table.Column<int>(nullable: true),

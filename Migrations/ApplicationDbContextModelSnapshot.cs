@@ -207,6 +207,14 @@ namespace gifttracker.Migrations
 
                     b.Property<int?>("EventId");
 
+                    b.Property<bool?>("IsVisibleToOthers")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsVisibleToReceiver")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
                     b.Property<int>("OwnerId");
 
                     b.Property<int>("PriceInCents");

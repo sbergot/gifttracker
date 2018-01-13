@@ -1,8 +1,24 @@
 # Now
 
+## Gestion des droits
+flags sur une idée de cadeau:
+- permettre au destinataire de voir l'idée
+- permettre aux autres de voir l'idée
+
+Seul l'owner peut modifier le flag
+L'owner voit toujours l'idée
+
+- [ ] créer les flags sur la table gift (VisibleToReceiver, VisibleToOthers)
+- [ ] implémenter les règles de visibilité
+- [ ] permettre à l'owner de modifier les flags dans l'édition de l'idée
+
+# Next
+
+## write some documentation
+
 ## init data
-- [x] init real individual names
-- [ ] put real birthdates
+- [ ] add the younger generation
+- [ ] check birthdates
 
 ## gestion des individus
 Création de groupes d'individus (admin only)
@@ -12,16 +28,7 @@ lien de visibilité nn entre un compte et les individus (configurable par le com
 par défaut un compte voit les individus des groupes auxquels il appartient
 dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
 
-- [x] Créer model backend du groupe
-- [x] mise à jour du script init pour spécifier les groupes
-- [x] Chaque individu a une liste de mails connus (admin). Pas de doublon possible dans la liste complète de mails
-- [x] A la création du compte, le compte est rattaché à un individu connu selon le mail
-- [x] créer le modèle de visibilité des individus
-- [x] initialiser les données de visibilité à la création du compte
-- [ ] prendre en compte la visibilité dans les référentiels
 - [ ] créer page d'administration de la visibilité
-
-# Next
 
 ## gestion des events
 - [ ] les events sont administrés par requêtes
@@ -29,12 +36,6 @@ dans l'interface, les dropdowns ne montrent que les individus visibles pour ce c
 - [ ] par défaut un compte voit les events de l'année courante
 - [ ] dans l'interface, les dropdowns ne montrent que les events visibles pour ce compte
 
-## Gestion des droits
-flags sur un cadeau (ou sur un lien user / individu?):
-- permettre au destinataire de voir l'idée
-- permettre aux autres de voir l'idée
-
-L'owner voit toujours l'idée
 
 ## layout général
 - [ ] display user name at the top
@@ -51,6 +52,5 @@ liste des prochaines occurences avec la liste des personnes concernées et les i
 - [ ] valider les entrées du formulaire (prix, url?)
 
 ## autres
-pouvoir lister les cadeaux pour une personne
 pouvoir filtrer sur mes idées ou les idées des autres
-détection de doublons avec un cadeau passé ou une idée de cadeaux
+

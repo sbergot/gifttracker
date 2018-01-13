@@ -133,6 +133,14 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
       </div>);
   }
 
+  getIndividualOptions() {
+    return this.props.individuals.map(individual => (
+      {
+        value: individual.id,
+        descr: `${individual.firstName} ${individual.lastName}`
+      }))
+  }
+
   render()
   {
     //var individuals = this.props.
@@ -155,48 +163,36 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                       this.dropDownField(
                         'receiverId',
                         'Receiver',
-                        this.props.individuals.map(i => (
-                          {
-                            value: i.id,
-                            descr: `${i.firstName} ${i.lastName}`
-                          })),
-                        'no receiver'
-                      )
+                        this.getIndividualOptions(),
+                        'no receiver')
                   }
                   {
                       this.dropDownField(
                         'buyerId',
                         'Buyer',
-                        this.props.individuals.map(i => (
-                          {
-                            value: i.id,
-                            descr: `${i.firstName} ${i.lastName}`
-                          })),
-                        'no buyer'
-                          )
+                        this.getIndividualOptions(),
+                        'no buyer')
                   }
                   {
                       this.dropDownField(
                         'eventId',
                         'Event',
-                        this.props.events.map(e => (
+                        this.props.events.map(event => (
                           {
-                            value: e.id,
-                            descr: showEvent(e)
+                            value: event.id,
+                            descr: showEvent(event)
                           })),
-                        'no event'
-                        )
+                        'no event')
                   }
                   {
                       this.dropDownField(
                         'status',
                         'Status',
-                        allGiftStatus.map(s => (
+                        allGiftStatus.map(status => (
                           {
-                            value: s,
-                            descr: showGiftStatus(s)
-                          }))
-                      )
+                            value: status,
+                            descr: showGiftStatus(status)
+                          })))
                   }
                 </div>
                 <div className="column col-6">

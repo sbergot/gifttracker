@@ -12,7 +12,7 @@ DO $$
     DECLARE brossi int;
     DECLARE nhenderson int;
     DECLARE gbollengier int;
-    DECLARE adegroot int;
+    DECLARE adegroote int;
     DECLARE evt_1 int;
     DECLARE evt_2 int;
     DECLARE evt_3 int;
@@ -139,11 +139,11 @@ DO $$
     INSERT INTO public."Individuals"(
         "FirstName", "LastName", "BirthDay")
         VALUES ('Aurélie', 'Degroote', '1988-04-06')
-    RETURNING "Id" INTO adegroot;
+    RETURNING "Id" INTO adegroote;
 
     INSERT INTO public."UserMails"(
         "Mail", "IndividualId")
-        VALUES ('aurelie.degroote@gmail.com', adegroot);
+        VALUES ('aurelie.degroote@gmail.com', adegroote);
 
     INSERT INTO public."Events"(
         "Type", "Year")

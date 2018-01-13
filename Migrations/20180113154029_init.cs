@@ -188,6 +188,30 @@ namespace gifttracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IndividualVisibility",
+                columns: table => new
+                {
+                    ViewerId = table.Column<int>(nullable: false),
+                    ViewedId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndividualVisibility", x => new { x.ViewerId, x.ViewedId });
+                    table.ForeignKey(
+                        name: "FK_IndividualVisibility_Individuals_ViewedId",
+                        column: x => x.ViewedId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IndividualVisibility_Individuals_ViewerId",
+                        column: x => x.ViewerId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserMails",
                 columns: table => new
                 {
@@ -358,6 +382,11 @@ namespace gifttracker.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_IndividualVisibility_ViewedId",
+                table: "IndividualVisibility",
+                column: "ViewedId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserMails_IndividualId",
                 table: "UserMails",
                 column: "IndividualId");
@@ -385,6 +414,9 @@ namespace gifttracker.Migrations
 
             migrationBuilder.DropTable(
                 name: "IndividualInGroups");
+
+            migrationBuilder.DropTable(
+                name: "IndividualVisibility");
 
             migrationBuilder.DropTable(
                 name: "UserMails");

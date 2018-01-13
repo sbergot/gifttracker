@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180113150537_init")]
+    [Migration("20180113154029_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,6 +276,19 @@ namespace gifttracker.Migrations
                     b.ToTable("IndividualInGroups");
                 });
 
+            modelBuilder.Entity("WebApplication.Models.IndividualVisibility", b =>
+                {
+                    b.Property<int>("ViewerId");
+
+                    b.Property<int>("ViewedId");
+
+                    b.HasKey("ViewerId", "ViewedId");
+
+                    b.HasIndex("ViewedId");
+
+                    b.ToTable("IndividualVisibility");
+                });
+
             modelBuilder.Entity("WebApplication.Models.UserMail", b =>
                 {
                     b.Property<string>("Mail")
@@ -372,6 +385,19 @@ namespace gifttracker.Migrations
                     b.HasOne("WebApplication.Models.Individual", "Individual")
                         .WithMany()
                         .HasForeignKey("IndividualId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualVisibility", b =>
+                {
+                    b.HasOne("WebApplication.Models.Individual", "Viewed")
+                        .WithMany()
+                        .HasForeignKey("ViewedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication.Models.Individual", "Viewer")
+                        .WithMany()
+                        .HasForeignKey("ViewerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

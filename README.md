@@ -8,13 +8,18 @@
 Création de groupes d'individus (admin only)
 Lien d'apartenance nn entre un individu et un groupe (admin only)
 
-- [ ] Créer model backend du groupe
-- [ ] mise à jour du script init pour spécifier les groupes
+lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
+par défaut un compte voit les individus des groupes auxquels il appartient
+dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
+
+- [x] Créer model backend du groupe
+- [x] mise à jour du script init pour spécifier les groupes
 - [x] Chaque individu a une liste de mails connus (admin). Pas de doublon possible dans la liste complète de mails
 - [x] A la création du compte, le compte est rattaché à un individu connu selon le mail
-- [ ] lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
-- [ ] par défaut un compte voit les individus des groupes auxquels il appartient
-- [ ] dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
+- [x] créer le modèle de visibilité des individus
+- [x] initialiser les données de visibilité à la création du compte
+- [ ] prendre en compte la visibilité dans les référentiels
+- [ ] créer page d'administration de la visibilité
 
 # Next
 

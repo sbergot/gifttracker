@@ -20,6 +20,7 @@ namespace WebApplication.Data
             builder.Entity<UserMail>().HasKey(m => m.Mail);
             builder.Entity<Gift>().Property(g => g.Status).HasDefaultValue(GiftStatus.None);
             builder.Entity<IndividualInGroup>().HasKey(ig => new { ig.IndividualId, ig.GroupId });
+            builder.Entity<IndividualVisibility>().HasKey(ig => new { ig.ViewerId, ig.ViewedId });
         }
 
         public DbSet<Gift> Gifts { get; set; }
@@ -31,5 +32,7 @@ namespace WebApplication.Data
         public DbSet<UserMail> UserMails { get; set; }
 
         public DbSet<IndividualInGroup> IndividualInGroups { get; set; }
+
+        public DbSet<IndividualVisibility> IndividualVisibility { get; set; }
     }
 }

@@ -38,7 +38,7 @@ namespace WebApplication.Controllers.Api
                         Gifts = gs.ToList()
                     })
                 .ToListAsync();
-            List<WebApplication.Models.Individual> individuals = await _dbContext.Individuals.ToListAsync();
+            List<WebApplication.Models.Individual> individuals = await this.GetVisibleIndividuals();
             ViewModels.TimeLine result = new ViewModels.TimeLine
             {
                 Events = events,

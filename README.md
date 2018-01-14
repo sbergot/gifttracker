@@ -1,12 +1,9 @@
 # Now
 
 ## Gestion des droits
-flags sur une idée de cadeau:
-- permettre au destinataire de voir l'idée
-- permettre aux autres de voir l'idée
-
-Seul l'owner peut modifier le flag
-L'owner voit toujours l'idée
+flag sur une idée de cadeau: permettre aux autres de voir l'idée (sauf destinataire)
+Seul l'owner peut modifier le flag. L'owner voit toujours l'idée.
+Ceux qui peuvent voir l'idée peuvent la modifier.
 
 - [x] créer les flags sur la table gift (VisibleToReceiver, VisibleToOthers)
 - [x] implémenter les règles de visibilité

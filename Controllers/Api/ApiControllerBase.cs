@@ -57,7 +57,6 @@ namespace WebApplication.Controllers.Api
             return _dbContext
                 .Gifts
                 .Where(g => (userId == g.OwnerId)
-                    || (g.IsVisibleToReceiver ?? false) && (userId == g.ReceiverId)
                     || (g.IsVisibleToOthers ?? false) && (userId != g.ReceiverId)
                 );
         }

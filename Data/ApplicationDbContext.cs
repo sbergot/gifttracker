@@ -19,8 +19,7 @@ namespace WebApplication.Data
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<UserMail>().HasKey(m => m.Mail);
             builder.Entity<Gift>().Property(g => g.Status).HasDefaultValue(GiftStatus.None);
-            builder.Entity<Gift>().Property(g => g.IsVisibleToReceiver).HasDefaultValue(false);
-            builder.Entity<Gift>().Property(g => g.IsVisibleToOthers).HasDefaultValue(false);
+            builder.Entity<Gift>().Property(g => g.IsVisibleToOthers).HasDefaultValue(true);
             builder.Entity<IndividualInGroup>().HasKey(ig => new { ig.IndividualId, ig.GroupId });
             builder.Entity<IndividualVisibility>().HasKey(ig => new { ig.ViewerId, ig.ViewedId });
         }

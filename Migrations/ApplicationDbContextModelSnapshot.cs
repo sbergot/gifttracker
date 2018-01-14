@@ -209,11 +209,7 @@ namespace gifttracker.Migrations
 
                     b.Property<bool?>("IsVisibleToOthers")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
-                    b.Property<bool?>("IsVisibleToReceiver")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                        .HasDefaultValue(true);
 
                     b.Property<int>("OwnerId");
 

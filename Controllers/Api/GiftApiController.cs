@@ -92,7 +92,7 @@ namespace WebApplication.Controllers.Api
         {
             var userId = await GetCurrentIndividualId();
             if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
-           return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId.Value);
+            return this.GetVisibleGifts(userId.Value).FirstOrDefault(g => g.Id == id);
         }
     }
 }

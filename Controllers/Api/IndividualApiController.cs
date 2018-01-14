@@ -27,7 +27,7 @@ namespace WebApplication.Controllers.Api
         {
             var userId = await GetCurrentIndividualId();
             return _dbContext.Individuals.GroupJoin(
-                _dbContext.Gifts.Where(g => g.OwnerId == userId),
+                this.GetVisibleGifts(userId.Value),
                 i => i.Id,
                 g => g.ReceiverId,
                 (i, gs) => new IndividualWithGifts {

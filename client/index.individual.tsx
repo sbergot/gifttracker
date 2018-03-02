@@ -5,16 +5,16 @@ import { observable, computed } from "mobx";
 import { getIndividuals } from "./data/data.individual"
 
 @observer
-class IndividualApp extends React.Component<{}, {}>
+class IndividualApp extends React.Component<{}>
 {
   @observable
   individuals: GT.IndividualWithGifts[] = [];
 
-  constructor()
+  constructor(props: {})
   {
-    super();
+    super(props);
     getIndividuals().then((r) => {
-      this.individuals = r;
+      this.individuals = r; 
     });
   }
 

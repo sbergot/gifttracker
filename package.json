@@ -14,13 +14,15 @@
     "@types/lodash": "^4.14.104",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
-    "awesome-typescript-loader": "^3.5.0",
     "source-map-loader": "^0.2.3",
+    "ts-loader": "^4.0.0",
     "typescript": "^2.7.2",
-    "webpack": "^4.0.1"
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10"
   },
   "scripts": {
-    "dev": "webpack",
-    "watch": "webpack --watch"
+    "dev": "webpack --mode development",
+    "prod": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
   }
 }

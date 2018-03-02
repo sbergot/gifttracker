@@ -29,8 +29,7 @@ namespace WebApplication.Controllers.Api
             var userId = await GetCurrentIndividualId();
             List<ViewModels.EventWithGifts> events = await _dbContext.Events
                 .GroupJoin(
-                    _dbContext.Gifts
-                        .Where(g => g.OwnerId == userId),
+                    this.GetVisibleGifts(userId.Value),
                     evt => evt.Id,
                     gift => gift.EventId,
                     (evt, gs) => new ViewModels.EventWithGifts {
@@ -38,7 +37,7 @@ namespace WebApplication.Controllers.Api
                         Gifts = gs.ToList()
                     })
                 .ToListAsync();
-            List<WebApplication.Models.Individual> individuals = await _dbContext.Individuals.ToListAsync();
+            List<WebApplication.Models.Individual> individuals = await this.GetVisibleIndividuals();
             ViewModels.TimeLine result = new ViewModels.TimeLine
             {
                 Events = events,

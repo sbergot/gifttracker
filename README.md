@@ -1,27 +1,34 @@
 # Now
 
-## status sur le cadeau
-ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
+## Gestion des droits
+flag sur une idée de cadeau: permettre aux autres de voir l'idée (sauf destinataire)
+Seul l'owner peut modifier le flag. L'owner voit toujours l'idée.
+Ceux qui peuvent voir l'idée peuvent la modifier.
 
-- [x] enum gift status (None/Reserved/Bought)
-- [x] gift link to individual_id "Buyer"
-- [ ] update init script
-- [ ] update client models
-- [ ] edit status + link in the gift edit modal
-
-## layout édition
-- [ ] split the edition form into 2 columns
+- [x] créer les flags sur la table gift (VisibleToReceiver, VisibleToOthers)
+- [x] implémenter les règles de visibilité
+- [ ] si on veut éditer une idée et que l'on n'est pas owner, la modale s'affiche en désactivée
+- [ ] afficher le owner de l'idée dans la boîte d'édition
+- [ ] corriger erreur forbidden qui donne redirect/404
+- [ ] permettre à l'owner de modifier les flags dans l'édition de l'idée
 
 # Next
 
+## write some documentation
+
+## init data
+- [ ] add the younger generation
+- [ ] check birthdates
+
 ## gestion des individus
-- [ ] Création de groupes d'individus (admin only)
-- [ ] Lien d'apartenance nn entre un individu et un groupe (admin only)
-- [ ] Chaque individu a une liste de mails connus (admin). Pas de doublon possible dans la liste complète de mails
-- [ ] A la création du compte, le compte est rattaché à un individu connu selon le mail
-- [ ] lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
-- [ ] par défaut un compte voit les individus des groupes auxquels il appartient
-- [ ] dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
+Création de groupes d'individus (admin only)
+Lien d'apartenance nn entre un individu et un groupe (admin only)
+
+lien de visibilité nn entre un compte et les individus (configurable par le compte en question).
+par défaut un compte voit les individus des groupes auxquels il appartient
+dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
+
+- [ ] créer page d'administration de la visibilité
 
 ## gestion des events
 - [ ] les events sont administrés par requêtes
@@ -29,12 +36,6 @@ ajouter un statut "acheté" ou "pris par" avec un lien vers un individu acheteur
 - [ ] par défaut un compte voit les events de l'année courante
 - [ ] dans l'interface, les dropdowns ne montrent que les events visibles pour ce compte
 
-## Gestion des droits
-flags sur un cadeau (ou sur un lien user / individu?):
-- permettre au destinataire de voir l'idée
-- permettre aux autres de voir l'idée
-
-L'owner voit toujours l'idée
 
 ## layout général
 - [ ] display user name at the top
@@ -51,6 +52,5 @@ liste des prochaines occurences avec la liste des personnes concernées et les i
 - [ ] valider les entrées du formulaire (prix, url?)
 
 ## autres
-pouvoir lister les cadeaux pour une personne
 pouvoir filtrer sur mes idées ou les idées des autres
-détection de doublons avec un cadeau passé ou une idée de cadeaux
+

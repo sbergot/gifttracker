@@ -25,9 +25,8 @@ namespace WebApplication.Controllers.Api
         [HttpGet]
         async public Task<ReferentialData> Index()
         {
-            var userId = await GetUserId();
-            var individuals = _dbContext.Individuals.ToList();
             var events = _dbContext.Events.ToList();
+            var individuals = await this.GetVisibleIndividuals();
             return new ReferentialData
             {
                 Individuals = individuals,

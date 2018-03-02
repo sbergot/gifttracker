@@ -12,7 +12,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180103131230_init")]
+    [Migration("20180114075717_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,13 +208,19 @@ namespace gifttracker.Migrations
 
                     b.Property<int?>("EventId");
 
+                    b.Property<bool?>("IsVisibleToOthers")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
                     b.Property<int>("OwnerId");
 
                     b.Property<int>("PriceInCents");
 
                     b.Property<int?>("ReceiverId");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title");
 
@@ -247,6 +253,44 @@ namespace gifttracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Individuals");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IndividualGroup");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualInGroup", b =>
+                {
+                    b.Property<int>("IndividualId");
+
+                    b.Property<int>("GroupId");
+
+                    b.HasKey("IndividualId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("IndividualInGroups");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualVisibility", b =>
+                {
+                    b.Property<int>("ViewerId");
+
+                    b.Property<int>("ViewedId");
+
+                    b.HasKey("ViewerId", "ViewedId");
+
+                    b.HasIndex("ViewedId");
+
+                    b.ToTable("IndividualVisibility");
                 });
 
             modelBuilder.Entity("WebApplication.Models.UserMail", b =>
@@ -333,6 +377,32 @@ namespace gifttracker.Migrations
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualInGroup", b =>
+                {
+                    b.HasOne("WebApplication.Models.IndividualGroup", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication.Models.Individual", "Individual")
+                        .WithMany()
+                        .HasForeignKey("IndividualId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApplication.Models.IndividualVisibility", b =>
+                {
+                    b.HasOne("WebApplication.Models.Individual", "Viewed")
+                        .WithMany()
+                        .HasForeignKey("ViewedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication.Models.Individual", "Viewer")
+                        .WithMany()
+                        .HasForeignKey("ViewerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApplication.Models.UserMail", b =>

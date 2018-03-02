@@ -1,5 +1,6 @@
 import { observable } from "mobx";
 import * as data from "../data/data.gift";
+import { GiftStatus } from '../models/enums';
 
 const NEW_GIFT_ID = -1;
 
@@ -15,15 +16,17 @@ export class GiftEditStore {
     return {
       id : NEW_GIFT_ID,
       ownerId : 0,
-      occurenceId : 1,
       priceInCents : 0,
       title : "",
       description : "",
       url : "",
       receiverId : null,
       receiver : null,
+      buyerId : null,
+      buyer : null,
       eventId: null,
-      event: null
+      event: null,
+      status: GiftStatus.None
     };
   }
 

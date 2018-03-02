@@ -30,11 +30,7 @@ namespace WebApplication.Controllers.Api
             {
                 return new Gift[] {};
             }
-            return _dbContext
-                .Gifts
-                .Where(g => g.OwnerId == userId.Value)
-                .Include(g => g.Receiver)
-                .ToList();
+            return this.GetVisibleGifts(userId.Value).ToList();
         }
 
         [HttpPost]
@@ -96,7 +92,7 @@ namespace WebApplication.Controllers.Api
         {
             var userId = await GetCurrentIndividualId();
             if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
-           return _dbContext.Gifts.FirstOrDefault(g => g.Id == id && g.OwnerId == userId.Value);
+            return this.GetVisibleGifts(userId.Value).FirstOrDefault(g => g.Id == id);
         }
     }
 }

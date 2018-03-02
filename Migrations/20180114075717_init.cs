@@ -38,6 +38,19 @@ namespace gifttracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IndividualGroup",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndividualGroup", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Individuals",
                 columns: table => new
                 {
@@ -114,10 +127,11 @@ namespace gifttracker.Migrations
                     BuyerId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
+                    IsVisibleToOthers = table.Column<bool>(nullable: true, defaultValue: true),
                     OwnerId = table.Column<int>(nullable: false),
                     PriceInCents = table.Column<int>(nullable: false),
                     ReceiverId = table.Column<int>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false, defaultValue: 0),
                     Title = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },
@@ -148,6 +162,54 @@ namespace gifttracker.Migrations
                         principalTable: "Individuals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IndividualInGroups",
+                columns: table => new
+                {
+                    IndividualId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndividualInGroups", x => new { x.IndividualId, x.GroupId });
+                    table.ForeignKey(
+                        name: "FK_IndividualInGroups_IndividualGroup_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "IndividualGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IndividualInGroups_Individuals_IndividualId",
+                        column: x => x.IndividualId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IndividualVisibility",
+                columns: table => new
+                {
+                    ViewerId = table.Column<int>(nullable: false),
+                    ViewedId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndividualVisibility", x => new { x.ViewerId, x.ViewedId });
+                    table.ForeignKey(
+                        name: "FK_IndividualVisibility_Individuals_ViewedId",
+                        column: x => x.ViewedId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IndividualVisibility_Individuals_ViewerId",
+                        column: x => x.ViewerId,
+                        principalTable: "Individuals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,6 +378,16 @@ namespace gifttracker.Migrations
                 column: "ReceiverId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_IndividualInGroups_GroupId",
+                table: "IndividualInGroups",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IndividualVisibility_ViewedId",
+                table: "IndividualVisibility",
+                column: "ViewedId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserMails_IndividualId",
                 table: "UserMails",
                 column: "IndividualId");
@@ -342,6 +414,12 @@ namespace gifttracker.Migrations
                 name: "Gifts");
 
             migrationBuilder.DropTable(
+                name: "IndividualInGroups");
+
+            migrationBuilder.DropTable(
+                name: "IndividualVisibility");
+
+            migrationBuilder.DropTable(
                 name: "UserMails");
 
             migrationBuilder.DropTable(
@@ -352,6 +430,9 @@ namespace gifttracker.Migrations
 
             migrationBuilder.DropTable(
                 name: "Events");
+
+            migrationBuilder.DropTable(
+                name: "IndividualGroup");
 
             migrationBuilder.DropTable(
                 name: "Individuals");

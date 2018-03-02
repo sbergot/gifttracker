@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
@@ -159,7 +160,27 @@ namespace WebApplication.Controllers
                 var usermail = _dbContext.UserMails.SingleOrDefault(m => m.Mail == user.Email);
                 if (usermail != null)
                 {
-                    user.IndividualId = usermail.IndividualId;
+                    var userIndivId = usermail.IndividualId;
+
+                    user.IndividualId = userIndivId;
+                    var groupIds = _dbContext.IndividualInGroups
+                        .Where(g => g.IndividualId == userIndivId)
+                        .Select(g => g.GroupId)
+                        .ToList();
+                    var visibleIndivs = _dbContext.IndividualInGroups
+                        .Where(gi => groupIds.Contains(gi.GroupId))
+                        .Select(gi => gi.IndividualId)
+                        .Distinct() // individuals can be in multiple groups
+                        .ToList();
+
+                    foreach (var indiv in visibleIndivs)
+                    {
+                        _dbContext.IndividualVisibility.Add(new IndividualVisibility {
+                            ViewerId = userIndivId,
+                            ViewedId = indiv
+                        });
+                    }
+                    await _dbContext.SaveChangesAsync();
                 }
 
                 var result = await _userManager.CreateAsync(user);

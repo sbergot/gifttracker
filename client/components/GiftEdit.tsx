@@ -4,7 +4,7 @@ import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import { GiftEditStore } from "../stores/store.giftedit"
 import { ReferentialStore } from "../stores/store.referential"
-import { showEvent } from '../services/service.referential';
+import { showEvent, showGiftStatus, allGiftStatus } from '../services/service.referential';
 
 export interface GiftEditProps
 {
@@ -82,6 +82,65 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
     this.gift[field] = target.value;
   }
 
+  textField = (
+    key: keyof GT.Gift,
+    title: string,
+    placeholder: string = '') => {
+    const fieldid = "gift-edit-" + key;
+    const fieldvalue = (this.gift[key] || '') as number | string;
+    return (
+      <div className="form-group">
+        <label className="form-label" htmlFor={fieldid}>{title}</label>
+        <input
+          className="form-input"
+          id={fieldid}
+          placeholder={placeholder}
+          name={key}
+          value={fieldvalue}
+          onChange={this.onGiftChange} />
+      </div>);
+  }
+
+  dropDownField = (
+    key: keyof GT.Gift,
+    title: string,
+    options: { value: number, descr: string }[],
+    emptyDescr?: string) => {
+    const fieldid = "gift-edit-" + key;
+    const fieldvalue = this.gift[key] as number | null;
+    return (
+      <div className="form-group">
+        <label className="form-label" htmlFor={fieldid}>{title}</label>
+        <select
+          className="form-input"
+          id={fieldid}
+          value={fieldvalue || -1}
+          name={key}
+          onChange={this.onGiftChange} >
+          {
+            emptyDescr
+            ? <option key="no_value" value="">{emptyDescr}</option>
+            : null
+          }
+          {
+            options.map(o => (
+            <option key={o.value} value={o.value}>
+              {o.descr}
+            </option>
+            ))
+          }
+        </select>
+      </div>);
+  }
+
+  getIndividualOptions() {
+    return this.props.individuals.map(individual => (
+      {
+        value: individual.id,
+        descr: `${individual.firstName} ${individual.lastName}`
+      }))
+  }
+
   render()
   {
     //var individuals = this.props.
@@ -94,82 +153,64 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
       <div className="modal-body">
         <div className="content">
           <form>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-title">Title</label>
-              <input
-                className="form-input"
-                id="gift-edit-title"
-                placeholder="A short title"
-                name="title"
-                value={this.gift.title}
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-url">Url</label>
-              <input
-                className="form-input"
-                id="gift-edit-url"
-                placeholder="An url to a website"
-                value={this.gift.url || ""}
-                name="url"
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-receiver">Receiver</label>
-              <select
-                className="form-input"
-                id="gift-edit-receiver"
-                value={(this.gift.receiverId || -1).toString()}
-                name="receiverId"
-                onChange={this.onGiftChange} >
-                <option value="">no receiver</option>
-                {
-                  this.props.individuals.map(i => (
-                  <option key={i.id} value={i.id}>
-                    { `${i.firstName} ${i.lastName}` }
-                  </option>
-                    ))
-                }
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-event">Event</label>
-              <select
-                className="form-input"
-                id="gift-edit-event"
-                value={(this.gift.eventId || -1).toString()}
-                name="eventId"
-                onChange={this.onGiftChange} >
-                <option value="">no event</option>
-                {
-                  this.props.events.map(e => (
-                    <option key={e.id} value={e.id}>
-                      {showEvent(e)}
-                    </option>
-                    ))
-                }
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-price">Price</label>
-              <input
-                className="form-input"
-                id="gift-edit-price"
-                placeholder="The price in cents of the gift"
-                name="priceInCents"
-                value={this.gift.priceInCents}
-                onChange={this.onGiftChange} />
-            </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="gift-edit-description">Description</label>
-              <textarea
-                rows={5}
-                className="form-input"
-                id="gift-edit-description"
-                placeholder="detailed descript of the gift"
-                name="description"
-                value={this.gift.description}
-                onChange={this.onGiftChange} />
+            <div className="container">
+              <div className="columns">
+                <div className="column col-12">
+                  {this.textField('title', 'Title', 'A short title')}
+                </div>
+                <div className="column col-6">
+                  {
+                      this.dropDownField(
+                        'receiverId',
+                        'Receiver',
+                        this.getIndividualOptions(),
+                        'no receiver')
+                  }
+                  {
+                      this.dropDownField(
+                        'buyerId',
+                        'Buyer',
+                        this.getIndividualOptions(),
+                        'no buyer')
+                  }
+                  {
+                      this.dropDownField(
+                        'eventId',
+                        'Event',
+                        this.props.events.map(event => (
+                          {
+                            value: event.id,
+                            descr: showEvent(event)
+                          })),
+                        'no event')
+                  }
+                  {
+                      this.dropDownField(
+                        'status',
+                        'Status',
+                        allGiftStatus.map(status => (
+                          {
+                            value: status,
+                            descr: showGiftStatus(status)
+                          })))
+                  }
+                </div>
+                <div className="column col-6">
+                  {this.textField('url', 'Url', "An url to a website")}
+                  {this.textField('priceInCents', 'Price', "The price in cents of the gift")}
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="gift-edit-description">Description</label>
+                    <textarea
+                      rows={5}
+                      className="form-input"
+                      id="gift-edit-description"
+                      placeholder="detailed descript of the gift"
+                      name="description"
+                      value={this.gift.description}
+                      onChange={this.onGiftChange} />
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>

@@ -1,5 +1,7 @@
 namespace WebApplication.Controllers.Api
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,28 @@ namespace WebApplication.Controllers.Api
         async protected Task<int?> GetCurrentIndividualId() {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             return user.IndividualId;
+        }
+
+        async protected Task<List<Individual>> GetVisibleIndividuals() {
+            var indivId = await GetCurrentIndividualId();
+            return _dbContext.Individuals
+                .Join(
+                    _dbContext.IndividualVisibility,
+                    i => i.Id,
+                    iv => iv.ViewedId,
+                    (i, iv) => new { i, iv.ViewerId })
+                .Where(o => o.ViewerId == indivId)
+                .Select(o => o.i)
+                .ToList();
+
+        }
+
+        protected IQueryable<Gift> GetVisibleGifts(int userId) {
+            return _dbContext
+                .Gifts
+                .Where(g => (userId == g.OwnerId)
+                    || (g.IsVisibleToOthers ?? false) && (userId != g.ReceiverId)
+                );
         }
     }
 }

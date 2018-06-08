@@ -9,56 +9,25 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Data;
     using WebApplication.Models;
     using WebApplication.Filters;
+    using WebApplication.Services;
 
     [ServiceFilter(typeof(ApiExceptionFilter))]
     [ModelValidationFilter]
     public class ApiControllerBase : ControllerBase
     {
         protected readonly ApplicationDbContext _dbContext;
-        protected readonly UserManager<ApplicationUser> _userManager;
         protected readonly ILogger _logger;
+        protected readonly IGiftTrackerService _giftTrackerService;
 
         public ApiControllerBase (
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            UserManager<ApplicationUser> userManager
+            IGiftTrackerService giftTrackerService
             )
         {
           _dbContext = dbContext;
-          _userManager = userManager;
           _logger = loggerFactory.CreateLogger(this.GetType().Name);
-        }
-
-        async protected Task<string> GetUserId() {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            return user.Id;
-        }
-
-        async protected Task<int?> GetCurrentIndividualId() {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            return user.IndividualId;
-        }
-
-        async protected Task<List<Individual>> GetVisibleIndividuals() {
-            var indivId = await GetCurrentIndividualId();
-            return _dbContext.Individuals
-                .Join(
-                    _dbContext.IndividualVisibility,
-                    i => i.Id,
-                    iv => iv.ViewedId,
-                    (i, iv) => new { i, iv.ViewerId })
-                .Where(o => o.ViewerId == indivId)
-                .Select(o => o.i)
-                .ToList();
-
-        }
-
-        protected IQueryable<Gift> GetVisibleGifts(int userId) {
-            return _dbContext
-                .Gifts
-                .Where(g => (userId == g.OwnerId)
-                    || (g.IsVisibleToOthers ?? false) && (userId != g.ReceiverId)
-                );
+          _giftTrackerService = giftTrackerService;
         }
     }
 }

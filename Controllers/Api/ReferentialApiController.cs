@@ -10,6 +10,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Data;
     using WebApplication.Models;
     using WebApplication.ViewModels;
+    using WebApplication.Services;
 
     [Authorize]
     [Route("api/referential")]
@@ -18,15 +19,15 @@ namespace WebApplication.Controllers.Api
         public ReferentialApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            UserManager<ApplicationUser> userManager)
-            : base(dbContext, loggerFactory, userManager)
+            IGiftTrackerService giftTrackerService)
+            : base(dbContext, loggerFactory, giftTrackerService)
         {}
 
         [HttpGet]
         async public Task<ReferentialData> Index()
         {
             var events = _dbContext.Events.ToList();
-            var individuals = await this.GetVisibleIndividuals();
+            var individuals = await _giftTrackerService.GetVisibleIndividuals();
             return new ReferentialData
             {
                 Individuals = individuals,

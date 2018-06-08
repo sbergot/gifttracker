@@ -11,6 +11,7 @@ namespace WebApplication.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
+    using WebApplication.Services;
 
     [Authorize]
     [Route("api/event")]
@@ -19,17 +20,17 @@ namespace WebApplication.Controllers.Api
         public EventApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            UserManager<ApplicationUser> userManager)
-            : base(dbContext, loggerFactory, userManager)
+            IGiftTrackerService giftTrackerService)
+            : base(dbContext, loggerFactory, giftTrackerService)
         {}
 
         [HttpGet]
         async public Task<IActionResult> Index()
         {
-            var userId = await GetCurrentIndividualId();
+            var userId = await _giftTrackerService.GetCurrentIndividualId();
             List<ViewModels.EventWithGifts> events = await _dbContext.Events
                 .GroupJoin(
-                    this.GetVisibleGifts(userId.Value),
+                    _giftTrackerService.GetVisibleGifts(userId.Value),
                     evt => evt.Id,
                     gift => gift.EventId,
                     (evt, gs) => new ViewModels.EventWithGifts {
@@ -37,7 +38,7 @@ namespace WebApplication.Controllers.Api
                         Gifts = gs.ToList()
                     })
                 .ToListAsync();
-            List<WebApplication.Models.Individual> individuals = await this.GetVisibleIndividuals();
+            List<WebApplication.Models.Individual> individuals = await _giftTrackerService.GetVisibleIndividuals();
             ViewModels.TimeLine result = new ViewModels.TimeLine
             {
                 Events = events,

@@ -47,6 +47,8 @@ namespace WebApplication
                 options.Scope.Add("openid");
             });
 
+            services.AddTransient(s => s.GetService<Microsoft.AspNetCore.Http.IHttpContextAccessor>().HttpContext.User);
+
             services.AddMvc().AddRazorPagesOptions(options =>
                 { options.Conventions.AuthorizeFolder("/"); });
 

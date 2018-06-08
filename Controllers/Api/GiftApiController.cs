@@ -10,6 +10,7 @@ namespace WebApplication.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
+    using WebApplication.Services;
 
     [Authorize]
     [Route("api/gift")]
@@ -18,19 +19,19 @@ namespace WebApplication.Controllers.Api
         public GiftApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            UserManager<ApplicationUser> userManager)
-            : base(dbContext, loggerFactory, userManager)
+            IGiftTrackerService giftTrackerService)
+            : base(dbContext, loggerFactory, giftTrackerService)
         {}
 
         [HttpGet]
         async public Task<IEnumerable<Gift>> Index()
         {
-            var userId = await GetCurrentIndividualId();
+            var userId = await _giftTrackerService.GetCurrentIndividualId();
             if (!userId.HasValue)
             {
                 return new Gift[] {};
             }
-            return this.GetVisibleGifts(userId.Value).ToList();
+            return _giftTrackerService.GetVisibleGifts(userId.Value).ToList();
         }
 
         [HttpPost]
@@ -40,7 +41,7 @@ namespace WebApplication.Controllers.Api
                 return BadRequest("trying to post a new gift with positive id");
             }
             inputGift.Id = 0;
-            var userId = await GetCurrentIndividualId();
+            var userId = await _giftTrackerService.GetCurrentIndividualId();
             if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
             inputGift.OwnerId = userId.Value;
             var result = _dbContext.Gifts.Add(inputGift);
@@ -90,9 +91,9 @@ namespace WebApplication.Controllers.Api
 
         async private Task<Gift> FetchGift(int id)
         {
-            var userId = await GetCurrentIndividualId();
+            var userId = await _giftTrackerService.GetCurrentIndividualId();
             if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
-            return this.GetVisibleGifts(userId.Value).FirstOrDefault(g => g.Id == id);
+            return _giftTrackerService.GetVisibleGifts(userId.Value).FirstOrDefault(g => g.Id == id);
         }
     }
 }

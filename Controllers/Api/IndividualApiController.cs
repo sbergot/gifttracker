@@ -10,6 +10,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Data;
     using WebApplication.Models;
     using WebApplication.ViewModels;
+    using WebApplication.Services;
 
     [Authorize]
     [Route("api/individual")]
@@ -18,16 +19,16 @@ namespace WebApplication.Controllers.Api
         public IndividualApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            UserManager<ApplicationUser> userManager)
-            : base(dbContext, loggerFactory, userManager)
+            IGiftTrackerService giftTrackerService)
+            : base(dbContext, loggerFactory, giftTrackerService)
         {}
 
         [HttpGet]
         async public Task<IEnumerable<IndividualWithGifts>> Index()
         {
-            var userId = await GetCurrentIndividualId();
+            var userId = await _giftTrackerService.GetCurrentIndividualId();
             return _dbContext.Individuals.GroupJoin(
-                this.GetVisibleGifts(userId.Value),
+                _giftTrackerService.GetVisibleGifts(userId.Value),
                 i => i.Id,
                 g => g.ReceiverId,
                 (i, gs) => new IndividualWithGifts {

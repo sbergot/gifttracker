@@ -1,0 +1,41 @@
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+  ViewData["Title"] = "Log in";
+}
+
+<h1>@ViewData["Title"]</h2>
+<h2>Use one of the following service to log in.</h4>
+@{
+  var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+  <form
+    asp-controller="Account"
+    asp-action="ExternalLogin"
+    asp-route-returnurl="@ViewData["ReturnUrl"]"
+    method="post"
+    class="form-horizontal">
+    <div>
+      <p>
+        @foreach (var provider in loginProviders)
+        {
+          <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          name="provider"
+          value="@provider.Name"
+          title="Log in using your @provider.DisplayName account">
+            @provider.Name
+          </button>
+        }
+      </p>
+    </div>
+  </form>
+}
+
+@section Scripts {
+  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

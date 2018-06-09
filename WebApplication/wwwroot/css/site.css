@@ -1,0 +1,75 @@
+body {
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+#gift-create-open {
+    margin-top: 8px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+header > section.brand {
+    margin-right: 20px;
+}
+
+.brand-icon {
+    background: url("../icons/present.svg");
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
+    float:left;
+}
+
+.brand-title {
+    font-size:1.5em;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.individual-list {
+    list-style-type: none;
+}
+
+.individual-list-elt {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.gift-list {
+    display: inline;
+    margin: 0px;
+}
+
+.gift-list-empty {
+    font-size: 18px;
+    color: #888888;
+    font-style: italic;
+    margin-right: 10px;
+}
+
+.gift-list-elt {
+    display: inline;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.gift-list-elt+.gift-list-elt::before {
+    content: '| ';
+}
+
+.gift-list-elt-ctrls {
+    display: none;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.gift-list-elt:hover > .gift-list-elt-ctrls {
+    display: unset;
+}
+
+#gift-edit-modal > .modal-body {
+    max-height: 600px;
+}

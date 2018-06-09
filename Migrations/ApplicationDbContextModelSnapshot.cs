@@ -214,8 +214,6 @@ namespace gifttracker.Migrations
 
                     b.Property<int>("PriceInCents");
 
-                    b.Property<int?>("ReceiverId");
-
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
@@ -232,9 +230,25 @@ namespace gifttracker.Migrations
 
                     b.HasIndex("OwnerId");
 
+                    b.ToTable("Gifts");
+                });
+
+            modelBuilder.Entity("WebApplication.Models.GiftReceiver", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("GiftId");
+
+                    b.Property<int>("ReceiverId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GiftId");
+
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("Gifts");
+                    b.ToTable("GiftReceiver");
                 });
 
             modelBuilder.Entity("WebApplication.Models.Individual", b =>
@@ -371,10 +385,19 @@ namespace gifttracker.Migrations
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApplication.Models.GiftReceiver", b =>
+                {
+                    b.HasOne("WebApplication.Models.Gift", "Gift")
+                        .WithMany()
+                        .HasForeignKey("GiftId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApplication.Models.Individual", "Receiver")
                         .WithMany()
-                        .HasForeignKey("ReceiverId");
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApplication.Models.IndividualInGroup", b =>

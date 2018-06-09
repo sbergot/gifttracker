@@ -23,6 +23,8 @@ DO $$
     DECLARE evt_3 int;
     DECLARE evt_4 int;
 
+    DECLARE last_gift int;
+
     BEGIN
 
     INSERT INTO public."IndividualGroup"(
@@ -246,27 +248,57 @@ DO $$
     RETURNING "Id" INTO evt_4;
 
     INSERT INTO public."Gifts"(
-        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('a very nice box', evt_1, sbergot, 254, sbergot, 'a box');
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title")
+        VALUES ('a very nice box', evt_1, sbergot, 254, 'a box')
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (sbergot, last_gift);
 
     INSERT INTO public."Gifts"(
-        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('an expensive toy', evt_1, sbergot, 614, sbergot, 'a toy');
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title")
+        VALUES ('an expensive toy', evt_1, sbergot, 614, 'a toy')
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (sbergot, last_gift);
 
     INSERT INTO public."Gifts"(
-        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('an big bag', evt_1, sbergot, 157, sbergot, 'a big bag');
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title")
+        VALUES ('an big bag', evt_1, sbergot, 157, 'a big bag')
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (sbergot, last_gift);
 
     INSERT INTO public."Gifts"(
-        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('an big bag', evt_2, sbergot, 157, sbergot, 'a big bag');
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title")
+        VALUES ('an big bag', evt_2, sbergot, 157, 'a big bag')
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (sbergot, last_gift);
 
     INSERT INTO public."Gifts"(
-        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('a very nice box', evt_1, sbergot, 254, cabollengier, 'a box');
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title")
+        VALUES ('a very nice box', evt_1, sbergot, 254, 'a box')
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (cabollengier, last_gift);
 
     INSERT INTO public."Gifts"(
-        "Description", "EventId", "OwnerId", "PriceInCents", "ReceiverId", "Title")
-        VALUES ('an expensive toy', evt_1, sbergot, 614, cabollengier, 'a toy');
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title")
+        VALUES ('an expensive toy', evt_1, sbergot, 614, 'a toy')
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (cabollengier, last_gift);
 
 END; $$;

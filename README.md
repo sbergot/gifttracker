@@ -1,12 +1,14 @@
 # Now
 
+## Receveur mutliples
+
 ## Gestion des droits
 flag sur une idée de cadeau: permettre aux autres de voir l'idée (sauf destinataire)
 Seul l'owner peut modifier le flag. L'owner voit toujours l'idée.
-Ceux qui peuvent voir l'idée peuvent la modifier.
+Ceux qui peuvent voir l'idée ne peuvent pas la modifier.
 
-- [x] créer les flags sur la table gift (VisibleToReceiver, VisibleToOthers)
-- [x] implémenter les règles de visibilité
+- [x] créer les flags sur la table gift (VisibleToOthers)
+- [ ] implémenter les règles de visibilité
 - [ ] si on veut éditer une idée et que l'on n'est pas owner, la modale s'affiche en désactivée
 - [ ] afficher le owner de l'idée dans la boîte d'édition
 - [ ] corriger erreur forbidden qui donne redirect/404

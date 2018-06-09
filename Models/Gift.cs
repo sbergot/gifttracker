@@ -16,10 +16,6 @@ namespace WebApplication.Models
 
         public Individual Owner { get; set; }
 
-        public int? ReceiverId { get; set; }
-
-        public Individual Receiver { get; set; }
-
         public int? BuyerId { get; set; }
 
         public Individual Buyer { get; set; }

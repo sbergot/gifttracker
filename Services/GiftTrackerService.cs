@@ -5,6 +5,7 @@ namespace WebApplication.Services
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Models;
@@ -42,11 +43,17 @@ namespace WebApplication.Services
 
         public IQueryable<Gift> GetVisibleGifts(int userId)
         {
-            return _dbContext
-                .Gifts
-                .Where(g => (userId == g.OwnerId)
-                    || (g.IsVisibleToOthers ?? false) && (userId != g.ReceiverId)
-                );
+            return _dbContext.Gifts.Where(g => g.OwnerId == userId).
+            Concat(
+                _dbContext.Gifts.Join(
+                    _dbContext.GiftReceiver,
+                    g => g.Id,
+                    gr => gr.GiftId,
+                    (g, gr) => new { Gift = g, ReceiverId = gr.ReceiverId }
+                ).
+                Where(o => o.Gift.IsVisibleToOthers ?? false && o.Gift.OwnerId != userId && o.ReceiverId != userId).
+                Select(o => o.Gift)
+            );
         }
 
         async public Task<List<Individual>> GetVisibleIndividuals()

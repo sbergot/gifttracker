@@ -28,12 +28,18 @@ namespace WebApplication.Controllers.Api
         {
             var userId = await _giftTrackerService.GetCurrentIndividualId();
             return _dbContext.Individuals.GroupJoin(
-                _giftTrackerService.GetVisibleGifts(userId.Value),
+                _giftTrackerService.GetVisibleGifts(userId.Value).
+                    Join(
+                        _dbContext.GiftReceiver,
+                        g => g.Id,
+                        gr => gr.GiftId,
+                        (g, gr) => new { Gift = g, ReceiverId = gr.ReceiverId }
+                    ),
                 i => i.Id,
                 g => g.ReceiverId,
                 (i, gs) => new IndividualWithGifts {
                     Individual = i,
-                    Gifts = gs.ToList()
+                    Gifts = gs.Select(gr => gr.Gift).ToList()
                 }).ToList();
         }
     }

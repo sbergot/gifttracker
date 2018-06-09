@@ -35,5 +35,7 @@ namespace WebApplication.Data
         public DbSet<IndividualInGroup> IndividualInGroups { get; set; }
 
         public DbSet<IndividualVisibility> IndividualVisibility { get; set; }
+
+        public DbSet<GiftReceiver> GiftReceiver { get; set; }
     }
 }

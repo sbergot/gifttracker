@@ -12,33 +12,24 @@ namespace WebApplication.Services
 
     public class GiftTrackerService : IGiftTrackerService
     {
-        protected readonly ApplicationDbContext _dbContext;
-        protected readonly UserManager<ApplicationUser> _userManager;
-        protected readonly ILogger _logger;
-        protected readonly ClaimsPrincipal _userClaim;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly IUserAccessor userAccessor;
+        private readonly ILogger _logger;
 
         public GiftTrackerService(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            UserManager<ApplicationUser> userManager,
-            ClaimsPrincipal userClaim)
+            IUserAccessor userAccessor)
         {
           _dbContext = dbContext;
-          _userManager = userManager;
-          _logger = loggerFactory.CreateLogger(this.GetType().Name);
-          _userClaim = userClaim;
+            this.userAccessor = userAccessor;
+            _logger = loggerFactory.CreateLogger(this.GetType().Name);
         }
 
         async public Task<int?> GetCurrentIndividualId()
         {
-            var user = await _userManager.GetUserAsync(_userClaim);
+            var user = await userAccessor.GetUser();
             return user.IndividualId;
-        }
-
-        async public Task<string> GetUserId()
-        {
-            var user = await _userManager.GetUserAsync(_userClaim);
-            return user.Id;
         }
 
         public IQueryable<Gift> GetVisibleGifts(int userId)

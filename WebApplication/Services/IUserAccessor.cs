@@ -3,7 +3,7 @@ namespace WebApplication.Services
     using System.Threading.Tasks;
     using WebApplication.Models;
 
-    public interface IUserGetter
+    public interface IUserAccessor
     {
         Task<ApplicationUser> GetUser();
     }

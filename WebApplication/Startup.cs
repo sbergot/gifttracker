@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
+using WebApplication.Services;
 
 namespace WebApplication
 {
@@ -47,7 +48,8 @@ namespace WebApplication
                 options.Scope.Add("openid");
             });
 
-            services.AddTransient(s => s.GetService<Microsoft.AspNetCore.Http.IHttpContextAccessor>().HttpContext.User);
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IGiftTrackerService, GiftTrackerService>();
 
             services.AddMvc().AddRazorPagesOptions(options =>
                 { options.Conventions.AuthorizeFolder("/"); });

@@ -93,7 +93,7 @@ namespace WebApplication.Tests
                 });
                 context.GiftReceiver.Add(new GiftReceiver
                 {
-                    GiftId = 1,
+                    GiftId = 4,
                     ReceiverId = 3
                 });
                 context.Gifts.Add(new Gift

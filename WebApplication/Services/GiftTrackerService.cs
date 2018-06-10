@@ -42,7 +42,8 @@ namespace WebApplication.Services
                     gr => gr.GiftId,
                     (g, gr) => new { Gift = g, ReceiverId = gr.ReceiverId }
                 ).
-                Where(o => o.Gift.IsVisibleToOthers ?? false && o.Gift.OwnerId != userId && o.ReceiverId != userId).
+                Where(o => (o.Gift.IsVisibleToOthers ?? false)
+                    && o.Gift.OwnerId != userId && o.ReceiverId != userId).
                 Select(o => o.Gift)
             );
         }

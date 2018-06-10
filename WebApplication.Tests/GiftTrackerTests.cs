@@ -109,8 +109,30 @@ namespace WebApplication.Tests
                 });
                 context.SaveChanges();
                 var gifts = await _service.GetVisibleGifts(1).ToListAsync();
-                Assert.Equal(1, gifts.Count);
+                Assert.Single(gifts);
                 Assert.Equal(4, gifts.First().Id);
+            }
+        }
+
+        [Fact]
+        async public void GetVisibleGifts_Exclude_Receiver_Gifts()
+        {
+            using (var context = GetContext("test4"))
+            {
+                context.Gifts.Add(new Gift
+                {
+                    Id = 4,
+                    OwnerId = 2,
+                    IsVisibleToOthers = true,
+                });
+                context.GiftReceiver.Add(new GiftReceiver
+                {
+                    GiftId = 4,
+                    ReceiverId = 3
+                });
+                context.SaveChanges();
+                var gifts = await _service.GetVisibleGifts(3).ToListAsync();
+                Assert.Empty(gifts);
             }
         }
     }

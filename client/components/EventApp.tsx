@@ -26,8 +26,8 @@ export class EventApp extends React.Component<{ store: TimelineStore, editStore:
 
     createGift(event: GT.Event, individual: GT.Individual) {
         const newGift = this.props.editStore.makeGift();
-        newGift.eventId = event.id;
-        newGift.receiverId = individual.id;
+        newGift.gift.eventId = event.id;
+        newGift.receiverIds.push(individual.id);
         this.props.editStore.editGift(newGift);
     }
 

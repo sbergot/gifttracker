@@ -1,4 +1,10 @@
 namespace GT {
+    export interface GiftWithReceivers
+    {
+        gift: Gift;
+        receiverIds: number[];
+    }
+
     export interface EventWithGifts
     {
         event: Event;

@@ -11,7 +11,7 @@ using WebApplication.Models;
 namespace gifttracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180614160818_init")]
+    [Migration("20180614161608_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

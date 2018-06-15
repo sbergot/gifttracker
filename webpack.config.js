@@ -19,7 +19,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve('./wwwroot/js'),
+        path: path.resolve('./WebApplication/wwwroot/js'),
         filename: '[name].js'
     },
 

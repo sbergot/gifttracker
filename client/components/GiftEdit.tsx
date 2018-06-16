@@ -44,8 +44,8 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
           (this.isOpen)
             ? <GiftEditForm
                 gift={this.gift!}
-                individuals={this.props.referentialStore.referentialdata.individuals}
-                events={this.props.referentialStore.referentialdata.events}
+                individuals={this.props.referentialStore.dataContext.individuals}
+                events={this.props.referentialStore.dataContext.events}
                 save={() => this.save()}
                 close={() => this.props.store.cancelEdition()}/>
             : null

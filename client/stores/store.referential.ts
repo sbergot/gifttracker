@@ -5,7 +5,7 @@ import { sortEvents, sortIndividuals } from '../services/service.referential';
 export class ReferentialStore
 {
     @observable
-    referentialdata: GT.ReferentialData;
+    dataContext: GT.DataContext;
 
     constructor()
     {
@@ -14,8 +14,6 @@ export class ReferentialStore
 
     async refreshReferentialData()
     {
-        this.referentialdata = await data.getReferential();
-        this.referentialdata.events = sortEvents(this.referentialdata.events);
-        this.referentialdata.individuals = sortIndividuals(this.referentialdata.individuals);
+        this.dataContext = await data.getReferential();
     }
 }

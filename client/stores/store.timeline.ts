@@ -5,25 +5,17 @@ import * as lodash from "lodash";
 export class TimelineStore
 {
     @observable
-    timelinedata: GT.TimeLineData;
+    timelinedata: GT.EventWithIndividuals[];
 
     constructor()
     {
         this.refreshTimelineData();
     }
 
-    async refreshTimelineData()
-    {
-        const timeline =  await data.getEvents();
-        this.timelinedata = timeline;
-    }
-
-    groupByIndiv(
-        individualMap: GT.KeyMap<GT.Individual>,
-        eventWithGift: GT.EventWithGifts): GT.EventWithIndividuals
+    groupByIndiv(eventWithGift: GT.EventWithGifts): GT.EventWithIndividuals
     {
         const result: GT.EventWithIndividuals = {
-            event: eventWithGift.event,
+            eventId: eventWithGift.eventId,
             individuals: []
         }
         const indivWgMap: GT.KeyMap<GT.IndividualWithGifts> = {};
@@ -31,29 +23,27 @@ export class TimelineStore
             gwr.receiverIds.map(indivId => {
                 if (!indivWgMap[indivId]) {
                     indivWgMap[indivId] = {
-                        individual: individualMap[indivId],
+                        individualId: indivId,
                         giftIds: []
                     }
                     result.individuals.push(indivWgMap[indivId]);
                 }
-                indivWgMap[indivId].giftIds.push(gwr.gift.id)
+                indivWgMap[indivId].giftIds.push(gwr.giftId)
             })
         })
         return result;
     }
 
-    @computed
-    get timelineViewModel(): GT.TimeLineViewModel
+    async refreshTimelineData()
     {
-        if (!this.timelinedata) { return { events: [], giftMap: {} } }
-        const giftMap: GT.KeyMap<GT.Gift> = {};
-        this.timelinedata.events.map(eg => {
-            eg.gifts.map(g => { giftMap[g.gift.id] = g.gift; })
-        })
+        const timeline =  await data.getEventsWithGifts();
+        const newtimeline: GT.EventWithIndividuals[] = timeline.map(this.groupByIndiv.bind(this));
+        this.timelinedata = newtimeline;
+    }
 
-        const newevts = this.timelinedata.events
-            .map(eg => this.groupByIndiv(this.timelinedata.individualMap, eg));
-
-        return { events: newevts, giftMap: giftMap };
+    @computed
+    get timelineViewModel(): GT.EventWithIndividuals[]
+    {
+        return this.timelinedata;
     }
 }

@@ -2,7 +2,7 @@ import { getJson, sendJson, Verbs } from "./data.shared"
 
 const URL = "./api/referential";
 
-export async function getReferential() : Promise<GT.ReferentialData>
+export async function getReferential() : Promise<GT.DataContext>
 {
-    return getJson<GT.ReferentialData>(URL);
+    return getJson<GT.DataContext>(URL);
 }

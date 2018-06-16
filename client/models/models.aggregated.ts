@@ -1,57 +1,34 @@
 namespace GT {
     export type KeyMap<T> = {[id: number]: T}
 
+    export interface DataContext
+    {
+        individualMap: KeyMap<Individual>;
+        giftMap: KeyMap<Gift>;
+        eventMap: KeyMap<Event>;
+    }
+
     export interface GiftWithReceivers
     {
-        gift: Gift;
+        giftId: number;
         receiverIds: number[];
     }
 
     export interface IndividualWithGifts
     {
-        individual: Individual;
+        individualId: number;
         giftIds : number[];
     }
 
     export interface EventWithGifts
     {
-        event: Event;
+        eventId: number;
         gifts: GiftWithReceivers[];
-    }
-
-    export interface TimeLineData
-    {
-        events: EventWithGifts[];
-        individualMap: KeyMap<Individual>;
     }
 
     export interface EventWithIndividuals
     {
-        event: Event;
+        eventId: number;
         individuals: IndividualWithGifts[];
-    }
-
-    export interface TimeLineViewModel
-    {
-        events: EventWithIndividuals[];
-        giftMap: KeyMap<Gift>;
-    }
-
-    export interface IndividualViewModel
-    {
-        individuals: IndividualWithGifts[];
-        giftMap: KeyMap<Gift>;
-    }
-
-    export interface GiftViewModel
-    {
-        gifts: GiftWithReceivers[];
-        individualMap: KeyMap<Individual>;
-    }
-
-    export interface ReferentialData
-    {
-        individuals: Individual[];
-        events: Event[];
     }
 }

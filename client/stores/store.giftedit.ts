@@ -3,18 +3,18 @@ import * as data from "../data/data.gift";
 import { GiftStatus } from '../models/enums';
 
 const NEW_GIFT_ID = -1;
+const NEW_GIFT_KEY = 'new_gift'
+type GiftKey = number | typeof NEW_GIFT_KEY | null;
 
 export class GiftEditStore {
-
   @observable
-  private currentEdit : GT.GiftWithReceivers | null = null;
+  private currentEdit : GiftKey = null;
 
-  constructor() {
+  constructor(private dataContext: GT.DataContext) {
   }
 
-  makeGift() : GT.GiftWithReceivers {
+  makeGift() : GT.Gift {
     return {
-      gift: {
         id : NEW_GIFT_ID,
         ownerId : 0,
         priceInCents : 0,
@@ -26,19 +26,17 @@ export class GiftEditStore {
         eventId: null,
         event: null,
         status: GiftStatus.None
-      },
-      receiverIds: []
-    };
+      };
   }
 
   newGift()
   {
-    this.editGift(this.makeGift());
+    this.currentEdit = NEW_GIFT_KEY;
   }
 
-  editGift(gift: GT.GiftWithReceivers)
+  editGift(giftKey: number)
   {
-    this.currentEdit = gift;
+    this.currentEdit = giftKey;
   }
 
   cancelEdition()
@@ -46,18 +44,21 @@ export class GiftEditStore {
     this.currentEdit = null;
   }
 
-  getCurrentGift(): GT.GiftWithReceivers | null
+  getCurrentGift(): GT.Gift | null
   {
     if (this.currentEdit === null) {
       return null;
     }
-    return this.currentEdit;
+    if (this.currentEdit === NEW_GIFT_KEY) {
+      return this.makeGift();
+    }
+    return this.dataContext.giftMap[this.currentEdit];
   }
 
-  saveGift(gift : GT.GiftWithReceivers)
+  saveGift(gift : GT.Gift)
   {
     let query;
-    if (gift.gift.id === NEW_GIFT_ID)
+    if (gift.id === NEW_GIFT_ID)
     {
       query = data.postGift(gift);
     }
@@ -68,8 +69,8 @@ export class GiftEditStore {
     return query;
   }
 
-  deleteGift(gift : GT.GiftWithReceivers)
+  deleteGift(giftId : number)
   {
-    return data.deleteGift(gift.gift.id);
+    return data.deleteGift(giftId);
   }
 }

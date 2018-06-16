@@ -2,9 +2,9 @@ import { getJson, sendJson, Verbs } from "./data.shared"
 
 const URL = "./api/event";
 
-export async function getEvents() : Promise<GT.TimeLineData>
+export async function getEventsWithGifts() : Promise<GT.EventWithGifts[]>
 {
-    return getJson<GT.TimeLineData>(URL);
+    return getJson<GT.EventWithGifts[]>(URL);
 }
 
 export function postEvent(year : number, type : GT.EventType)

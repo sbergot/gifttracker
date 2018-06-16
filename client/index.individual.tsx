@@ -8,7 +8,10 @@ import { getIndividuals } from "./data/data.individual"
 class IndividualApp extends React.Component<{}>
 {
   @observable
-  individuals: GT.IndividualWithGifts[] = [];
+  individuals: GT.IndividualViewModel = {
+    individuals: [],
+    giftMap: {}
+  };
 
   constructor(props: {})
   {
@@ -21,12 +24,13 @@ class IndividualApp extends React.Component<{}>
   render()
   {
     return <div>
-      {this.individuals.map(i =>
+      {this.individuals.individuals.map(i =>
         <div key={i.individual.id}>{i.individual.firstName} {i.individual.lastName}
           <ul>
-            {i.gifts.map(g =>
-              <li key={g.id}>{g.title}</li>
-            )}
+            {i.giftIds.map(id => {
+              const gift = this.individuals.giftMap[id];
+              return <li key={gift.id}>{gift.title}</li>
+            })}
           </ul>
         </div>
       )}

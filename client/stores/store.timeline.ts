@@ -19,14 +19,14 @@ export class TimelineStore
     }
 
     groupByIndiv(
-        individualMap: GT.keyMap<GT.Individual>,
+        individualMap: GT.KeyMap<GT.Individual>,
         eventWithGift: GT.EventWithGifts): GT.EventWithIndividuals
     {
         const result: GT.EventWithIndividuals = {
             event: eventWithGift.event,
             individuals: []
         }
-        const indivWgMap: GT.keyMap<GT.IndividualWithGifts> = {};
+        const indivWgMap: GT.KeyMap<GT.IndividualWithGifts> = {};
         eventWithGift.gifts.map(gwr => {
             gwr.receiverIds.map(indivId => {
                 if (!indivWgMap[indivId]) {
@@ -46,7 +46,7 @@ export class TimelineStore
     get timelineViewModel(): GT.TimeLineViewModel
     {
         if (!this.timelinedata) { return { events: [], giftMap: {} } }
-        const giftMap: GT.keyMap<GT.Gift> = {};
+        const giftMap: GT.KeyMap<GT.Gift> = {};
         this.timelinedata.events.map(eg => {
             eg.gifts.map(g => { giftMap[g.gift.id] = g.gift; })
         })

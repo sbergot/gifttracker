@@ -5,8 +5,9 @@ import { sortByIndividuals, showEvent } from '../services/service.referential'
 interface EventViewProps
 {
   event: GT.EventWithIndividuals;
-  editGift: (gift: GT.Gift) => void;
-  deleteGift: (gift: GT.Gift) => void;
+  giftMap: GT.KeyMap<GT.Gift>;
+  editGift: (giftId: number) => void;
+  deleteGift: (giftId: number) => void;
   createGift: (event: GT.Event, individual: GT.Individual) => void;
 }
 
@@ -36,21 +37,24 @@ export class EventView extends React.Component<EventViewProps, {}>
               {indiv.individual.firstName}:
             </span>
             {
-              indiv.gifts.length === 0
+              indiv.giftIds.length === 0
               ? <span className="gift-list-empty">nothing :-(</span>
               : <ul className="gift-list">
-                {indiv.gifts.map(g =>
-                  <li className="gift-list-elt" key={g.id}>
-                    {this.renderGiftTitle(g)}
-                    <span className="gift-list-elt-ctrls">
-                      <button className="btn btn-sm" onClick={() => this.props.editGift(g)}>
-                        <i className="icon icon-edit" />
-                      </button>
-                      <button className="btn btn-sm" onClick={() => this.props.deleteGift(g)}>
-                        <i className="icon icon-cross" />
-                      </button>
-                    </span>
-                  </li>)}
+                {indiv.giftIds.map(id =>
+                {
+                  const gift = this.props.giftMap[id]
+                  return  <li className="gift-list-elt" key={gift.id}>
+                      {this.renderGiftTitle(gift)}
+                      <span className="gift-list-elt-ctrls">
+                        <button className="btn btn-sm" onClick={() => this.props.editGift(gift)}>
+                          <i className="icon icon-edit" />
+                        </button>
+                        <button className="btn btn-sm" onClick={() => this.props.deleteGift(gift)}>
+                          <i className="icon icon-cross" />
+                        </button>
+                      </span>
+                  </li>
+                })}
               </ul>
             }
             <button

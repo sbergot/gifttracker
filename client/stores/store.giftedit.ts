@@ -54,10 +54,10 @@ export class GiftEditStore {
     return this.currentEdit;
   }
 
-  saveGift(gift : GT.Gift)
+  saveGift(gift : GT.GiftWithReceivers)
   {
     let query;
-    if (gift.id === NEW_GIFT_ID)
+    if (gift.gift.id === NEW_GIFT_ID)
     {
       query = data.postGift(gift);
     }
@@ -68,8 +68,8 @@ export class GiftEditStore {
     return query;
   }
 
-  deleteGift(gift : GT.Gift)
+  deleteGift(gift : GT.GiftWithReceivers)
   {
-    return data.deleteGift(gift.id);
+    return data.deleteGift(gift.gift.id);
   }
 }

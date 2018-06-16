@@ -17,12 +17,12 @@ export class GiftView extends React.Component<GiftProps, {}>
                 <dt>{gift.title} - {gift.priceInCents / 100} €</dt>
                 <dd>{gift.description}</dd>
                 {
-                    gift.receiver !== null ? [
-                        <dt key="receiver-label" >Receiver</dt>,
-                        <dd key="receiver-input">
-                            {gift.receiver.firstName + " " + gift.receiver.lastName}
-                        </dd>
-                    ] : null
+                    // gift.receiver !== null ? [
+                    //     <dt key="receiver-label" >Receiver</dt>,
+                    //     <dd key="receiver-input">
+                    //         {gift.receiver.firstName + " " + gift.receiver.lastName}
+                    //     </dd>
+                    // ] : null
                 }
             </dl>
             <button

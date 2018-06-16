@@ -9,10 +9,10 @@ export class ReferentialStore
 
     constructor()
     {
-        this.refreshReferentialData();
+        this.refresh();
     }
 
-    async refreshReferentialData()
+    async refresh()
     {
         this.dataContext = await data.getReferential();
     }

@@ -1,19 +1,18 @@
 import { observable } from "mobx";
+import { ReferentialStore } from './store.referential'
 import * as data from "../data/data.gift";
 import { GiftStatus } from '../models/enums';
 
 const NEW_GIFT_ID = -1;
-const NEW_GIFT_KEY = 'new_gift'
-type GiftKey = number | typeof NEW_GIFT_KEY | null;
 
 export class GiftEditStore {
   @observable
-  private currentEdit : GiftKey = null;
+  private currentEdit : number | null = null;
 
-  constructor(private dataContext: GT.DataContext) {
+  constructor(private referential: ReferentialStore) {
   }
 
-  makeGift() : GT.Gift {
+  private makeGift() : GT.Gift {
     return {
         id : NEW_GIFT_ID,
         ownerId : 0,
@@ -29,9 +28,12 @@ export class GiftEditStore {
       };
   }
 
-  newGift()
+  newGift(): GT.Gift
   {
-    this.currentEdit = NEW_GIFT_KEY;
+    const newGift = this.makeGift();
+    this.currentEdit = newGift.id;
+    this.referential.dataContext.giftMap[NEW_GIFT_ID] = newGift;
+    return newGift
   }
 
   editGift(giftKey: number)
@@ -49,10 +51,7 @@ export class GiftEditStore {
     if (this.currentEdit === null) {
       return null;
     }
-    if (this.currentEdit === NEW_GIFT_KEY) {
-      return this.makeGift();
-    }
-    return this.dataContext.giftMap[this.currentEdit];
+    return this.referential.dataContext.giftMap[this.currentEdit];
   }
 
   saveGift(gift : GT.Gift)

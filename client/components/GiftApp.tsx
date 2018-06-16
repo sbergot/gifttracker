@@ -6,14 +6,21 @@ import * as lodash from "lodash";
 
 import { GiftView } from "./GiftView";
 import { GiftEditStore } from "../stores/store.giftedit"
-import { GiftStore } from "../stores/store.gift"
+import { ReferentialStore } from "../stores/store.referential"
+
+interface GiftAppProps
+{
+  referentialStore: ReferentialStore,
+  giftEditStore: GiftEditStore
+}
+
 
 @observer
-export class GiftApp extends React.Component<{ giftStore: GiftStore, giftEditStore: GiftEditStore }, {}>
+export class GiftApp extends React.Component<GiftAppProps, {}>
 {
-  get gifts()
+  get referential()
   {
-    return this.props.giftStore;
+    return this.props.referentialStore;
   }
 
   get giftsEdit()
@@ -28,27 +35,27 @@ export class GiftApp extends React.Component<{ giftStore: GiftStore, giftEditSto
 
   onSave(gift : GT.Gift)
   {
-    this.giftsEdit.saveGift(gift).then(() => this.gifts.refreshGifts());
+    this.giftsEdit.saveGift(gift).then(() => this.referential.refresh());
     this.closeEditModal();
   }
 
   delete(gift: GT.Gift)
   {
-    this.giftsEdit.deleteGift(gift).then(() => this.gifts.refreshGifts());
+    this.giftsEdit.deleteGift(gift.id).then(() => this.referential.refresh());
   }
 
   render()
   {
-    const gifts = this.gifts.gifts;
+    const gifts = Object.values(this.referential.dataContext.giftMap);
     return <div>
         <button onClick={() => this.giftsEdit.newGift()} >New</button>
         {
-          gifts.map((g : GT.Gift) => (
-            <div key={g.id} >
+          gifts.map((gift : GT.Gift) => (
+            <div key={gift.id} >
               <GiftView
-                gift={g}
-                onDelete={() => this.delete(g)}
-                onEdit={() => this.giftsEdit.editGift(g)} />
+                gift={gift}
+                onDelete={() => this.delete(gift)}
+                onEdit={() => this.giftsEdit.editGift(gift.id)} />
             </div>))
         }
       </div>;

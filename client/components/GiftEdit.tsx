@@ -37,6 +37,7 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
 
   render()
   {
+    const context = this.props.referentialStore.dataContext;
     return (
       <div className={"modal" + (this.isOpen ? " active" : "")} id="gift-edit" tabIndex={-1} ref = "root">
         <div className="modal-overlay" />
@@ -44,8 +45,8 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
           (this.isOpen)
             ? <GiftEditForm
                 gift={this.gift!}
-                individuals={this.props.referentialStore.dataContext.individuals}
-                events={this.props.referentialStore.dataContext.events}
+                individuals={Object.values(context.individualMap)}
+                events={Object.values(context.eventMap)}
                 save={() => this.save()}
                 close={() => this.props.store.cancelEdition()}/>
             : null
@@ -159,13 +160,6 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                   {this.textField('title', 'Title', 'A short title')}
                 </div>
                 <div className="column col-6">
-                  {
-                      this.dropDownField(
-                        'receiverId',
-                        'Receiver',
-                        this.getIndividualOptions(),
-                        'no receiver')
-                  }
                   {
                       this.dropDownField(
                         'buyerId',

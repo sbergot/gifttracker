@@ -7,12 +7,12 @@ import { GiftEditStore } from "./stores/store.giftedit";
 import { ReferentialStore } from "./stores/store.referential";
 
 const store = new TimelineStore();
-const editStore = new GiftEditStore();
 const referentialStore = new ReferentialStore();
+const editStore = new GiftEditStore(referentialStore);
 
 render(
     <GiftEdit store={editStore} referentialStore={referentialStore} onSave={() => store.refreshTimelineData()} />,
     document.getElementById("gift-edit"));
 render(
-    <EventApp store={store} editStore={editStore} />,
+    <EventApp referentialStore={referentialStore} timelineStore={store} editStore={editStore} />,
     document.getElementById("event-app"));

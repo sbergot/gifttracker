@@ -1,20 +1,28 @@
 namespace GT {
-    export interface EventWithGifts
+    export type keyMap<T> = {[id: number]: T}
+
+    export interface GiftWithReceivers
     {
-        event: Event;
-        gifts : Gift[];
+        gift: Gift;
+        receiverIds: number[];
     }
 
     export interface IndividualWithGifts
     {
         individual: Individual;
-        gifts : Gift[];
+        giftIds : number[];
+    }
+
+    export interface EventWithGifts
+    {
+        event: Event;
+        gifts: GiftWithReceivers[];
     }
 
     export interface TimeLineData
     {
         events: EventWithGifts[];
-        individuals: Individual[];
+        individualMap: keyMap<Individual>;
     }
 
     export interface EventWithIndividuals
@@ -26,6 +34,7 @@ namespace GT {
     export interface TimeLineViewModel
     {
         events: EventWithIndividuals[];
+        giftMap: keyMap<Gift>;
     }
 
     export interface ReferentialData

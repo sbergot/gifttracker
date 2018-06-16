@@ -12,6 +12,6 @@
         "jsx": "react",
         "target": "es5",
         "skipLibCheck": true,
-        "outDir": "./wwwroot/js"
+        "outDir": ".WebApplication/wwwroot/js"
     }
 }

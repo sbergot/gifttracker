@@ -6,8 +6,6 @@ namespace GT {
         priceInCents: number;
         url : string;
         ownerId : number;
-        receiverId : number | null;
-        receiver : Individual | null;
         buyerId : number | null;
         buyer : Individual | null;
         eventId : number | null;

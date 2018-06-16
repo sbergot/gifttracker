@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { observable, computed } from "mobx";
 import { observer } from "mobx-react";
 
 import { EventView } from "./EventView"
-import { getEvents } from "../data/data.event"
 import { TimelineStore } from "../stores/store.timeline"
 import { GiftEditStore } from "../stores/store.giftedit";
 import { sortByEvents } from '../services/service.referential'
@@ -15,19 +13,19 @@ export class EventApp extends React.Component<{ store: TimelineStore, editStore:
         return this.props.store;
     }
 
-    editGift(g: GT.Gift) {
+    editGift(g: GT.GiftWithReceivers) {
         this.props.editStore.editGift(g);
     }
 
-    async deleteGift(g: GT.Gift) {
+    async deleteGift(g: GT.GiftWithReceivers) {
         await this.props.editStore.deleteGift(g);
         this.props.store.refreshTimelineData();
     }
 
     createGift(event: GT.Event, individual: GT.Individual) {
         const newGift = this.props.editStore.makeGift();
-        newGift.eventId = event.id;
-        newGift.receiverId = individual.id;
+        newGift.gift.eventId = event.id;
+        newGift.receiverIds.push(individual.id);
         this.props.editStore.editGift(newGift);
     }
 

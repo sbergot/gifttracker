@@ -5,15 +5,24 @@ import { sortEvents, sortIndividuals } from '../services/service.referential';
 export class ReferentialStore
 {
     @observable
-    dataContext: GT.DataContext;
+    _dataContext: GT.DataContext
+
+    @computed
+    get dataContext(): GT.DataContext
+    {
+        if (!this._dataContext)
+        {
+            throw new Error('datacontext is null. Please call refresh.')
+        }
+        return this._dataContext;
+    }
 
     constructor()
     {
-        this.refresh();
     }
 
     async refresh()
     {
-        this.dataContext = await data.getReferential();
+        this._dataContext = await data.getReferential();
     }
 }

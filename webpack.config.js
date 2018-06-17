@@ -12,6 +12,8 @@ module.exports = {
         "react-dom": "ReactDOM"
     },
 
+    devtool: "inline-source-map",
+
     entry: {
         gift : path.join(clientPath, "index.gift.tsx"),
         event : path.join(clientPath, "index.event.tsx"),

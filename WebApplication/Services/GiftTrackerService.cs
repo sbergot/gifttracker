@@ -51,7 +51,7 @@ namespace WebApplication.Services
         async public Task<List<Individual>> GetVisibleIndividuals()
         {
             var indivId = await GetCurrentIndividualId();
-            return _dbContext.Individuals
+            return await _dbContext.Individuals
                 .Join(
                     _dbContext.IndividualVisibility,
                     i => i.Id,
@@ -59,7 +59,7 @@ namespace WebApplication.Services
                     (i, iv) => new { i, iv.ViewerId })
                 .Where(o => o.ViewerId == indivId)
                 .Select(o => o.i)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

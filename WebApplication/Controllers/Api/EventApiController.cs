@@ -28,16 +28,31 @@ namespace WebApplication.Controllers.Api
         async public Task<IActionResult> Index()
         {
             var userId = await _giftTrackerService.GetCurrentIndividualId();
-            List<ViewModels.EventWithGifts> events = await _dbContext.Events
-                .GroupJoin(
-                    _giftTrackerService.GetVisibleGifts(userId.Value),
-                    evt => evt.Id,
-                    gift => gift.EventId,
-                    (evt, gs) => new ViewModels.EventWithGifts {
-                        Event = evt,
-                        Gifts = gs.ToList()
-                    })
-                .ToListAsync();
+            // List<ViewModels.EventWithGifts> events = await _dbContext.Events
+            //     .GroupJoin(
+            //         _giftTrackerService.GetVisibleGifts(userId.Value),
+            //         evt => evt.Id,
+            //         gift => gift.EventId,
+            //         (evt, gs) => new ViewModels.EventWithGifts {
+            //             EventId = evt.Id,
+            //             Gifts = gs.ToList()
+            //         })
+            //     .ToListAsync();
+
+            var giftsWithReceivers =
+                from gift in _giftTrackerService.GetVisibleGifts(userId.Value)
+                join gr in _dbContext.GiftReceiver 
+                on gift.Id equals gr.GiftId into rs
+                select new ViewModels.GiftWithReceivers {
+                    GiftId = gift.Id,
+                    ReceiverIds = rs.Select(r => r.ReceiverId).ToList()
+                }
+
+            var eventsWithGifts = 
+                from evt in _dbContext.Events
+                join gift in  on evt.Id equals gift.Id into eg
+
+
             List<WebApplication.Models.Individual> individuals = await _giftTrackerService.GetVisibleIndividuals();
             ViewModels.TimeLine result = new ViewModels.TimeLine
             {

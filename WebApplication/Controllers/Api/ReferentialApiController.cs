@@ -24,14 +24,17 @@ namespace WebApplication.Controllers.Api
         {}
 
         [HttpGet]
-        async public Task<ReferentialData> Index()
+        async public Task<DataContext> Index()
         {
-            var events = _dbContext.Events.ToList();
+            var events = _dbContext.Events;
             var individuals = await _giftTrackerService.GetVisibleIndividuals();
-            return new ReferentialData
+            var userId = await _giftTrackerService.GetCurrentIndividualId();
+            var gifts = _giftTrackerService.GetVisibleGifts(userId.Value);
+            return new DataContext
             {
-                Individuals = individuals,
-                Events = events
+                IndividualMap = individuals.ToDictionary(i => i.Id),
+                EventMap = events.ToDictionary(e => e.Id),
+                GiftMap = gifts.ToDictionary(g => g.Id)
             };
         }
     }

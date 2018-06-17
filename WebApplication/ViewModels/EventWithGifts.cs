@@ -5,7 +5,7 @@ namespace WebApplication.ViewModels
 
     public class EventWithGifts
     {
-        public Event Event { get; set; }
-        public List<Gift> Gifts { get; set; }
+        public int EventId { get; set; }
+        public List<GiftWithReceivers> Gifts { get; set; }
     }
 }

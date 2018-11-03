@@ -8,5 +8,7 @@ namespace WebApplication.ViewModels
         public Dictionary<int, Event> EventMap { get; set; }
         public Dictionary<int, Individual> IndividualMap { get; set; }
         public Dictionary<int, Gift> GiftMap { get; set; }
+        public ChildMap EventGiftsMap { get; set; }
+        public ChildMap GiftReceiverMap { get; set; }
     }
 }

@@ -6,6 +6,7 @@ namespace WebApplication.Controllers.Api
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Models;
@@ -30,6 +31,25 @@ namespace WebApplication.Controllers.Api
             var individuals = await _giftTrackerService.GetVisibleIndividuals();
             var userId = await _giftTrackerService.GetCurrentIndividualId();
             var gifts = _giftTrackerService.GetVisibleGifts(userId.Value);
+
+            var giftsWithReceivers = await
+                (from gift in _giftTrackerService.GetVisibleGifts(userId.Value)
+                join gr in _dbContext.GiftReceiver
+                on gift.Id equals gr.GiftId into rs
+                select new {
+                    GiftId = gift.Id,
+                    ReceiverIds = rs.Select(r => r.ReceiverId).ToList()
+                }).ToDictionaryAsync(gr => gr.GiftId, gr => gr.ReceiverIds.ToList());
+
+            var eventsWithGifts = await
+                (from evt in _dbContext.Events
+                join gift in _giftTrackerService.GetVisibleGifts(userId.Value)
+                on evt.Id equals gift.Id into eg
+                select new {
+                    EventId = evt.Id,
+                    GiftIds = eg.Select(g => g.Id)
+                }).ToDictionaryAsync(eg => eg.EventId, eg => eg.GiftIds.ToList());
+
             return new DataContext
             {
                 IndividualMap = individuals.ToDictionary(i => i.Id),

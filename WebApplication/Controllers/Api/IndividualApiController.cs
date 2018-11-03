@@ -24,23 +24,9 @@ namespace WebApplication.Controllers.Api
         {}
 
         [HttpGet]
-        async public Task<IEnumerable<IndividualWithGifts>> Index()
+        async public Task<List<Individual>> Index()
         {
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
-            return _dbContext.Individuals.GroupJoin(
-                _giftTrackerService.GetVisibleGifts(userId.Value).
-                    Join(
-                        _dbContext.GiftReceiver,
-                        g => g.Id,
-                        gr => gr.GiftId,
-                        (g, gr) => new { Gift = g, ReceiverId = gr.ReceiverId }
-                    ),
-                i => i.Id,
-                g => g.ReceiverId,
-                (i, gs) => new IndividualWithGifts {
-                    Individual = i,
-                    Gifts = gs.Select(gr => gr.Gift).ToList()
-                }).ToList();
+            return await _giftTrackerService.GetVisibleIndividuals();
         }
     }
 }

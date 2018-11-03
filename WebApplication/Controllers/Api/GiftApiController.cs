@@ -24,14 +24,14 @@ namespace WebApplication.Controllers.Api
         {}
 
         [HttpGet]
-        async public Task<IEnumerable<Gift>> Index()
+        async public Task<List<Gift>> Index()
         {
             var userId = await _giftTrackerService.GetCurrentIndividualId();
             if (!userId.HasValue)
             {
-                return new Gift[] {};
+                return new List<Gift>();
             }
-            return _giftTrackerService.GetVisibleGifts(userId.Value).ToList();
+            return await _giftTrackerService.GetVisibleGifts(userId.Value).ToListAsync();
         }
 
         [HttpPost]
@@ -45,7 +45,7 @@ namespace WebApplication.Controllers.Api
             if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
             inputGift.OwnerId = userId.Value;
             var result = _dbContext.Gifts.Add(inputGift);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
         }
 
@@ -62,7 +62,7 @@ namespace WebApplication.Controllers.Api
             }
             inputGift.Id = id;
             _dbContext.Entry(storedGift).CurrentValues.SetValues(inputGift);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return Ok(inputGift);
         }
 
@@ -75,7 +75,7 @@ namespace WebApplication.Controllers.Api
                 return Forbid();
             }
             _dbContext.Gifts.Remove(storedGift);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return Ok();
         }
 

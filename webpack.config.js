@@ -1,5 +1,5 @@
-var webpack = require('webpack');
 var path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const clientPath = path.resolve("./client");
 
@@ -7,7 +7,6 @@ module.exports = {
     externals : {
         "jquery" : "jQuery",
         "bootstrap" : "jQuery",
-        "lodash" : "_",
         "react": "React",
         "react-dom": "ReactDOM"
     },
@@ -26,13 +25,24 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.tsx'],
-        modules: [clientPath, "node_modules"]
+        extensions: ['.js', '.ts', '.tsx', 'jsx'],
+        // modules: [clientPath, "node_modules"]
     },
 
     module: {
         rules: [
             { test: /\.tsx?$/, use: { loader: 'ts-loader' } }
         ]
-    }
+    },
+
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            minSize: 30000
+        }
+    },
+
+    plugins: [
+        new BundleAnalyzerPlugin()
+    ]
 }

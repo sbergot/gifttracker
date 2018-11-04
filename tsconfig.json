@@ -1,6 +1,7 @@
 {
     "compilerOptions":
     {
+        "strict": true,
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
@@ -14,5 +15,8 @@
         "target": "es5",
         "skipLibCheck": true,
         "outDir": ".WebApplication/wwwroot/js"
-    }
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

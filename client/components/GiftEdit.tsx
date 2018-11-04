@@ -1,28 +1,31 @@
 import * as React from "react"
-import * as ReactDom from "react-dom"
-import { observable, computed } from "mobx";
-import { observer } from "mobx-react";
-import { GiftEditStore } from "../stores/store.giftedit"
-import { ReferentialStore } from "../stores/store.referential"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
 import { showEvent, showGiftStatus, allGiftStatus } from '../services/service.referential';
+import * as actions from "../action/action";
+import { ThunkDispatch } from "redux-thunk";
 
-export interface GiftEditProps
+
+interface GiftEditProps
 {
-  store: GiftEditStore;
-  referentialStore: ReferentialStore;
-  onSave: () => void;
+  context: GT.DataContext;
+  currentGiftId: GT.Id
 }
 
-@observer
-export class GiftEdit extends React.Component<GiftEditProps, {}>
+interface GiftEditActions
 {
-  @computed
+  saveGift: (gift: GT.Gift) => void;
+  cancelEdition: () => void;
+  updateGift: (update: GT.GiftUpdate) => void;
+}
+
+class GiftEdit extends React.Component<GiftEditProps & GiftEditActions, {}>
+{
   get gift(): GT.Gift | null
   {
-    return this.props.store.getCurrentGift();
+    return this.props.context.giftMap[this.props.currentGiftId];
   }
 
-  @computed
   get isOpen(): boolean
   {
     return !!this.gift;
@@ -30,14 +33,13 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
 
   async save()
   {
-    await this.props.store.saveGift(this.gift!);
-    this.props.store.cancelEdition();
-    this.props.onSave();
+    await this.props.saveGift(this.gift!);
+    this.props.cancelEdition();
   }
 
   render()
   {
-    const context = this.props.referentialStore.dataContext;
+    const context = this.props.context;
     return (
       <div className={"modal" + (this.isOpen ? " active" : "")} id="gift-edit" tabIndex={-1} ref = "root">
         <div className="modal-overlay" />
@@ -48,7 +50,8 @@ export class GiftEdit extends React.Component<GiftEditProps, {}>
                 individuals={Object.values(context.individualMap)}
                 events={Object.values(context.eventMap)}
                 save={() => this.save()}
-                close={() => this.props.store.cancelEdition()}/>
+                close={() => this.props.cancelEdition()}
+                updateGift={(u) => this.props.updateGift(u)}/>
             : null
         }
       </div>
@@ -61,26 +64,23 @@ interface GiftEditFormProps
   gift: GT.Gift;
   individuals: GT.Individual[];
   events: GT.Event[];
+  updateGift: (update: GT.GiftUpdate) => void;
   save: (gift: GT.Gift) => void;
   close: () => void;
 }
 
-@observer
 class GiftEditForm extends React.Component<GiftEditFormProps, {}>
 {
-  @observable
-  gift: GT.Gift;
-
   constructor(props: GiftEditFormProps)
   {
     super(props);
-    this.gift = props.gift;
   }
 
   onGiftChange = (event: React.FormEvent<HTMLElement>) => {
     const target = (event.target as HTMLInputElement);
     const field = target.name as keyof GT.Gift;
-    this.gift[field] = target.value;
+    const value = target.value;
+    this.props.updateGift({ giftId: this.props.gift.id, field, value });
   }
 
   textField = (
@@ -88,7 +88,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
     title: string,
     placeholder: string = '') => {
     const fieldid = "gift-edit-" + key;
-    const fieldvalue = (this.gift[key] || '') as number | string;
+    const fieldvalue = (this.props.gift[key] || '') as number | string;
     return (
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
@@ -108,7 +108,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
     options: { value: GT.Id, descr: string }[],
     emptyDescr?: string) => {
     const fieldid = "gift-edit-" + key;
-    const fieldvalue = this.gift[key] as number | null;
+    const fieldvalue = this.props.gift[key] as number | null;
     return (
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
@@ -199,7 +199,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
                       id="gift-edit-description"
                       placeholder="detailed descript of the gift"
                       name="description"
-                      value={this.gift.description}
+                      value={this.props.gift.description}
                       onChange={this.onGiftChange} />
                   </div>
                 </div>
@@ -220,7 +220,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
           type="button" 
           className="btn btn-primary" 
           id="gift-edit-save"
-          onClick={() => this.props.save(this.gift)}>
+          onClick={() => this.props.save(this.props.gift)}>
           Save changes
         </button>
       </div>
@@ -228,3 +228,20 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
     )
   }
 }
+
+function mapStateToProps(state: GT.AppState): GiftEditProps {
+  return {
+    context: state.context,
+    currentGiftId: state.currentlyEditedGift
+  };
+}
+
+function mapDispatchToProps(dispatch: ThunkDispatch<GT.AppState, void, GT.Action>): GiftEditActions {
+  return {
+    cancelEdition: () => dispatch(actions.cancelEdition()),
+    saveGift: (gift: GT.Gift) => dispatch(actions.saveGift(gift)),
+    updateGift: (update: GT.GiftUpdate) => dispatch(actions.updateGift(update))
+  }
+}
+
+export const GiftEditContainer = connect(mapStateToProps, mapDispatchToProps)(GiftEdit);

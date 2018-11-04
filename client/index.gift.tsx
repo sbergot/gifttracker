@@ -1,24 +1,22 @@
-import * as React from "react"
+import * as React from "react";
 import { render } from "react-dom";
-import { GiftApp } from "./components/GiftApp"
-import { GiftEdit } from "./components/GiftEdit";
-import { GiftEditStore } from "./stores/store.giftedit"
-import { ReferentialStore } from "./stores/store.referential";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux"
+import thunk from "redux-thunk"
+import { GiftAppContainer } from "./components/GiftApp";
+import { GiftEditContainer } from "./components/GiftEdit";
+import { reducer } from "./reducer/reducer";
 
 async function main()
 {
-    const referentialStore = new ReferentialStore();
-    await referentialStore.refresh();
-    const giftEditStore = new GiftEditStore(referentialStore);
-    
+    const store = createStore(reducer, applyMiddleware(thunk));
     render(
-        <GiftEdit
-            store={giftEditStore}
-            referentialStore={referentialStore}
-            onSave={() => referentialStore.refresh()} />,
-        document.getElementById("gift-edit"));
-    render(
-        <GiftApp giftEditStore={giftEditStore} referentialStore={referentialStore} />,
+        <Provider store={store}>
+            <div>
+                <GiftEditContainer />
+                <GiftAppContainer />
+            </div>
+        </Provider>,
         document.getElementById("gift-app"));
 }
 

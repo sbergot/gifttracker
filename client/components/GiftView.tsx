@@ -1,41 +1,41 @@
 import * as React from 'react';
 
 export interface GiftProps {
+    context: GT.DataContext;
     gift : GT.Gift;
     onDelete : () => void;
     onEdit :   () => void;
 }
 
-export class GiftView extends React.Component<GiftProps, {}>
+export function GiftView(props: GiftProps)
 {
-    render()
-    {
-        const gift = this.props.gift;
-        return (
-        <div className="gift-view">
-            <dl>
-                <dt>{gift.title} - {gift.priceInCents / 100} €</dt>
-                <dd>{gift.description}</dd>
-                {
-                    // gift.receiver !== null ? [
-                    //     <dt key="receiver-label" >Receiver</dt>,
-                    //     <dd key="receiver-input">
-                    //         {gift.receiver.firstName + " " + gift.receiver.lastName}
-                    //     </dd>
-                    // ] : null
-                }
-            </dl>
-            <button
-                className="gift-edit btn btn-primary btn-action btn-lg"
-                onClick={() => this.props.onEdit()}>
-                <i className="icon icon-edit" />
-            </button>
-            <button
-                className="gift-delete btn btn-primary btn-action btn-lg"
-                onClick={() => this.props.onDelete()}>
-                <i className="icon icon-cross" />
-            </button>
-        </div>
-        );
-    }
+    const gift = props.gift;
+    const receiverIds = props.context.giftReceiversMap[gift.id];
+    const receivers = receiverIds.map((r) => props.context.individualMap[r]);
+    return (
+    <div className="gift-view">
+        <dl>
+            <dt>{gift.title} - {gift.priceInCents / 100} €</dt>
+            <dd>{gift.description}</dd>
+            {
+                receivers.length > 0 ? [
+                    <dt key="receiver-label" >Receivers</dt>,
+                    <dd key="receiver-input">
+                        {receivers.map((receiver) => <span>{receiver.firstName + " " + receiver.lastName}</span>)}
+                    </dd>
+                ] : null
+            }
+        </dl>
+        <button
+            className="gift-edit btn btn-primary btn-action btn-lg"
+            onClick={() => props.onEdit()}>
+            <i className="icon icon-edit" />
+        </button>
+        <button
+            className="gift-delete btn btn-primary btn-action btn-lg"
+            onClick={() => props.onDelete()}>
+            <i className="icon icon-cross" />
+        </button>
+    </div>
+    );
 }

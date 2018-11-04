@@ -1,4 +1,10 @@
 namespace GT {
+    export interface AppState {
+        context: DataContext;
+        currentlyEditedGift: Id;
+        loading: boolean;
+    }
+
     export interface DataContext
     {
         eventMap: KeyMap<Event>;

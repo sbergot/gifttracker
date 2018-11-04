@@ -1,15 +1,10 @@
 import * as React from "react"
-import { observer } from "mobx-react";
-import { observable, computed } from "mobx";
-import { getIndividuals } from "../data/data.individual";
-import { ReferentialStore } from "../stores/store.referential";
 
 interface IndividualAppProps
 {
-  referentialStore: ReferentialStore
+  context: GT.DataContext
 }
 
-@observer
 export class IndividualApp extends React.Component<IndividualAppProps>
 {
   constructor(props: IndividualAppProps)
@@ -19,13 +14,13 @@ export class IndividualApp extends React.Component<IndividualAppProps>
 
   render()
   {
-    const context = this.props.referentialStore.dataContext;
+    const context = this.props.context;
     const individualIds = Object.keys(context.individualMap);
     return <div>
       {individualIds.map(indivId =>
         {
           const individual = context.individualMap[indivId];
-          const giftIds = this.props.referentialStore.dataContext.receiverGiftsMap[indivId];
+          const giftIds = this.props.context.receiverGiftsMap[indivId];
           return <div key={indivId}>{individual.firstName} {individual.lastName}
             <ul>
               {giftIds.map(id => {

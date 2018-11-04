@@ -12,27 +12,23 @@ interface IndividualAppProps
 @observer
 export class IndividualApp extends React.Component<IndividualAppProps>
 {
-  @observable
-  individuals: GT.IndividualWithGifts[] = [];
-
   constructor(props: IndividualAppProps)
   {
     super(props);
-    getIndividuals().then((r) => {
-      this.individuals = r; 
-    });
   }
 
   render()
   {
     const context = this.props.referentialStore.dataContext;
+    const individualIds = Object.keys(context.individualMap);
     return <div>
-      {this.individuals.map(i =>
+      {individualIds.map(indivId =>
         {
-          const individual = context.individualMap[i.individualId];
-          return <div key={i.individualId}>{individual.firstName} {individual.lastName}
+          const individual = context.individualMap[indivId];
+          const giftIds = this.props.referentialStore.dataContext.receiverGiftsMap[indivId];
+          return <div key={indivId}>{individual.firstName} {individual.lastName}
             <ul>
-              {i.giftIds.map(id => {
+              {giftIds.map(id => {
                 const gift = context.giftMap[id];
                 return <li key={gift.id}>{gift.title}</li>
               })}

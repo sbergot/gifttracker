@@ -1,8 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { observable, computed } from "mobx";
 import { observer, inject } from "mobx-react";
-import * as lodash from "lodash";
 
 import { GiftView } from "./GiftView";
 import { GiftEditStore } from "../stores/store.giftedit"

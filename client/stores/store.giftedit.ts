@@ -1,13 +1,12 @@
 import { observable } from "mobx";
 import { ReferentialStore } from './store.referential'
 import * as data from "../data/data.gift";
-import { GiftStatus } from '../models/enums';
 
-const NEW_GIFT_ID = -1;
+const NEW_GIFT_ID: GT.Id = "NEW_GIFT_ID";
 
 export class GiftEditStore {
   @observable
-  private currentEdit : number | null = null;
+  private currentEdit : GT.Id | null = null;
 
   constructor(private referential: ReferentialStore) {
   }
@@ -15,7 +14,7 @@ export class GiftEditStore {
   private makeGift() : GT.Gift {
     return {
         id : NEW_GIFT_ID,
-        ownerId : 0,
+        ownerId : "",
         priceInCents : 0,
         title : "",
         description : "",
@@ -24,7 +23,7 @@ export class GiftEditStore {
         buyer : null,
         eventId: null,
         event: null,
-        status: GiftStatus.None
+        status: "None"
       };
   }
 
@@ -36,7 +35,7 @@ export class GiftEditStore {
     return newGift
   }
 
-  editGift(giftKey: number)
+  editGift(giftKey: GT.Id)
   {
     this.currentEdit = giftKey;
   }
@@ -68,7 +67,7 @@ export class GiftEditStore {
     return query;
   }
 
-  deleteGift(giftId : number)
+  deleteGift(giftId : GT.Id)
   {
     return data.deleteGift(giftId);
   }

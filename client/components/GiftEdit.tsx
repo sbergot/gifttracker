@@ -105,7 +105,7 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
   dropDownField = (
     key: keyof GT.Gift,
     title: string,
-    options: { value: number, descr: string }[],
+    options: { value: GT.Id, descr: string }[],
     emptyDescr?: string) => {
     const fieldid = "gift-edit-" + key;
     const fieldvalue = this.gift[key] as number | null;
@@ -144,7 +144,6 @@ class GiftEditForm extends React.Component<GiftEditFormProps, {}>
 
   render()
   {
-    //var individuals = this.props.
     return (
     <div className="modal-container" id="gift-edit-modal">
       <div className="modal-header">

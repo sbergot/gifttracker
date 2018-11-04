@@ -1,11 +1,10 @@
 import * as data from "../data/data.referential";
 import { observable, computed } from "mobx";
-import { sortEvents, sortIndividuals } from '../services/service.referential';
 
 export class ReferentialStore
 {
     @observable
-    _dataContext: GT.DataContext
+    private _dataContext: GT.DataContext
 
     @computed
     get dataContext(): GT.DataContext

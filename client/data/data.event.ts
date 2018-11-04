@@ -9,6 +9,5 @@ export async function getEventsWithGifts() : Promise<GT.EventWithGifts[]>
 
 export function postEvent(year : number, type : GT.EventType)
 {
-    const typeRepr : string = GT.EventType[type];
-    sendJson(`${URL}/${year}/${typeRepr}`, Verbs.POST, null);
+    sendJson(`${URL}/${year}/${type}`, Verbs.POST, null);
 }

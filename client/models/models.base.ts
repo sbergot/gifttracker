@@ -1,51 +1,42 @@
 namespace GT {
-    export interface Gift {
-        id : number;
-        title : string;
-        description : string;
-        priceInCents: number;
-        url : string;
-        ownerId : number;
-        buyerId : number | null;
-        buyer : Individual | null;
-        eventId : number | null;
-        event : Event | null;
-        status : GiftStatus
-    }
-
     export interface Occurence
     {
-        id : number;
-        receiverId : number;
-        eventId: number;
+        id : Id;
+        receiverId : Id;
+        eventId: Id;
     }
 
-    export enum EventType
-    {
-        Christmas,
-        Birthday
-    };
+    export type EventType = "Christmas" | "Birthday";
 
-    export enum GiftStatus
-    {
-        None,
-        Reserved,
-        Bought
-    };
+    export type GiftStatus = "None" | "Reserved" | "Bought";
 
     export interface Event
     {
-        id : number;
+        id : Id;
         year : number;
         type : EventType;
     }
     
     export interface Individual
     {
-        id : number;
+        id : Id;
         firstName : string;
         lastName : string;
         birthDay : Date;
-        userId : number | null;
+        userId : Id | null;
+    }
+
+    export interface Gift {
+        id : Id;
+        title : string;
+        description : string;
+        priceInCents: number;
+        url : string;
+        ownerId : Id;
+        buyerId : Id | null;
+        buyer : Individual | null;
+        eventId : Id | null;
+        event : Event | null;
+        status : GiftStatus
     }
 }

@@ -5,12 +5,10 @@ import { sortByIndividuals, showEvent } from '../services/service.referential'
 
 interface EventViewProps
 {
-  eventId: number;
-  individualIds: number[];
-  individualWithGifts: GT.ChildMap;
+  eventId: GT.Id;
   referential: ReferentialStore;
-  editGift: (giftId: number) => void;
-  deleteGift: (giftId: number) => void;
+  editGift: (giftId: GT.Id) => void;
+  deleteGift: (giftId: GT.Id) => void;
   createGift: (event: GT.Event, individual: GT.Individual) => void;
 }
 
@@ -26,16 +24,17 @@ export class EventView extends React.Component<EventViewProps, {}>
   {
     const context = this.props.referential.dataContext;
     const evt  = context.eventMap[this.props.eventId];
+    const individualIds = Object.keys(context.individualMap);
     return (
       <div>
         <h2>{showEvent(evt)}</h2>
         <ul className="individual-list">
           {
-            sortByIndividuals(this.props.individualIds, i => context.individualMap[i])
+            sortByIndividuals(individualIds, i => context.individualMap[i])
             .map(indivId =>
               {
                 const indiv = context.individualMap[indivId];
-                const giftIds = this.props.individualWithGifts[indivId];
+                const giftIds = context.receiverGiftsMap[indivId];
                 return <li key={indivId}>
                   <span className="individual-list-elt">
                     {indiv.firstName}:

@@ -1,13 +1,12 @@
 namespace GT {
-    export type KeyMap<T> = {[id: string]: T}
-
-    export type ChildMap = {[id: string]: number[]}
-
     export interface DataContext
     {
+        eventMap: KeyMap<Event>;
         individualMap: KeyMap<Individual>;
         giftMap: KeyMap<Gift>;
-        eventMap: KeyMap<Event>;
+        eventGiftsMap: ChildMap;
+        giftReceiversMap: ChildMap;
+        receiverGiftsMap: ChildMap;
     }
 
     export interface GiftWithReceivers

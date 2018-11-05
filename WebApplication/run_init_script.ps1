@@ -1,0 +1,1 @@
+psql -U application -d gifttracker -f .\SqlScripts\init.sql

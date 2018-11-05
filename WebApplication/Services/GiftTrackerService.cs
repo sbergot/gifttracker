@@ -26,10 +26,13 @@ namespace WebApplication.Services
             _logger = loggerFactory.CreateLogger(this.GetType().Name);
         }
 
-        async public Task<int?> GetCurrentIndividualId()
+        async public Task<int> GetCurrentIndividualId()
         {
             var user = await userAccessor.GetUser();
-            return user.IndividualId;
+            if (user.IndividualId == null) {
+                throw new System.InvalidOperationException("user not linked to an individual");
+            }
+            return user.IndividualId.Value;
         }
 
         public IQueryable<Gift> GetVisibleGifts(int userId)

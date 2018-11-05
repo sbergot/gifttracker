@@ -27,11 +27,7 @@ namespace WebApplication.Controllers.Api
         async public Task<List<Gift>> Index()
         {
             var userId = await _giftTrackerService.GetCurrentIndividualId();
-            if (!userId.HasValue)
-            {
-                return new List<Gift>();
-            }
-            return await _giftTrackerService.GetVisibleGifts(userId.Value).ToListAsync();
+            return await _giftTrackerService.GetVisibleGifts(userId).ToListAsync();
         }
 
         [HttpPost]
@@ -42,8 +38,7 @@ namespace WebApplication.Controllers.Api
             }
             inputGift.Id = 0;
             var userId = await _giftTrackerService.GetCurrentIndividualId();
-            if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
-            inputGift.OwnerId = userId.Value;
+            inputGift.OwnerId = userId;
             var result = _dbContext.Gifts.Add(inputGift);
             await _dbContext.SaveChangesAsync();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
@@ -92,8 +87,7 @@ namespace WebApplication.Controllers.Api
         async private Task<Gift> FetchGift(int id)
         {
             var userId = await _giftTrackerService.GetCurrentIndividualId();
-            if (!userId.HasValue) { throw new System.Exception("user has no individual"); }
-            return _giftTrackerService.GetVisibleGifts(userId.Value).FirstOrDefault(g => g.Id == id);
+            return _giftTrackerService.GetVisibleGifts(userId).FirstOrDefault(g => g.Id == id);
         }
     }
 }

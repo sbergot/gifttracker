@@ -6,6 +6,11 @@
 - [~] implémenter règles de visibilité
 - [ ] mettre à jour client (update / display)
 
+## Lien individu/compte
+
+- [x] créer une table UserMail qui lie un mail à un individu
+- [ ] à la création du compte, faire le lien
+
 ## Gestion des droits
 flag sur une idée de cadeau: permettre aux autres de voir l'idée (sauf destinataire)
 Seul l'owner peut modifier le flag. L'owner voit toujours l'idée.

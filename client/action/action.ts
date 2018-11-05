@@ -67,7 +67,7 @@ export function deleteGift(id: GT.Id) {
     });
 }
 
-export function refreshData(id: GT.Id) {
+export function refreshData() {
     return asyncAction(async () => {
         return await dataContext.getReferential();
     },

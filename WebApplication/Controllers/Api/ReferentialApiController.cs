@@ -30,20 +30,21 @@ namespace WebApplication.Controllers.Api
             var events = _dbContext.Events;
             var individuals = await _giftTrackerService.GetVisibleIndividuals();
             var userId = await _giftTrackerService.GetCurrentIndividualId();
-            var gifts = _giftTrackerService.GetVisibleGifts(userId.Value);
+            _logger.LogInformation("userid: " + userId.ToString());
+            var gifts = _giftTrackerService.GetVisibleGifts(userId);
 
-            var giftsWithReceivers = await
-                (from gift in _giftTrackerService.GetVisibleGifts(userId.Value)
+            var giftsWithReceivers =
+                (from gift in _giftTrackerService.GetVisibleGifts(userId)
                 join gr in _dbContext.GiftReceiver
                 on gift.Id equals gr.GiftId into rs
                 select new {
                     GiftId = gift.Id,
-                    ReceiverIds = rs.Select(r => r.ReceiverId).ToList()
-                }).ToDictionaryAsync(gr => gr.GiftId, gr => gr.ReceiverIds.ToList());
+                    ReceiverIds = rs.Select(r => r.ReceiverId)
+                }).ToAsyncEnumerable().ToDictionary(gr => gr.GiftId, gr => gr.ReceiverIds);
 
             var eventsWithGifts = await
                 (from evt in _dbContext.Events
-                join gift in _giftTrackerService.GetVisibleGifts(userId.Value)
+                join gift in _giftTrackerService.GetVisibleGifts(userId)
                 on evt.Id equals gift.Id into eg
                 select new {
                     EventId = evt.Id,

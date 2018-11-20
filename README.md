@@ -9,7 +9,7 @@
 ## Lien individu/compte
 
 - [x] créer une table UserMail qui lie un mail à un individu
-- [ ] à la création du compte, faire le lien
+- [x] à la création du compte, faire le lien
 
 ## Gestion des droits
 flag sur une idée de cadeau: permettre aux autres de voir l'idée (sauf destinataire)
@@ -39,6 +39,7 @@ lien de visibilité nn entre un compte et les individus (configurable par le com
 par défaut un compte voit les individus des groupes auxquels il appartient
 dans l'interface, les dropdowns ne montrent que les individus visibles pour ce compte
 
+- [ ] script d'initialisation de la table des liens
 - [ ] créer page d'administration de la visibilité
 
 ## gestion des events

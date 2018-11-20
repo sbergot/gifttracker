@@ -4,13 +4,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const clientPath = path.resolve("./client");
 
 module.exports = {
-    externals : {
-        "jquery" : "jQuery",
-        "bootstrap" : "jQuery",
-        "react": "React",
-        "react-dom": "ReactDOM"
-    },
-
     devtool: "inline-source-map",
 
     entry: {
@@ -43,6 +36,6 @@ module.exports = {
     },
 
     plugins: [
-        // new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin()
     ]
 }

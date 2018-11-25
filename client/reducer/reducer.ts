@@ -11,7 +11,8 @@ export function reducer(state: GT.AppState | undefined, action: GT.Action): GT.A
                 draft.context.giftMap[NEW_GIFT_ID] = {
                     ...makeGift(),
                     ...action.gift
-                }
+                };
+                draft.currentlyEditedGift = NEW_GIFT_ID;
             });
         case "EditGift":
             return {...state, currentlyEditedGift: action.id}

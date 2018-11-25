@@ -24,7 +24,7 @@ export function EventView(props: EventViewProps)
           .map(indivId =>
             {
               const indiv = context.individualMap[indivId];
-              const giftIds = context.receiverGiftsMap[indivId];
+              const giftIds = context.receiverGiftsMap[indivId] || [];
               return <li key={indivId}>
                 <span className="individual-list-elt">
                   {indiv.firstName}:
@@ -34,12 +34,13 @@ export function EventView(props: EventViewProps)
                   ? <span className="gift-list-empty">nothing :-(</span>
                   : <ul className="gift-list">
                         {
-                          giftIds.map(giftId => {
+                          giftIds.map(giftId =>
                           <Gift
+                            key={giftId}
                             gift={context.giftMap[giftId]}
                             editGift={props.editGift}
                             deleteGift={props.deleteGift}/>
-                          })
+                          )
                         }
                     </ul>
                 }
@@ -58,7 +59,12 @@ export function EventView(props: EventViewProps)
   );
 }
 
-function Gift(props: {gift: GT.Gift, editGift: (giftId: GT.Id) => void, deleteGift: (giftId: GT.Id) => void;}): JSX.Element {
+function Gift(
+  props: {
+    gift: GT.Gift,
+    editGift: (giftId: GT.Id) => void,
+    deleteGift: (giftId: GT.Id) => void
+  }) {
   const giftId = props.gift.id;
   return <li className="gift-list-elt" key={giftId}>
     <GiftTitle {...props.gift} />
@@ -77,5 +83,5 @@ function Gift(props: {gift: GT.Gift, editGift: (giftId: GT.Id) => void, deleteGi
 function GiftTitle(gift: GT.Gift) {
   return gift.url
       ? <a href={gift.url} >{gift.title}</a>
-      : <span>gift.title</span>;
+      : <span>{gift.title}</span>;
 }

@@ -36,8 +36,8 @@ export function sortIndividuals(individuals: GT.Individual[]): GT.Individual[] {
     return sortByIndividuals(individuals, (i) => i);
 }
 
-export function showEventType(et: GT.EventType): string {
-    return et;
+export function showEventType(et: number): GT.EventType {
+    return et == 0 ? "Christmas" : "Birthday";
 }
 
 export function showEvent(event: GT.Event): string {

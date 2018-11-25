@@ -14,7 +14,7 @@ namespace GT {
     {
         id : Id;
         year : number;
-        type : EventType;
+        type : number;
     }
     
     export interface Individual

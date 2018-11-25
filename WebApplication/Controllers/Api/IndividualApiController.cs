@@ -26,7 +26,7 @@ namespace WebApplication.Controllers.Api
         [HttpGet]
         async public Task<List<Individual>> Index()
         {
-            return await _giftTrackerService.GetVisibleIndividuals();
+            return await _giftTrackerService.GetVisibleIndividualList();
         }
     }
 }

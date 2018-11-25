@@ -57,6 +57,7 @@ namespace WebApplication.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await LinkToIndividual(user);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -196,37 +197,10 @@ namespace WebApplication.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-                // we have stored mails of knwon people to be able to link them automatically
-                // to the corresponding individual
-                var usermail = _dbContext.UserMails.SingleOrDefault(m => m.Mail == user.Email);
-                if (usermail != null)
-                {
-                    var userIndivId = usermail.IndividualId;
-
-                    user.IndividualId = userIndivId;
-                    var groupIds = _dbContext.IndividualInGroups
-                        .Where(g => g.IndividualId == userIndivId)
-                        .Select(g => g.GroupId)
-                        .ToList();
-                    var visibleIndivs = _dbContext.IndividualInGroups
-                        .Where(gi => groupIds.Contains(gi.GroupId))
-                        .Select(gi => gi.IndividualId)
-                        .Distinct() // individuals can be in multiple groups
-                        .ToList();
-
-                    foreach (var indiv in visibleIndivs)
-                    {
-                        _dbContext.IndividualVisibility.Add(new IndividualVisibility {
-                            ViewerId = userIndivId,
-                            ViewedId = indiv
-                        });
-                    }
-                    await _dbContext.SaveChangesAsync();
-                }
-
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await LinkToIndividual(user);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -240,6 +214,38 @@ namespace WebApplication.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
             return View(model);
+        }
+
+        private async Task LinkToIndividual(ApplicationUser user)
+        {
+            // we have stored mails of knwon people to be able to link them automatically
+            // to the corresponding individual
+            var usermail = _dbContext.UserMails.SingleOrDefault(m => m.Mail == user.Email);
+            if (usermail != null)
+            {
+                var userIndivId = usermail.IndividualId;
+
+                user.IndividualId = userIndivId;
+                var groupIds = _dbContext.IndividualInGroups
+                    .Where(g => g.IndividualId == userIndivId)
+                    .Select(g => g.GroupId)
+                    .ToList();
+                var visibleIndivs = _dbContext.IndividualInGroups
+                    .Where(gi => groupIds.Contains(gi.GroupId))
+                    .Select(gi => gi.IndividualId)
+                    .Distinct() // individuals can be in multiple groups
+                    .ToList();
+
+                foreach (var indiv in visibleIndivs)
+                {
+                    _dbContext.IndividualVisibility.Add(new IndividualVisibility
+                    {
+                        ViewerId = userIndivId,
+                        ViewedId = indiv
+                    });
+                }
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         [HttpPost]

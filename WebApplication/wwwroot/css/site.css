@@ -73,3 +73,11 @@ header > section.brand {
 #gift-edit-modal > .modal-body {
     max-height: 600px;
 }
+
+.modal-container {
+    max-height: 600px !important;
+}
+
+.receiver {
+    margin-right: 3px;
+}

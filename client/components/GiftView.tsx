@@ -10,7 +10,7 @@ export interface GiftProps {
 export function GiftView(props: GiftProps)
 {
     const gift = props.gift;
-    const receiverIds = props.context.giftReceiversMap[gift.id];
+    const receiverIds = props.context.giftReceiversMap[gift.id] || [];
     const receivers = receiverIds.map((r) => props.context.individualMap[r]);
     return (
     <div className="gift-view">
@@ -21,7 +21,12 @@ export function GiftView(props: GiftProps)
                 receivers.length > 0 ? [
                     <dt key="receiver-label" >Receivers</dt>,
                     <dd key="receiver-input">
-                        {receivers.map((receiver) => <span>{receiver.firstName + " " + receiver.lastName}</span>)}
+                        {receivers.map((receiver) =>
+                            <span className="receiver" key={receiver.id} >
+                                {receiver.firstName + " " + receiver.lastName}
+                            </span>
+                            )
+                        }
                     </dd>
                 ] : null
             }

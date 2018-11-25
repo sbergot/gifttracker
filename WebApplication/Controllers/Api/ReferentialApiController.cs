@@ -28,34 +28,24 @@ namespace WebApplication.Controllers.Api
         async public Task<DataContext> Index()
         {
             var events = _dbContext.Events;
-            var individuals = await _giftTrackerService.GetVisibleIndividuals();
+            var individuals = await _giftTrackerService.GetVisibleIndividualList();
             var userId = await _giftTrackerService.GetCurrentIndividualId();
             _logger.LogInformation("userid: " + userId.ToString());
             var gifts = _giftTrackerService.GetVisibleGifts(userId);
 
-            var giftsWithReceivers =
-                (from gift in _giftTrackerService.GetVisibleGifts(userId)
-                join gr in _dbContext.GiftReceiver
-                on gift.Id equals gr.GiftId into rs
-                select new {
-                    GiftId = gift.Id,
-                    ReceiverIds = rs.Select(r => r.ReceiverId)
-                }).ToAsyncEnumerable().ToDictionary(gr => gr.GiftId, gr => gr.ReceiverIds);
-
-            var eventsWithGifts = await
-                (from evt in _dbContext.Events
-                join gift in _giftTrackerService.GetVisibleGifts(userId)
-                on evt.Id equals gift.Id into eg
-                select new {
-                    EventId = evt.Id,
-                    GiftIds = eg.Select(g => g.Id)
-                }).ToDictionaryAsync(eg => eg.EventId, eg => eg.GiftIds.ToList());
+            var giftsWithReceivers = await
+                (from giftreceiver in _dbContext.GiftReceiver
+                join receiver in _giftTrackerService.GetVisibleIndividuals(userId) on giftreceiver.ReceiverId equals receiver.Id
+                join gift in _giftTrackerService.GetVisibleGifts(userId) on giftreceiver.GiftId equals gift.Id
+                select new [] {giftreceiver.GiftId, giftreceiver.ReceiverId}
+                ).ToAsyncEnumerable().ToList();
 
             return new DataContext
             {
                 IndividualMap = individuals.ToDictionary(i => i.Id),
                 EventMap = events.ToDictionary(e => e.Id),
-                GiftMap = gifts.ToDictionary(g => g.Id)
+                GiftMap = gifts.ToDictionary(g => g.Id),
+                GiftReceiverPairs = giftsWithReceivers
             };
         }
     }

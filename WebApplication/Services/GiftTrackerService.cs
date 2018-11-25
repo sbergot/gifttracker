@@ -51,18 +51,23 @@ namespace WebApplication.Services
             );
         }
 
-        async public Task<List<Individual>> GetVisibleIndividuals()
+        async public Task<List<Individual>> GetVisibleIndividualList()
         {
             var indivId = await GetCurrentIndividualId();
-            return await _dbContext.Individuals
+            return await GetVisibleIndividuals(indivId).ToListAsync();
+        }
+
+        public IQueryable<Individual> GetVisibleIndividuals(int indivId)
+        {
+            return _dbContext.Individuals
                 .Join(
                     _dbContext.IndividualVisibility,
                     i => i.Id,
                     iv => iv.ViewedId,
                     (i, iv) => new { i, iv.ViewerId })
                 .Where(o => o.ViewerId == indivId)
-                .Select(o => o.i)
-                .ToListAsync();
+                .Select(o => o.i);
         }
+
     }
 }

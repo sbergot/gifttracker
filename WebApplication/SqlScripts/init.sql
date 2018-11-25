@@ -256,6 +256,11 @@ DO $$
         "ReceiverId", "GiftId")
         VALUES (sbergot, last_gift);
 
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (cabollengier, last_gift);
+
+
     INSERT INTO public."Gifts"(
         "Description", "EventId", "OwnerId", "PriceInCents", "Title")
         VALUES ('an expensive toy', evt_1, sbergot, 614, 'a toy')

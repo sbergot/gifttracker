@@ -1,6 +1,5 @@
 import * as React from "react"
 import { connect } from "react-redux"
-import { Dispatch } from "redux"
 import { showEvent, showGiftStatus, allGiftStatus } from '../services/service.referential';
 import * as actions from "../action/action";
 import { ThunkDispatch } from "redux-thunk";
@@ -49,6 +48,7 @@ class GiftEdit extends React.Component<GiftEditProps & GiftEditActions, {}>
                 gift={this.gift!}
                 individuals={Object.values(context.individualMap)}
                 events={Object.values(context.eventMap)}
+                receiverIds={context.giftReceiversMap[this.gift!.id]}
                 save={() => this.save()}
                 close={() => this.props.cancelEdition()}
                 updateGift={(u) => this.props.updateGift(u)}/>
@@ -64,6 +64,7 @@ interface GiftEditFormProps
   gift: GT.Gift;
   individuals: GT.Individual[];
   events: GT.Event[];
+  receiverIds: GT.Id[];
   updateGift: (update: GT.GiftUpdate) => void;
   save: (gift: GT.Gift) => void;
   close: () => void;

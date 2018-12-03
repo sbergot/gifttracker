@@ -11,6 +11,7 @@ namespace GT {
         individualMap: KeyMap<Individual>;
         giftMap: KeyMap<Gift>;
         eventGiftsMap: ChildMap;
+        giftReceiverPairs: Array<[Id, Id]>;
         giftReceiversMap: ChildMap;
         receiverGiftsMap: ChildMap;
     }

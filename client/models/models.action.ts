@@ -33,6 +33,18 @@ namespace GT {
         update: GiftUpdate;
     }
 
+    export type AddRemove = "Add" | "Remove";
+
+    export interface ReceiverUpdate {
+        giftId: GT.Id;
+        receiverIds: GT.Id[];
+    }
+
+    export interface ReceiverUpdateAction {
+        type: "ReceiverUpdate";
+        receiverUpdate: ReceiverUpdate;
+    }
+
     export interface AsyncOperationStartAction {
         type: "AsyncOperationStart";
     }
@@ -59,4 +71,5 @@ namespace GT {
         | AsyncOperationSuccessAction
         | AsyncOperationFailureAction
         | DataContextReceivedAction
+        | ReceiverUpdateAction
 }

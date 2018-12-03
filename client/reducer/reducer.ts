@@ -1,5 +1,14 @@
 import { produce } from "immer";
 import { NEW_GIFT_ID } from "../constant/constant";
+import { diffArray } from "../services/services.arraydiff";
+
+function removeFrom<T>(arr: T[], elt: T): T[] {
+    const idx = arr.indexOf(elt);
+    if (idx > -1) {
+        arr.splice(idx, 1);
+    }
+    return arr;
+}
 
 export function reducer(state: GT.AppState | undefined, action: GT.Action): GT.AppState {
     if (!state) {
@@ -31,6 +40,19 @@ export function reducer(state: GT.AppState | undefined, action: GT.Action): GT.A
             return {...state, loading: false};
         case "DataContextReceived":
             return {...state, context: action.dataContext, loading: false};
+        case "ReceiverUpdate":
+            return produce(state, draft => {
+                const update = action.receiverUpdate;
+                const newReceivers = update.receiverIds;
+                const receiverPairs = newReceivers.map(id => {
+                    const pair:  [string, string] = [update.giftId, id];
+                    return pair;
+                });
+                const newReceiverPairs = draft.context.giftReceiverPairs
+                    .filter((pair) => pair[0] != update.giftId)
+                    .concat(receiverPairs);
+                draft.context.giftReceiverPairs = newReceiverPairs;
+            });
         default:
             return state;
     }
@@ -42,6 +64,7 @@ function makeSate(): GT.AppState {
             eventGiftsMap: {},
             eventMap: {},
             giftMap: {},
+            giftReceiverPairs: [],
             giftReceiversMap: {},
             individualMap: {},
             receiverGiftsMap: {},

@@ -1,4 +1,5 @@
-import { getJson, sendJson, Verbs } from "./data.shared"
+import { getJson } from "./data.shared"
+import { refreshDataContext } from "../services/service.referential"
 
 const URL = "./api/referential";
 
@@ -10,31 +11,17 @@ interface ReferentialData
     giftReceiverPairs: Array<[number, number]>;
 }
 
-function groupBy<T, V>(
-    coll: T[],
-    keyResolver: (o:T) => string,
-    valueResolver: (o:T) => V)
-    : Record<string, V[]> {
-    const result: Record<string, V[]> = {};
-    coll.forEach(v => {
-        const key = keyResolver(v);
-        if (!(key in result)) {
-            result[key] = [];
-        }
-        result[key].push(valueResolver(v));
-    })
-    return result;
-}
-
 function createDataContext(referentialData: ReferentialData): GT.DataContext {
-    return {
+    return refreshDataContext({
         giftMap: referentialData.giftMap,
         individualMap: referentialData.individualMap,
         eventMap: referentialData.eventMap,
-        eventGiftsMap: groupBy(Object.values(referentialData.giftMap), g => g.eventId!, g => g.id),
-        giftReceiversMap: groupBy(referentialData.giftReceiverPairs, gr => gr[0].toString(), gr => gr[1].toString()),
-        receiverGiftsMap: groupBy(referentialData.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString())
-    }
+        giftReceiverPairs: referentialData.giftReceiverPairs
+            .map(([giftid, individ]) => [giftid.toString(), individ.toString()] as [GT.Id, GT.Id]),
+        eventGiftsMap: {},
+        giftReceiversMap: {},
+        receiverGiftsMap: {}
+    })
 }
 
 export async function getReferential() : Promise<GT.DataContext>

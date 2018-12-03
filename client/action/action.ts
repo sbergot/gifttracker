@@ -36,6 +36,10 @@ export function dataContextReceived(dataContext: GT.DataContext): GT.DataContext
     return { type: "DataContextReceived", dataContext };
 }
 
+export function updateReceiver(receiverUpdate: GT.ReceiverUpdate): GT.ReceiverUpdateAction {
+    return { type: "ReceiverUpdate", receiverUpdate };
+}
+
 function asyncAction<T>(cb: () => Promise<T>, resultCb?: (r: T) => GT.Action) {
     return async (dispatch: Dispatch<GT.Action>) => {
         dispatch(asyncOperationStart());

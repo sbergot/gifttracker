@@ -36,7 +36,7 @@ export function sortIndividuals(individuals: GT.Individual[]): GT.Individual[] {
     return sortByIndividuals(individuals, (i) => i);
 }
 
-export function showEventType(et: number): GT.EventType {
+function showEventType(et: number): GT.EventType {
     return et == 0 ? "Christmas" : "Birthday";
 }
 
@@ -49,3 +49,30 @@ export function showGiftStatus(gs: GT.GiftStatus): string {
 }
 
 export const allGiftStatus: GT.GiftStatus[] = [ "None", "Reserved", "Bought" ];
+
+function groupBy<T, V>(
+    coll: T[],
+    keyResolver: (o: T) => string,
+    valueResolver: (o: T) => V): Record<string, V[]> {
+    const result: Record<string, V[]> = {};
+    coll.forEach(v => {
+        const key = keyResolver(v);
+        if (!(key in result)) {
+            result[key] = [];
+        }
+        result[key].push(valueResolver(v));
+    })
+    return result;
+}
+
+export function refreshDataContext(context: GT.DataContext): GT.DataContext {
+    return {
+        giftMap: context.giftMap,
+        individualMap: context.individualMap,
+        eventMap: context.eventMap,
+        giftReceiverPairs: context.giftReceiverPairs,
+        eventGiftsMap: groupBy(Object.values(context.giftMap), g => g.eventId!, g => g.id),
+        giftReceiversMap: groupBy(context.giftReceiverPairs, gr => gr[0].toString(), gr => gr[1].toString()),
+        receiverGiftsMap: groupBy(context.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString())
+    }
+}

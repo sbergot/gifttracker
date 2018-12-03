@@ -68,6 +68,5 @@ namespace WebApplication.Services
                 .Where(o => o.ViewerId == indivId)
                 .Select(o => o.i);
         }
-
     }
 }

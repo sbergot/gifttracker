@@ -6,7 +6,6 @@
     "@types/react-bootstrap-typeahead": "^3.2.1",
     "immer": "^1.7.4",
     "react": "^16.2.0",
-    "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.2.0",
     "react-redux": "^5.1.0",
     "redux": "^4.0.1",

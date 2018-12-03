@@ -37,7 +37,8 @@ namespace GT {
 
     export interface ReceiverUpdate {
         giftId: GT.Id;
-        receiverIds: GT.Id[];
+        receiverId: GT.Id;
+        operation: AddRemove;
     }
 
     export interface ReceiverUpdateAction {

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Typeahead } from "react-bootstrap-typeahead"
+import { Typeahead } from "./TypeAhead"
 
 import { showEvent, showGiftStatus, allGiftStatus } from '../services/service.referential';
 
@@ -60,13 +60,20 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
     return (
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
-        <Typeahead
+        <Typeahead<GT.Individual>
           selected={selected}
           options={individuals}
-          onChange={(selected) => this.props.updateReceiver({
+          removeElt={(id) => this.props.updateReceiver({
             giftId: this.props.gift.id,
-            receiverIds: selected
-            })} />
+            receiverId: id,
+            operation: "Remove"
+          })}
+          addElt={(id) => this.props.updateReceiver({
+            giftId: this.props.gift.id,
+            receiverId: id,
+            operation: "Add"
+          })}
+          displayOption={(option: GT.Individual) => `${option.firstName} ${option.lastName}`} />
       </div>);
   }
 

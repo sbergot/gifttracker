@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { NEW_GIFT_ID } from "../constant/constant";
-import { diffArray } from "../services/services.arraydiff";
+import { refreshDataContext } from "../services/service.referential"
 
 function removeFrom<T>(arr: T[], elt: T): T[] {
     const idx = arr.indexOf(elt);
@@ -43,15 +43,21 @@ export function reducer(state: GT.AppState | undefined, action: GT.Action): GT.A
         case "ReceiverUpdate":
             return produce(state, draft => {
                 const update = action.receiverUpdate;
-                const newReceivers = update.receiverIds;
-                const receiverPairs = newReceivers.map(id => {
-                    const pair:  [string, string] = [update.giftId, id];
-                    return pair;
-                });
-                const newReceiverPairs = draft.context.giftReceiverPairs
-                    .filter((pair) => pair[0] != update.giftId)
-                    .concat(receiverPairs);
-                draft.context.giftReceiverPairs = newReceiverPairs;
+                const giftId = update.giftId.toString();
+                const receiverId = update.receiverId.toString();
+                const isMatch = (p: [GT.Id, GT.Id]) => p[0] === giftId && p[1] === receiverId;
+                const pairs = draft.context.giftReceiverPairs
+                const pairExists = pairs.some(isMatch);
+
+                if (update.operation === 'Add' && !pairExists) {
+                    pairs.push([giftId, receiverId])
+                }
+
+                if (update.operation === 'Remove') {
+                    draft.context.giftReceiverPairs = pairs.filter(p => !isMatch(p));
+                }
+
+                draft.context = refreshDataContext(draft.context);
             });
         default:
             return state;

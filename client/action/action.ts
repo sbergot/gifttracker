@@ -1,8 +1,12 @@
 import * as dataGift from "../data/data.gift"
 import * as dataContext from "../data/data.referential"
-import { Dispatch } from "redux"
+import { ThunkDispatch } from "redux-thunk"
 
 import { NEW_GIFT_ID } from "../constant/constant"
+import { Dispatch } from "redux";
+
+type AsyncAction = (dispatch: Dispatch<GT.Action>) => Promise<void>;
+type AnyAction = GT.Action | AsyncAction;
 
 export function newGift(gift: Partial<GT.Gift>, edit: boolean = false): GT.NewGiftAction {
     return { type: "NewGift", gift, edit };
@@ -40,8 +44,8 @@ export function updateReceiver(receiverUpdate: GT.ReceiverUpdate): GT.ReceiverUp
     return { type: "ReceiverUpdate", receiverUpdate };
 }
 
-function asyncAction<T>(cb: () => Promise<T>, resultCb?: (r: T) => GT.Action) {
-    return async (dispatch: Dispatch<GT.Action>) => {
+function asyncAction<T>(cb: () => Promise<T>, resultCb?: (r: T) => AnyAction) {
+    return async (dispatch: ThunkDispatch<GT.AppState, void, GT.Action>) => {
         dispatch(asyncOperationStart());
         let result: T;
         try {
@@ -50,8 +54,8 @@ function asyncAction<T>(cb: () => Promise<T>, resultCb?: (r: T) => GT.Action) {
             dispatch(asyncOperationFailure());
             return;
         }
-        if (resultCb) { dispatch(resultCb(result)); }
-        else { dispatch(asyncOperationSuccess()); }
+        dispatch(asyncOperationSuccess());
+        if (resultCb) { dispatch(resultCb(result) as any); }
     };
 }
 
@@ -62,13 +66,15 @@ export function saveGift(gift: GT.Gift) {
         } else {
             await dataGift.putGift(gift);
         }
-    });
+    },
+    () => refreshData());
 }
 
 export function deleteGift(id: GT.Id) {
     return asyncAction(async () => {
         await dataGift.deleteGift(id);
-    });
+    },
+    () => refreshData());
 }
 
 export function refreshData() {

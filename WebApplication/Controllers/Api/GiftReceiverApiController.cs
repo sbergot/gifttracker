@@ -13,7 +13,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Services;
 
     [Authorize]
-    [Route("api/gift")]
+    [Route("api/giftreceiver")]
     public class GiftReceiverApiController : ApiControllerBase
     {
         public GiftReceiverApiController(
@@ -61,7 +61,7 @@ namespace WebApplication.Controllers.Api
             return Ok();
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("{giftId:int}/{receiverId:int}")]
 
         async public Task<IActionResult> Delete(int giftId, int receiverId)
@@ -77,10 +77,8 @@ namespace WebApplication.Controllers.Api
                 return Forbid();
             }
 
-            var result = _dbContext.GiftReceiver.Remove(new GiftReceiver {
-                GiftId = giftId,
-                ReceiverId = receiverId
-            });
+            _dbContext.GiftReceiver.RemoveRange(
+                _dbContext.GiftReceiver.Where(gr => gr.GiftId == giftId && gr.ReceiverId == receiverId));
             await _dbContext.SaveChangesAsync();
             return Ok();
         }

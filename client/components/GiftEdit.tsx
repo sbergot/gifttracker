@@ -72,7 +72,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<GT.AppState, void, GT.Action
     cancelEdition: () => dispatch(actions.cancelEdition()),
     saveGift: (gift: GT.Gift) => dispatch(actions.saveGift(gift)),
     updateGift: (update: GT.GiftUpdate) => dispatch(actions.updateGift(update)),
-    updateReceiver: (u: GT.ReceiverUpdate) => dispatch(actions.updateReceiver(u))
+    updateReceiver: (u: GT.ReceiverUpdate) => dispatch(actions.persistedUpdateReceiver(u))
   }
 }
 

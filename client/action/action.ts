@@ -1,8 +1,9 @@
-import * as dataGift from "../data/data.gift"
-import * as dataContext from "../data/data.referential"
-import { ThunkDispatch } from "redux-thunk"
+import * as dataGift from "../data/data.gift";
+import * as dataGiftReceiver from "../data/data.giftreceiver";
+import * as dataContext from "../data/data.referential";
+import { ThunkDispatch } from "redux-thunk";
 
-import { NEW_GIFT_ID } from "../constant/constant"
+import { NEW_GIFT_ID } from "../constant/constant";
 import { Dispatch } from "redux";
 
 type AsyncAction = (dispatch: Dispatch<GT.Action>) => Promise<void>;
@@ -82,4 +83,17 @@ export function refreshData() {
         return await dataContext.getReferential();
     },
     (context: GT.DataContext) => dataContextReceived(context));
+}
+
+export function persistedUpdateReceiver(receiverUpdate: GT.ReceiverUpdate) {
+    return async (dispatch: ThunkDispatch<GT.AppState, void, GT.Action>) => {
+        dispatch(updateReceiver(receiverUpdate));
+        dispatch(asyncAction(async () => {
+            if (receiverUpdate.operation === 'Add') {
+                return await dataGiftReceiver.postGiftReceiver(receiverUpdate.giftId, receiverUpdate.receiverId);
+            } else {
+                return await dataGiftReceiver.deleteGiftReceiver(receiverUpdate.giftId, receiverUpdate.receiverId);
+            }
+        }))
+    };
 }

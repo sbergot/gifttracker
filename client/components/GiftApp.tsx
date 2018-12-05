@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import { Subscribe } from "unstated"
 
+import { Store } from "../stores/store";
 import { GiftView } from "./GiftView";
-import * as actions from "../action/action";
-import { ThunkDispatch } from 'redux-thunk';
 
 interface GiftAppProps
 {
@@ -34,22 +32,19 @@ function GiftApp(props: GiftAppProps & GiftAppActions)
   </div>;
 }
 
-
-function mapStateToProps(state: GT.AppState): GiftAppProps {
-  return { context: state.context };
+export function GiftAppContainer() {
+  return <Subscribe to={[Store]}>
+  {(store: Store) => (
+    <GiftApp
+      context={store.state.context}
+      giftActions={{
+        cancelEdition: store.cancelEdition,
+        deleteGift: store.deleteGift,
+        editGift: store.editGift,
+        newGift: store.newGift,
+        saveGift: store.saveGift
+      }}
+    />
+  )}
+  </Subscribe>
 }
-
-function mapDispatchToProps(dispatch: ThunkDispatch<GT.AppState, void, GT.Action>): GiftAppActions {
-  const giftActions = {
-      newGift: (gift: Partial<GT.Gift>, edit: boolean) => dispatch(actions.newGift(gift, edit)),
-      editGift: (id: GT.Id) => dispatch(actions.editGift(id)),
-      cancelEdition: () => dispatch(actions.cancelEdition()),
-      saveGift: (gift: GT.Gift) => dispatch(actions.saveGift(gift)),
-      deleteGift: (id: GT.Id) => dispatch(actions.deleteGift(id)),
-      updateGift: (update: GT.GiftUpdate) => dispatch(actions.updateGift(update))
-  }
-  return { giftActions };
-}
-
-
-export const GiftAppContainer = connect(mapStateToProps, mapDispatchToProps)(GiftApp);

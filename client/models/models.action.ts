@@ -13,26 +13,6 @@ namespace GT {
         value: string;
       }
 
-    export interface NewGiftAction {
-        type: "NewGift";
-        gift: Partial<GT.Gift>;
-        edit: boolean;
-    }
-
-    export interface EditGiftAction {
-        type: "EditGift";
-        id: Id;
-    }
-
-    export interface CancelEditionAction {
-        type: "CancelEdition";
-    }
-
-    export interface UpdateGiftAction {
-        type: "UpdateGift";
-        update: GiftUpdate;
-    }
-
     export type AddRemove = "Add" | "Remove";
 
     export interface ReceiverUpdate {
@@ -40,37 +20,4 @@ namespace GT {
         receiverId: GT.Id;
         operation: AddRemove;
     }
-
-    export interface ReceiverUpdateAction {
-        type: "ReceiverUpdate";
-        receiverUpdate: ReceiverUpdate;
-    }
-
-    export interface AsyncOperationStartAction {
-        type: "AsyncOperationStart";
-    }
-
-    export interface AsyncOperationSuccessAction {
-        type: "AsyncOperationSuccess";
-    }
-
-    export interface AsyncOperationFailureAction {
-        type: "AsyncOperationFailure";
-    }
-
-    export interface DataContextReceivedAction {
-        type: "DataContextReceived";
-        dataContext: DataContext;
-    }
-
-    export type Action
-        = NewGiftAction
-        | EditGiftAction
-        | CancelEditionAction
-        | UpdateGiftAction
-        | AsyncOperationStartAction
-        | AsyncOperationSuccessAction
-        | AsyncOperationFailureAction
-        | DataContextReceivedAction
-        | ReceiverUpdateAction
 }

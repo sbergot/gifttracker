@@ -1,7 +1,7 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import * as actions from "../action/action";
+import { Subscribe } from "unstated"
+
+import { Store } from "../stores/store";
 import { GiftEditForm } from "./GiftEditForm";
 
 interface GiftEditProps
@@ -18,7 +18,7 @@ interface GiftEditActions
   updateReceiver: (update: GT.ReceiverUpdate) => void;
 }
 
-class GiftEdit extends React.Component<GiftEditProps & GiftEditActions, {}>
+class GiftEdit extends React.PureComponent<GiftEditProps & GiftEditActions, {}>
 {
   get gift(): GT.Gift | null
   {
@@ -60,20 +60,17 @@ class GiftEdit extends React.Component<GiftEditProps & GiftEditActions, {}>
   }
 }
 
-function mapStateToProps(state: GT.AppState): GiftEditProps {
-  return {
-    context: state.context,
-    currentGiftId: state.currentlyEditedGift
-  };
+export function GiftEditContainer() {
+  return <Subscribe to={[Store]}>
+  {(store: Store) => (
+    <GiftEdit
+      cancelEdition={store.cancelEdition}
+      context={store.state.context}
+      currentGiftId={store.state.currentlyEditedGift}
+      saveGift={store.saveGift}
+      updateGift={store.updateGift}
+      updateReceiver={store.updateReceiver}
+    />
+  )}
+  </Subscribe>
 }
-
-function mapDispatchToProps(dispatch: ThunkDispatch<GT.AppState, void, GT.Action>): GiftEditActions {
-  return {
-    cancelEdition: () => dispatch(actions.cancelEdition()),
-    saveGift: (gift: GT.Gift) => dispatch(actions.saveGift(gift)),
-    updateGift: (update: GT.GiftUpdate) => dispatch(actions.updateGift(update)),
-    updateReceiver: (u: GT.ReceiverUpdate) => dispatch(actions.persistedUpdateReceiver(u))
-  }
-}
-
-export const GiftEditContainer = connect(mapStateToProps, mapDispatchToProps)(GiftEdit);

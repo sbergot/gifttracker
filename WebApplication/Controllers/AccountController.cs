@@ -1,25 +1,23 @@
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using WebApplication.Data;
-using WebApplication.Models;
-using WebApplication.ViewModels.AccountViewModels;
-
 namespace WebApplication.Controllers
 {
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using WebApplication.Data;
+    using WebApplication.Models;
+    using WebApplication.ViewModels.AccountViewModels;
+
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        protected readonly ApplicationDbContext _dbContext;
-        private readonly ILogger _logger;
+        private  UserManager<ApplicationUser> UserManager { get; }
+        private  SignInManager<ApplicationUser> SignInManager { get; }
+        protected  ApplicationDbContext DbContext { get; }
+        private  ILogger Logger { get; }
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -27,10 +25,10 @@ namespace WebApplication.Controllers
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _dbContext = dbContext;
-            _logger = loggerFactory.CreateLogger<AccountController>();
+            UserManager = userManager;
+            SignInManager = signInManager;
+            DbContext = dbContext;
+            Logger = loggerFactory.CreateLogger<AccountController>();
         }
 
                 //
@@ -54,18 +52,18 @@ namespace WebApplication.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await LinkToIndividual(user);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    await SignInManager.SignInAsync(user, isPersistent: false);
+                    Logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -97,15 +95,15 @@ namespace WebApplication.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
+                    Logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
+                    Logger.LogWarning(2, "User account locked out.");
                     return View("Lockout");
                 }
                 else
@@ -125,8 +123,8 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
+            await SignInManager.SignOutAsync();
+            Logger.LogInformation(4, "User logged out.");
             return RedirectToPage("/Index");
         }
 
@@ -139,7 +137,7 @@ namespace WebApplication.Controllers
         {
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return Challenge(properties, provider);
         }
 
@@ -154,17 +152,17 @@ namespace WebApplication.Controllers
                 ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
                 return View(nameof(Login));
             }
-            var info = await _signInManager.GetExternalLoginInfoAsync();
+            var info = await SignInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            var result = await SignInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                Logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
                 return RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
@@ -190,22 +188,22 @@ namespace WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var info = await _signInManager.GetExternalLoginInfoAsync();
+                var info = await SignInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-                var result = await _userManager.CreateAsync(user);
+                var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     await LinkToIndividual(user);
-                    result = await _userManager.AddLoginAsync(user, info);
+                    result = await UserManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        await SignInManager.SignInAsync(user, isPersistent: false);
+                        Logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -220,17 +218,17 @@ namespace WebApplication.Controllers
         {
             // we have stored mails of knwon people to be able to link them automatically
             // to the corresponding individual
-            var usermail = _dbContext.UserMails.SingleOrDefault(m => m.Mail == user.Email);
+            var usermail = DbContext.UserMails.SingleOrDefault(m => m.Mail == user.Email);
             if (usermail != null)
             {
                 var userIndivId = usermail.IndividualId;
 
                 user.IndividualId = userIndivId;
-                var groupIds = _dbContext.IndividualInGroups
+                var groupIds = DbContext.IndividualInGroups
                     .Where(g => g.IndividualId == userIndivId)
                     .Select(g => g.GroupId)
                     .ToList();
-                var visibleIndivs = _dbContext.IndividualInGroups
+                var visibleIndivs = DbContext.IndividualInGroups
                     .Where(gi => groupIds.Contains(gi.GroupId))
                     .Select(gi => gi.IndividualId)
                     .Distinct() // individuals can be in multiple groups
@@ -238,13 +236,13 @@ namespace WebApplication.Controllers
 
                 foreach (var indiv in visibleIndivs)
                 {
-                    _dbContext.IndividualVisibility.Add(new IndividualVisibility
+                    DbContext.IndividualVisibility.Add(new IndividualVisibility
                     {
                         ViewerId = userIndivId,
                         ViewedId = indiv
                     });
                 }
-                await _dbContext.SaveChangesAsync();
+                await DbContext.SaveChangesAsync();
             }
         }
 
@@ -255,8 +253,8 @@ namespace WebApplication.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                await _signInManager.SignOutAsync();
-                await _userManager.DeleteAsync(user);
+                await SignInManager.SignOutAsync();
+                await UserManager.DeleteAsync(user);
             }
             return RedirectToAction("Index", "AccountController");
         }
@@ -271,12 +269,12 @@ namespace WebApplication.Controllers
             {
                 return View("Error");
             }
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await UserManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return View("Error");
             }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            var result = await UserManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
@@ -298,8 +296,8 @@ namespace WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -307,7 +305,7 @@ namespace WebApplication.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var code = await UserManager.GeneratePasswordResetTokenAsync(user);
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                 //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                 //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
@@ -347,13 +345,13 @@ namespace WebApplication.Controllers
             {
                 return View(model);
             }
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            var result = await UserManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
@@ -381,7 +379,7 @@ namespace WebApplication.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync()
         {
-            return _userManager.GetUserAsync(HttpContext.User);
+            return UserManager.GetUserAsync(HttpContext.User);
         }
 
         private IActionResult RedirectToLocal(string returnUrl)

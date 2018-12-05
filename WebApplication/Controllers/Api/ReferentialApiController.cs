@@ -30,17 +30,15 @@ namespace WebApplication.Controllers.Api
         [HttpGet]
         async public Task<DataContext> Index()
         {
-            var events = DbContext.Events;
             var userId = await UserAccessor.GetCurrentIndividualId();
             var individuals = AccessControlService.GetVisibleIndividuals(userId);
             var gifts = AccessControlService.GetVisibleGifts(userId);
-
             var giftsWithReceivers = AccessControlService.GetVisibleGiftReceiverPairs(userId);
 
             return new DataContext
             {
                 IndividualMap = await individuals.ToDictionaryAsync(i => i.Id),
-                EventMap = await events.ToDictionaryAsync(e => e.Id),
+                EventMap = await DbContext.Events.ToDictionaryAsync(e => e.Id),
                 GiftMap = await gifts.ToDictionaryAsync(g => g.Id),
                 GiftReceiverPairs = await giftsWithReceivers.ToListAsync()
             };

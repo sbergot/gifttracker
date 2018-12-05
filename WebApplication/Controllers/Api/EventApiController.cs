@@ -5,13 +5,11 @@ namespace WebApplication.Controllers.Api
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
-    using WebApplication.Services;
 
     [Authorize]
     [Route("api/event")]

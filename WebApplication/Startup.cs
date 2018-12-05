@@ -8,7 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
-using WebApplication.Services;
+using WebApplication.Services.Contracts;
+using WebApplication.Services.Implementations;
 
 namespace WebApplication
 {
@@ -50,7 +51,8 @@ namespace WebApplication
             });
 
             services.AddScoped<IUserAccessor, UserAccessor>();
-            services.AddScoped<IGiftTrackerService, GiftTrackerService>();
+            services.AddScoped<IAccessControlService, AccessControlService>();
+            services.AddScoped<IGiftReceiverService, GiftReceiverService>();
 
             services.AddMvc().AddRazorPagesOptions(options =>
                 { options.Conventions.AuthorizeFolder("/"); });

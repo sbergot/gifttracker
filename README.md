@@ -1,25 +1,8 @@
 # Now
 
-## Receveur mutliples
-
-- [x] ajouter table
-- [x] implémenter règles de visibilité
-- [x] mettre à jour client (update / display)
-- [ ] brancher sauvegarde
-
-## gestion des individus
-
-Création de groupes d'individus (admin only). Lien d'apartenance nn entre un
-individu et un groupe (admin only)
-
-lien de visibilité nn entre un compte et les individus (configurable par le
-compte en question). par défaut un compte voit les individus des groupes
-auxquels il appartient dans l'interface, les dropdowns ne montrent que les
-individus visibles pour ce compte
-
-- [x] script d'initialisation de la table des liens
-- [ ] créer api de sauvegarde
-- [ ] faire écran d'administration (liste complète avec cases à cocher)
+## only persist receiverupdates on save
+- [ ] do not save immediatly. Store the list of updates.
+- [ ] on save, post on special endpoint the full list of updates for the gift (POST api/giftreceiver)
 
 ## layout général
 - [ ] display user name at the top
@@ -43,7 +26,14 @@ Ceux qui peuvent voir l'idée ne peuvent pas la modifier.
 
 # Next
 
+## improve typeahead
+- [ ] up/down arrows to select entries
+- [ ] enter key to validate
+
 ## write some documentation
+
+## filter gifts
+- [ ] pouvoir filtrer sur mes idées ou les idées des autres
 
 ## init data
 - [ ] add the younger generation
@@ -70,6 +60,6 @@ personne en cliquant sur son nom.
 Sur un évennement et un groupe de personne données, permettre de faire un
 tirage au sort pour décider de qui doit trouver un cadeau pour qui.
 
-## autres
-pouvoir filtrer sur mes idées ou les idées des autres
-
+## individual visibility administration
+- [ ] list of all members of which the user is a member
+- [ ] checkbox for each individual. When checked, a visibility link is inserted. It is removed when unchecked

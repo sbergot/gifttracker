@@ -15,19 +15,15 @@ namespace WebApplication.Controllers.Api
     [ModelValidationFilter]
     public class ApiControllerBase : ControllerBase
     {
-        protected readonly ApplicationDbContext _dbContext;
-        protected readonly ILogger _logger;
-        protected readonly IGiftTrackerService _giftTrackerService;
+        protected ApplicationDbContext DbContext { get; }
+        protected ILogger Logger { get; }
 
         public ApiControllerBase (
             ApplicationDbContext dbContext,
-            ILoggerFactory loggerFactory,
-            IGiftTrackerService giftTrackerService
-            )
+            ILoggerFactory loggerFactory)
         {
-          _dbContext = dbContext;
-          _logger = loggerFactory.CreateLogger(this.GetType().Name);
-          _giftTrackerService = giftTrackerService;
+          DbContext = dbContext;
+          Logger = loggerFactory.CreateLogger(this.GetType().Name);
         }
     }
 }

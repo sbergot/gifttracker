@@ -19,15 +19,14 @@ namespace WebApplication.Controllers.Api
     {
         public EventApiController(
             ApplicationDbContext dbContext,
-            ILoggerFactory loggerFactory,
-            IGiftTrackerService giftTrackerService)
-            : base(dbContext, loggerFactory, giftTrackerService)
+            ILoggerFactory loggerFactory)
+            : base(dbContext, loggerFactory)
         {}
 
         [HttpGet]
         async public Task<List<Event>> Index()
         {
-            var events = await _dbContext.Events.ToListAsync();
+            var events = await DbContext.Events.ToListAsync();
             return events;
         }
 
@@ -39,15 +38,15 @@ namespace WebApplication.Controllers.Api
                 Year = year,
                 Type = type
             };
-            _dbContext.Add(evt);
-            await _dbContext.SaveChangesAsync();
+            DbContext.Add(evt);
+            await DbContext.SaveChangesAsync();
             return CreatedAtAction("GetEvent", new { year = year, type = type });
         }
 
         [HttpGet("{year}/{type}", Name = "GetEvent")]
         public Event GetEvent(int year, EventType type)
         {
-            return _dbContext.Events.First(o => o.Year == o.Year && o.Type == type);
+            return DbContext.Events.First(o => o.Year == o.Year && o.Type == type);
         }
 
         private EventType? ParseEventType(string input)
@@ -59,7 +58,7 @@ namespace WebApplication.Controllers.Api
             }
             catch (System.ArgumentException)
             {
-                _logger.LogInformation("wrong event type: {0}", input);
+                Logger.LogInformation("wrong event type: {0}", input);
             }
             return result;
         }

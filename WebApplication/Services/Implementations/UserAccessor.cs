@@ -1,9 +1,11 @@
-namespace WebApplication.Services
+namespace WebApplication.Services.Implementations
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using WebApplication.Models;
+    using WebApplication.Services.Contracts;
+
 
     public class UserAccessor: IUserAccessor
     {
@@ -23,5 +25,15 @@ namespace WebApplication.Services
         {
             return await UserManager.GetUserAsync(HttpAccessor.HttpContext.User);
         }
+
+        async public Task<int> GetCurrentIndividualId()
+        {
+            var user = await this.GetUser();
+            if (user.IndividualId == null) {
+                throw new System.InvalidOperationException("user not linked to an individual");
+            }
+            return user.IndividualId.Value;
+        }
+
     }
 }

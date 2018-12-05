@@ -5,36 +5,44 @@ namespace WebApplication.Controllers.Api
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
-    using WebApplication.Services;
+    using WebApplication.Services.Contracts;
 
     [Authorize]
     [Route("api/giftreceiver")]
     public class GiftReceiverApiController : ApiControllerBase
     {
+        public IUserAccessor UserAccessor { get; }
+        public IAccessControlService AccessControlService { get; }
+
         public GiftReceiverApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            IGiftTrackerService giftTrackerService)
-            : base(dbContext, loggerFactory, giftTrackerService)
-        {}
+            IUserAccessor userAccessor,
+            IAccessControlService accessControlService)
+            : base(dbContext, loggerFactory)
+        {
+            UserAccessor = userAccessor;
+            AccessControlService = accessControlService;
+        }
 
         [HttpGet]
         async public Task<List<int[]>> Index()
         {
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
-            var giftsWithReceivers = await
-                (from giftreceiver in _dbContext.GiftReceiver
-                join receiver in _giftTrackerService.GetVisibleIndividuals(userId) on giftreceiver.ReceiverId equals receiver.Id
-                join gift in _giftTrackerService.GetVisibleGifts(userId) on giftreceiver.GiftId equals gift.Id
-                select new [] {giftreceiver.GiftId, giftreceiver.ReceiverId}
-                ).ToAsyncEnumerable().ToList();
+            var userId = await UserAccessor.GetCurrentIndividualId();
+            var giftsWithReceivers = AccessControlService.GetVisibleGiftReceiverPairs(userId);
 
-            return giftsWithReceivers;
+            return await giftsWithReceivers.ToListAsync();
+        }
+
+        [HttpPost]
+        [Route("updates")]
+        async public Task<IActionResult> PostUpdates(WebApplication.ViewModels.GiftReceiverUpdate updates)
+        {
+            return Ok();
         }
 
         [HttpPost]
@@ -42,22 +50,21 @@ namespace WebApplication.Controllers.Api
 
         async public Task<IActionResult> Post(int giftId, int receiverId)
         {
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
-            var storedGift = _giftTrackerService.GetVisibleGifts(userId).FirstOrDefault(g => g.Id == giftId);;
-            if (storedGift == null) {
+            var userId = await UserAccessor.GetCurrentIndividualId();
+
+            if (!AccessControlService.IsGiftVisible(userId, giftId)) {
                 return Forbid();
             }
 
-            var storedIndividual = _giftTrackerService.GetVisibleIndividuals(userId).FirstOrDefault(i => i.Id == receiverId);
-            if (storedIndividual == null) {
+            if (!AccessControlService.IsIndividualVisible(userId, receiverId)) {
                 return Forbid();
             }
 
-            var result = _dbContext.GiftReceiver.Add(new GiftReceiver {
+            var result = DbContext.GiftReceiver.Add(new GiftReceiver {
                 GiftId = giftId,
                 ReceiverId = receiverId
             });
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
             return Ok();
         }
 
@@ -66,20 +73,19 @@ namespace WebApplication.Controllers.Api
 
         async public Task<IActionResult> Delete(int giftId, int receiverId)
         {
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
-            var storedGift = _giftTrackerService.GetVisibleGifts(userId).FirstOrDefault(g => g.Id == giftId);;
-            if (storedGift == null) {
+            var userId = await UserAccessor.GetCurrentIndividualId();
+
+            if (!AccessControlService.IsGiftVisible(userId, giftId)) {
                 return Forbid();
             }
 
-            var storedIndividual = _giftTrackerService.GetVisibleIndividuals(userId).FirstOrDefault(i => i.Id == receiverId);
-            if (storedIndividual == null) {
+            if (!AccessControlService.IsIndividualVisible(userId, receiverId)) {
                 return Forbid();
             }
 
-            _dbContext.GiftReceiver.RemoveRange(
-                _dbContext.GiftReceiver.Where(gr => gr.GiftId == giftId && gr.ReceiverId == receiverId));
-            await _dbContext.SaveChangesAsync();
+            DbContext.GiftReceiver.RemoveRange(
+                DbContext.GiftReceiver.Where(gr => gr.GiftId == giftId && gr.ReceiverId == receiverId));
+            await DbContext.SaveChangesAsync();
             return Ok();
         }
     }

@@ -5,29 +5,35 @@ namespace WebApplication.Controllers.Api
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
-    using WebApplication.Services;
+    using WebApplication.Services.Contracts;
 
     [Authorize]
     [Route("api/gift")]
     public class GiftApiController : ApiControllerBase
     {
+        public IAccessControlService AccessControlService { get; }
+        public IUserAccessor UserAccessor { get; }
+
         public GiftApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
-            IGiftTrackerService giftTrackerService)
-            : base(dbContext, loggerFactory, giftTrackerService)
-        {}
+            IAccessControlService accessControlService,
+            IUserAccessor userAccessor)
+            : base(dbContext, loggerFactory)
+        {
+            AccessControlService = accessControlService;
+            UserAccessor = userAccessor;
+        }
 
         [HttpGet]
         async public Task<List<Gift>> Index()
         {
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
-            return await _giftTrackerService.GetVisibleGifts(userId).ToListAsync();
+            var userId = await UserAccessor.GetCurrentIndividualId();
+            return await AccessControlService.GetVisibleGifts(userId).ToListAsync();
         }
 
         [HttpPost]
@@ -37,10 +43,10 @@ namespace WebApplication.Controllers.Api
                 return BadRequest("trying to post a new gift with positive id");
             }
             inputGift.Id = 0;
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
+            var userId = await UserAccessor.GetCurrentIndividualId();
             inputGift.OwnerId = userId;
-            var result = _dbContext.Gifts.Add(inputGift);
-            await _dbContext.SaveChangesAsync();
+            var result = DbContext.Gifts.Add(inputGift);
+            await DbContext.SaveChangesAsync();
             return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
         }
 
@@ -56,8 +62,8 @@ namespace WebApplication.Controllers.Api
                 return Forbid();
             }
             inputGift.Id = id;
-            _dbContext.Entry(storedGift).CurrentValues.SetValues(inputGift);
-            await _dbContext.SaveChangesAsync();
+            DbContext.Entry(storedGift).CurrentValues.SetValues(inputGift);
+            await DbContext.SaveChangesAsync();
             return Ok(inputGift);
         }
 
@@ -69,8 +75,8 @@ namespace WebApplication.Controllers.Api
             if (storedGift == null) {
                 return Forbid();
             }
-            _dbContext.Gifts.Remove(storedGift);
-            await _dbContext.SaveChangesAsync();
+            DbContext.Gifts.Remove(storedGift);
+            await DbContext.SaveChangesAsync();
             return Ok();
         }
 
@@ -86,8 +92,8 @@ namespace WebApplication.Controllers.Api
 
         async private Task<Gift> FetchGift(int id)
         {
-            var userId = await _giftTrackerService.GetCurrentIndividualId();
-            return _giftTrackerService.GetVisibleGifts(userId).FirstOrDefault(g => g.Id == id);
+            var userId = await UserAccessor.GetCurrentIndividualId();
+            return AccessControlService.GetVisibleGifts(userId).FirstOrDefault(g => g.Id == id);
         }
     }
 }

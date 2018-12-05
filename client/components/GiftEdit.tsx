@@ -48,7 +48,7 @@ class GiftEdit extends React.Component<GiftEditProps & GiftEditActions, {}>
                 gift={this.gift!}
                 individualMap={context.individualMap}
                 events={Object.values(context.eventMap)}
-                receiverIds={context.giftReceiversMap[this.gift!.id]}
+                receiverIds={context.giftReceiversMap[this.gift!.id] || []}
                 save={() => this.save()}
                 close={() => this.props.cancelEdition()}
                 updateGift={(u) => this.props.updateGift(u)}

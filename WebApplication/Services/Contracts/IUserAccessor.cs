@@ -1,4 +1,4 @@
-namespace WebApplication.Services
+namespace WebApplication.Services.Contracts
 {
     using System.Threading.Tasks;
     using WebApplication.Models;
@@ -6,5 +6,6 @@ namespace WebApplication.Services
     public interface IUserAccessor
     {
         Task<ApplicationUser> GetUser();
+        Task<int> GetCurrentIndividualId();
     }
 }

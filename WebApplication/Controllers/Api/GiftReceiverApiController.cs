@@ -11,6 +11,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Models;
     using WebApplication.Services.Contracts;
     using WebApplication.Services.Models;
+    using WebApplication.ViewModels;
 
     [Authorize]
     [Route("api/giftreceiver")]
@@ -43,8 +44,19 @@ namespace WebApplication.Controllers.Api
 
         [HttpPost]
         [Route("updates")]
-        async public Task<IActionResult> PostUpdates(WebApplication.ViewModels.GiftReceiverUpdate updates)
+        async public Task<IActionResult> PostUpdates(GiftReceiverUpdate[] updates)
         {
+            var userId = await UserAccessor.GetCurrentIndividualId();
+            foreach (var update in updates) {
+                if (update.Operation == "Add") {
+                    GiftReceiverService.AddGiftReceiver(userId, update.GiftId, update.ReceiverId);
+                }
+
+                if (update.Operation == "Remove") {
+                    GiftReceiverService.RemoveGiftReceiver(userId, update.GiftId, update.ReceiverId);
+                }
+            }
+            await DbContext.SaveChangesAsync();
             return Ok();
         }
 

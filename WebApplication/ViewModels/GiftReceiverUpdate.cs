@@ -5,8 +5,8 @@ namespace WebApplication.ViewModels
 
     public class GiftReceiverUpdate
     {
-        int GiftId { get; set; }
-        int ReceiverId { get; set; }
-        string Operation { get; set; }
+        public int GiftId { get; set; }
+        public int ReceiverId { get; set; }
+        public string Operation { get; set; }
     }
 }

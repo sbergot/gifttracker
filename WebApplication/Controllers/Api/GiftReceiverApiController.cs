@@ -10,6 +10,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Data;
     using WebApplication.Models;
     using WebApplication.Services.Contracts;
+    using WebApplication.Services.Models;
 
     [Authorize]
     [Route("api/giftreceiver")]
@@ -17,16 +18,19 @@ namespace WebApplication.Controllers.Api
     {
         public IUserAccessor UserAccessor { get; }
         public IAccessControlService AccessControlService { get; }
+        public IGiftReceiverService GiftReceiverService { get; }
 
         public GiftReceiverApiController(
             ApplicationDbContext dbContext,
             ILoggerFactory loggerFactory,
             IUserAccessor userAccessor,
-            IAccessControlService accessControlService)
+            IAccessControlService accessControlService,
+            IGiftReceiverService giftReceiverService)
             : base(dbContext, loggerFactory)
         {
             UserAccessor = userAccessor;
             AccessControlService = accessControlService;
+            GiftReceiverService = giftReceiverService;
         }
 
         [HttpGet]
@@ -34,7 +38,6 @@ namespace WebApplication.Controllers.Api
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
             var giftsWithReceivers = AccessControlService.GetVisibleGiftReceiverPairs(userId);
-
             return await giftsWithReceivers.ToListAsync();
         }
 
@@ -51,21 +54,11 @@ namespace WebApplication.Controllers.Api
         async public Task<IActionResult> Post(int giftId, int receiverId)
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
-
-            if (!AccessControlService.IsGiftVisible(userId, giftId)) {
-                return Forbid();
+            var response = GiftReceiverService.AddGiftReceiver(userId, giftId, receiverId);
+            if (response == ServiceResponseStatus.Sucess) {
+                await DbContext.SaveChangesAsync();
             }
-
-            if (!AccessControlService.IsIndividualVisible(userId, receiverId)) {
-                return Forbid();
-            }
-
-            var result = DbContext.GiftReceiver.Add(new GiftReceiver {
-                GiftId = giftId,
-                ReceiverId = receiverId
-            });
-            await DbContext.SaveChangesAsync();
-            return Ok();
+            return FromResponse(response);
         }
 
         [HttpDelete]
@@ -74,18 +67,10 @@ namespace WebApplication.Controllers.Api
         async public Task<IActionResult> Delete(int giftId, int receiverId)
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
-
-            if (!AccessControlService.IsGiftVisible(userId, giftId)) {
-                return Forbid();
+            var response = GiftReceiverService.RemoveGiftReceiver(userId, giftId, receiverId);
+            if (response == ServiceResponseStatus.Sucess) {
+                await DbContext.SaveChangesAsync();
             }
-
-            if (!AccessControlService.IsIndividualVisible(userId, receiverId)) {
-                return Forbid();
-            }
-
-            DbContext.GiftReceiver.RemoveRange(
-                DbContext.GiftReceiver.Where(gr => gr.GiftId == giftId && gr.ReceiverId == receiverId));
-            await DbContext.SaveChangesAsync();
             return Ok();
         }
     }

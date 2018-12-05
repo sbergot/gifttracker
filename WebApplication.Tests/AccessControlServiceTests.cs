@@ -12,11 +12,12 @@ namespace WebApplication.Tests
 
     using WebApplication.Data;
     using WebApplication.Models;
-    using WebApplication.Services;
+    using WebApplication.Services.Implementations;
+    using WebApplication.Services.Contracts;
 
     public class GiftTrackerTests
     {
-        private GiftTrackerService _service;
+        private AccessControlService _service;
 
         private ApplicationDbContext GetContext(string name)
         {
@@ -37,20 +38,11 @@ namespace WebApplication.Tests
                 .Setup(ua => ua.GetUser())
                 .Returns(Task.FromResult(user));
             var context = new ApplicationDbContext(options);
-            _service = new GiftTrackerService(
+            _service = new AccessControlService(
                 context,
                 loggerFactory,
                 userAccessorMock.Object);
             return context;
-        }
-
-        [Fact]
-        async public void GetCurrentIndividualId_Returns_IndividualId()
-        {
-            using (var context = GetContext("test1"))
-            {
-                Assert.Equal(1, await _service.GetCurrentIndividualId());
-            }
         }
 
         [Fact]

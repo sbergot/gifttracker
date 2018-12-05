@@ -4,6 +4,7 @@ namespace WebApplication.Controllers.Api
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Filters;
+    using WebApplication.Services.Models;
 
     [ServiceFilter(typeof(ApiExceptionFilter))]
     [ModelValidationFilter]
@@ -18,6 +19,28 @@ namespace WebApplication.Controllers.Api
         {
           DbContext = dbContext;
           Logger = loggerFactory.CreateLogger(this.GetType().Name);
+        }
+
+        protected ActionResult<T> FromResponse<T>(ServiceResponse<T> response) {
+            switch (response.Status) {
+                case ServiceResponseStatus.Forbidden:
+                    return Forbid();
+                case ServiceResponseStatus.Sucess:
+                    return response.Value;
+                default:
+                    throw new System.Exception("unhandled response status: " + response.Status.ToString());
+            }
+        }
+
+        protected ActionResult FromResponse(ServiceResponseStatus responseStatus) {
+            switch (responseStatus) {
+                case ServiceResponseStatus.Forbidden:
+                    return Forbid();
+                case ServiceResponseStatus.Sucess:
+                    return Ok();
+                default:
+                    throw new System.Exception("unhandled response status: " + responseStatus.ToString());
+            }
         }
     }
 }

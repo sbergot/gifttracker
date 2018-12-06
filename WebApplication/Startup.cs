@@ -62,13 +62,16 @@ namespace WebApplication
             services.Configure<GzipCompressionProviderOptions>(options => 
                 options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression();
+
+            services.AddLogging(loggingBuilder => {
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggingBuilder loggingBuilder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggingBuilder.AddConsole();
-            loggingBuilder.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -4,13 +4,13 @@ interface ArrayDiff<T> {
 }
 
 function computeMissing<T>(reference: T[], candidate: T[]): T[] {
-    const oldMap: Record<string, boolean> = {};
-    reference.forEach((elt) => {
-        oldMap[elt.toString()] = true;
+    const newMap: Record<string, boolean> = {};
+    candidate.forEach((elt) => {
+        newMap[elt.toString()] = true;
     });
 
-    return candidate.filter((elt) => {
-        return !(elt.toString() in oldMap);
+    return reference.filter((elt) => {
+        return !(elt.toString() in newMap);
     });
 }
 

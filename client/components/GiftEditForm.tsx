@@ -10,7 +10,7 @@ interface GiftEditFormProps
   events: GT.Event[];
   receiverIds: GT.Id[];
   updateGift: (update: GT.GiftUpdate) => void;
-  updateReceiver: (update: GT.ReceiverUpdate) => void;
+  updateReceivers: (update: GT.ReceiverUpdate) => void;
   save: (gift: GT.Gift) => void;
   close: () => void;
 }
@@ -30,7 +30,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
     const target = (event.target as HTMLInputElement);
     const field = target.name as keyof GT.Gift;
     const value = target.value;
-    this.props.updateGift({ giftId: this.props.gift.id, field, value });
+    this.props.updateGift({ field, value });
   }
 
   textField = (
@@ -63,13 +63,11 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
         <Typeahead<GT.Individual>
           selected={selected}
           options={individuals}
-          removeElt={(id) => this.props.updateReceiver({
-            giftId: this.props.gift.id,
+          removeElt={(id) => this.props.updateReceivers({
             receiverId: id,
             operation: "Remove"
           })}
-          addElt={(id) => this.props.updateReceiver({
-            giftId: this.props.gift.id,
+          addElt={(id) => this.props.updateReceivers({
             receiverId: id,
             operation: "Add"
           })}

@@ -1,12 +1,11 @@
 namespace GT {
     export interface AppState {
         context: DataContext;
-        currentlyEditedGift: Id;
         loading: boolean;
     }
 
     export interface GiftEditState {
-        gift: Gift;
+        gift: Gift | null;
         receiverIds: Id[];
     }
 

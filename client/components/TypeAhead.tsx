@@ -58,7 +58,7 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
                             key={elt.id}
                             option={{
                                 label: this.props.displayOption(elt),
-                                id: elt.id
+                                id: elt.id.toString()
                             }}
                             onRemove={(id) => this.props.removeElt(id)} />
                     })
@@ -110,7 +110,7 @@ function SuggestionList(props: SuggestionListProps) {
                 key={option.id}>
                 <a
                     href="#"
-                    onClick={() => props.onSuggestionClick(option.id)}>
+                    onClick={() => props.onSuggestionClick(option.id.toString())}>
                     <div className="tile tile-centered">
                         {option.label}
                     </div>

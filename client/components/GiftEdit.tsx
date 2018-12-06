@@ -1,58 +1,56 @@
 import * as React from "react";
 import { Subscribe } from "unstated"
 
-import { MainStore } from "../stores/mainStore";
+import { DataStore } from "../stores/dataStore";
 import { GiftEditForm } from "./GiftEditForm";
+import { GiftEditStore } from "../stores/giftEditStore";
+import { MainStore } from "../stores/mainStore";
 
-interface GiftEditProps
-{
-  context: GT.DataContext;
-  currentGiftId: GT.Id
+interface GiftEditProps {
+  currentGift: GT.Gift | null;
+  receiverIds: GT.Id[];
+  individualMap: GT.KeyMap<GT.Individual>;
+  eventMap: GT.KeyMap<GT.Event>;
 }
 
-interface GiftEditActions
-{
-  saveGift: (gift: GT.Gift) => void;
-  cancelEdition: () => void;
+interface GiftEditActions {
+  saveGift: (gift: GT.Gift, receiverIds: GT.Id[]) => void;
+  closeForm: () => void;
   updateGift: (update: GT.GiftUpdate) => void;
-  updateReceiver: (update: GT.ReceiverUpdate) => void;
+  updateReceivers: (update: GT.ReceiverUpdate) => void;
 }
 
 class GiftEdit extends React.PureComponent<GiftEditProps & GiftEditActions, {}>
 {
-  get gift(): GT.Gift | null
-  {
-    return this.props.context.giftMap[this.props.currentGiftId];
+  get gift(): GT.Gift | null {
+    return this.props.currentGift;
   }
 
-  get isOpen(): boolean
-  {
+  get isOpen(): boolean {
     return !!this.gift;
   }
 
-  async save()
-  {
-    await this.props.saveGift(this.gift!);
-    this.props.cancelEdition();
+  async save() {
+    await this.props.saveGift(this.gift!, this.props.receiverIds);
+    this.props.closeForm();
   }
 
-  render()
-  {
-    const context = this.props.context;
+  render() {
     return (
-      <div className={"modal" + (this.isOpen ? " active" : "")} id="gift-edit" tabIndex={-1} ref = "root">
+      <div className={"modal" + (this.isOpen ? " active" : "")} id="gift-edit" tabIndex={-1} ref="root">
         <div className="modal-overlay" />
         {
           (this.isOpen)
             ? <GiftEditForm
-                gift={this.gift!}
-                individualMap={context.individualMap}
-                events={Object.values(context.eventMap)}
-                receiverIds={context.giftReceiversMap[this.gift!.id] || []}
-                save={() => this.save()}
-                close={() => this.props.cancelEdition()}
-                updateGift={(u) => this.props.updateGift(u)}
-                updateReceiver={u => this.props.updateReceiver(u)}/>
+              gift={this.gift!}
+              individualMap={this.props.individualMap}
+              events={Object.values(this.props.eventMap)}
+              receiverIds={this.props.receiverIds}
+              save={() => this.save()}
+              close={() => this.props.closeForm()}
+              updateGift={(u) => this.props.updateGift(u)}
+              updateReceivers={this.props.updateReceivers}
+            />
             : null
         }
       </div>
@@ -61,16 +59,18 @@ class GiftEdit extends React.PureComponent<GiftEditProps & GiftEditActions, {}>
 }
 
 export function GiftEditContainer() {
-  return <Subscribe to={[MainStore]}>
-  {(store: MainStore) => (
-    <GiftEdit
-      cancelEdition={store.cancelEdition}
-      context={store.state.context}
-      currentGiftId={store.state.currentlyEditedGift}
-      saveGift={store.saveGift}
-      updateGift={store.updateGift}
-      updateReceiver={store.persistedUpdateReceiver}
-    />
-  )}
+  return <Subscribe to={[DataStore, GiftEditStore, MainStore]}>
+    {(dataStore: DataStore, giftEditStore: GiftEditStore, mainStore: MainStore) => (
+      <GiftEdit
+        individualMap={dataStore.state.context.individualMap}
+        eventMap={dataStore.state.context.eventMap}
+        closeForm={giftEditStore.closeGiftForm}
+        currentGift={giftEditStore.state.gift}
+        updateGift={giftEditStore.updateGift}
+        updateReceivers={giftEditStore.updateReceivers}
+        receiverIds={giftEditStore.state.receiverIds}
+        saveGift={mainStore.saveGift}
+      />
+    )}
   </Subscribe>
 }

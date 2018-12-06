@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Subscribe } from "unstated"
 
-import { MainStore } from "../stores/mainStore";
+import { DataStore } from "../stores/dataStore";
+import { GiftEditStore } from "../stores/giftEditStore";
 import { EventView } from "./EventView"
 import { sortByEvents } from '../services/service.referential'
+import { MainStore } from '../stores/mainStore';
 
 interface EventAppProps
 {
@@ -27,7 +29,7 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
 
     createGift(event: GT.Event, individual: GT.Individual) {
         const newGift = { eventId: event.id };
-        this.props.giftActions.newGift(newGift, true);
+        this.props.giftActions.newGift(newGift);
     }
 
     render()
@@ -56,16 +58,16 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
 }
 
 export function EventAppContainer() {
-    return <Subscribe to={[MainStore]}>
-    {(store: MainStore) => (
+    return <Subscribe to={[DataStore, GiftEditStore, MainStore]}>
+    {(dataStore: DataStore, giftEditStore: GiftEditStore, mainStore: MainStore) => (
       <EventApp
-        context={store.state.context}
+        context={dataStore.state.context}
         giftActions={{
-          cancelEdition: store.cancelEdition,
-          deleteGift: store.deleteGift,
-          editGift: store.editGift,
-          newGift: store.newGift,
-          saveGift: store.saveGift
+          cancelEdition: giftEditStore.closeGiftForm,
+          deleteGift: dataStore.deleteGift,
+          editGift: mainStore.editGift,
+          newGift: giftEditStore.editNewGift,
+          saveGift: dataStore.saveGift
         }}
       />
     )}

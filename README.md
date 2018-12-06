@@ -28,7 +28,8 @@ Ceux qui peuvent voir l'idée ne peuvent pas la modifier.
 
 ## improve typeahead
 - [ ] up/down arrows to select entries
-- [ ] enter key to validate
+- [ ] tab key to validate
+- [ ] by default the first entry is selected
 
 ## write some documentation
 

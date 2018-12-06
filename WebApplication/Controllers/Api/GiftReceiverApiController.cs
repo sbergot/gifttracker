@@ -44,15 +44,17 @@ namespace WebApplication.Controllers.Api
 
         [HttpPost]
         [Route("updates")]
-        async public Task<IActionResult> PostUpdates(GiftReceiverUpdate[] updates)
+        async public Task<IActionResult> PostUpdates([FromBody] GiftReceiverUpdate[] updates)
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
             foreach (var update in updates) {
                 if (update.Operation == "Add") {
+                    Logger.LogInformation("added");
                     GiftReceiverService.AddGiftReceiver(userId, update.GiftId, update.ReceiverId);
                 }
 
                 if (update.Operation == "Remove") {
+                    Logger.LogInformation("removed");
                     GiftReceiverService.RemoveGiftReceiver(userId, update.GiftId, update.ReceiverId);
                 }
             }

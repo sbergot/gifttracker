@@ -1,9 +1,5 @@
 # Now
 
-## only persist receiverupdates on save
-- [ ] do not save immediatly. Store the list of updates.
-- [ ] on save, post on special endpoint the full list of updates for the gift (POST api/giftreceiver)
-
 ## layout général
 - [ ] display user name at the top
 - [ ] use tile to display gifts
@@ -30,6 +26,9 @@ Ceux qui peuvent voir l'idée ne peuvent pas la modifier.
 - [ ] up/down arrows to select entries
 - [ ] tab key to validate
 - [ ] by default the first entry is selected
+
+# fix entity framework warning
+query run locally :-(
 
 ## write some documentation
 

@@ -64,10 +64,10 @@ namespace WebApplication
             services.AddResponseCompression();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggingBuilder loggingBuilder)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggingBuilder.AddConsole();
+            loggingBuilder.AddDebug();
 
             if (env.IsDevelopment())
             {
@@ -76,9 +76,9 @@ namespace WebApplication
             }
             else
             {
-                app.UseResponseCompression();
                 app.UseExceptionHandler("/Error");
             }
+            app.UseResponseCompression();
 
             app.UseStaticFiles();
             app.UseAuthentication();

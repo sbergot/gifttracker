@@ -5,6 +5,11 @@ namespace GT {
         loading: boolean;
     }
 
+    export interface GiftEditState {
+        gift: Gift;
+        receiverIds: Id[];
+    }
+
     export interface DataContext
     {
         eventMap: KeyMap<Event>;

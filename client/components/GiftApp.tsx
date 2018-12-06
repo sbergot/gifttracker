@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Subscribe } from "unstated"
 
-import { Store } from "../stores/store";
+import { MainStore } from "../stores/mainStore";
 import { GiftView } from "./GiftView";
 
 interface GiftAppProps
@@ -33,8 +33,8 @@ function GiftApp(props: GiftAppProps & GiftAppActions)
 }
 
 export function GiftAppContainer() {
-  return <Subscribe to={[Store]}>
-  {(store: Store) => (
+  return <Subscribe to={[MainStore]}>
+  {(store: MainStore) => (
     <GiftApp
       context={store.state.context}
       giftActions={{

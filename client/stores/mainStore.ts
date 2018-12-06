@@ -6,7 +6,7 @@ import * as dataGift from "../data/data.gift";
 import * as dataContext from "../data/data.referential";
 import * as dataGiftReceiver from "../data/data.giftreceiver";
 
-export class Store extends Container<GT.AppState> {
+export class MainStore extends Container<GT.AppState> {
 
     state: GT.AppState = makeState();
 
@@ -85,6 +85,7 @@ export class Store extends Container<GT.AppState> {
     saveGift = async (gift: GT.Gift) => {
         await this.asyncAction(async () => {
             if (gift.id === NEW_GIFT_ID) {
+                gift = {...gift, id: "-1" }
                 await dataGift.postGift(gift);
             } else {
                 await dataGift.putGift(gift);
@@ -132,7 +133,7 @@ function makeState(): GT.AppState {
 function makeGift() : GT.Gift {
     return {
         id: NEW_GIFT_ID,
-        ownerId: "",
+        ownerId: "0",
         priceInCents: 0,
         title: "",
         description: "",

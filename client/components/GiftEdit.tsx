@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Subscribe } from "unstated"
 
-import { Store } from "../stores/store";
+import { MainStore } from "../stores/mainStore";
 import { GiftEditForm } from "./GiftEditForm";
 
 interface GiftEditProps
@@ -61,15 +61,15 @@ class GiftEdit extends React.PureComponent<GiftEditProps & GiftEditActions, {}>
 }
 
 export function GiftEditContainer() {
-  return <Subscribe to={[Store]}>
-  {(store: Store) => (
+  return <Subscribe to={[MainStore]}>
+  {(store: MainStore) => (
     <GiftEdit
       cancelEdition={store.cancelEdition}
       context={store.state.context}
       currentGiftId={store.state.currentlyEditedGift}
       saveGift={store.saveGift}
       updateGift={store.updateGift}
-      updateReceiver={store.updateReceiver}
+      updateReceiver={store.persistedUpdateReceiver}
     />
   )}
   </Subscribe>

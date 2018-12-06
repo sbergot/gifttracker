@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Subscribe } from "unstated"
 
-import { Store } from "../stores/store";
+import { MainStore } from "../stores/mainStore";
 import { EventView } from "./EventView"
 import { sortByEvents } from '../services/service.referential'
 
@@ -56,8 +56,8 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
 }
 
 export function EventAppContainer() {
-    return <Subscribe to={[Store]}>
-    {(store: Store) => (
+    return <Subscribe to={[MainStore]}>
+    {(store: MainStore) => (
       <EventApp
         context={store.state.context}
         giftActions={{

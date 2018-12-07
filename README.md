@@ -1,34 +1,26 @@
 # Now
 
-## layout général
+## ux improvements
+
+### layout
 - [ ] display user name at the top
+- [ ] rework menu (event view, individual view, manage screen (with indiv visibility admin))
+- [ ] fix login / registration forms
+
+### gift display
 - [ ] use tile to display gifts
 - [ ] no-gift icon
+- [ ] status: nice radio
+
+### event display
 - [ ] mean price per person for an event
-- [ ] rework menu (event view, individual view, manage screen (with indiv visibility admin))
-
-## Gestion des droits
-
-flag sur une idée de cadeau: permettre aux autres de voir l'idée (sauf destinataire)
-Seul l'owner peut modifier le flag. L'owner voit toujours l'idée.
-Ceux qui peuvent voir l'idée ne peuvent pas la modifier.
-
-- [x] créer les flags sur la table gift (VisibleToOthers)
-- [~] implémenter les règles de visibilité
-- [ ] si on veut éditer une idée et que l'on n'est pas owner, la modale s'affiche en désactivée
-- [ ] afficher le owner de l'idée dans la boîte d'édition
-- [ ] corriger erreur forbidden qui donne redirect/404 ??
-- [ ] permettre à l'owner de modifier les flags dans l'édition de l'idée
-
-# Next
 
 ## improve typeahead
 - [ ] up/down arrows to select entries
 - [ ] tab key to validate
 - [ ] by default the first entry is selected
 
-# fix entity framework warning
-query run locally :-(
+# Next
 
 ## write some documentation
 

@@ -9,6 +9,7 @@ interface GiftEditFormProps
   individualMap: GT.KeyMap<GT.Individual>;
   events: GT.Event[];
   receiverIds: GT.Id[];
+  currentUserId: GT.Id;
   updateGift: (update: GT.GiftUpdate) => void;
   updateReceivers: (update: GT.ReceiverUpdate) => void;
   save: (gift: GT.Gift) => void;
@@ -24,6 +25,10 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
 
   getIndividuals = () => {
     return Object.values(this.props.individualMap);
+  }
+
+  getIsOwner = () => {
+    return this.props.currentUserId === this.props.gift.ownerId.toString();
   }
 
   onGiftChange = (event: React.FormEvent<HTMLElement>) => {
@@ -43,6 +48,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
         <input
+          disabled={!this.getIsOwner()}
           className="form-input"
           id={fieldid}
           placeholder={placeholder}
@@ -61,6 +67,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
         <Typeahead<GT.Individual>
+          disabled={!this.getIsOwner()}
           selected={selected}
           options={individuals}
           removeElt={(id) => this.props.updateReceivers({
@@ -86,6 +93,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
         <select
+          disabled={!this.getIsOwner()}
           className="form-input"
           id={fieldid}
           value={fieldvalue || -1}
@@ -108,12 +116,16 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
   }
 
   getIndividualOptions() {
-    const individuals = Object.values(this.props.individualMap);
     return this.getIndividuals().map(individual => (
       {
         value: individual.id,
         descr: `${individual.firstName} ${individual.lastName}`
       }))
+  }
+
+  getOwnerName() {
+    const owner = this.props.individualMap[this.props.gift.ownerId];
+    return `${owner.firstName} ${owner.lastName}`
   }
 
   render()
@@ -122,7 +134,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
     <div className="modal-container" id="gift-edit-modal">
       <div className="modal-header">
         <button className="btn btn-clear float-right" onClick={this.props.close}></button>
-        <div className="modal-title h4">Edit gift</div>
+        <div className="modal-title h4">Edit gift (Owner: {this.getOwnerName()})</div>
       </div>
       <div className="modal-body">
         <div className="content">
@@ -171,6 +183,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                   <div className="form-group">
                     <label className="form-label" htmlFor="gift-edit-description">Description</label>
                     <textarea
+                      disabled={!this.getIsOwner()}
                       rows={5}
                       className="form-input"
                       id="gift-edit-description"

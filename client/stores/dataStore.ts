@@ -1,6 +1,4 @@
-import { produce } from "immer";
 import { NEW_GIFT_ID, NO_GIFT_ID } from "../constant/constant";
-import { refreshDataContext } from "../services/service.referential"
 import { Container } from "unstated";
 import * as dataGift from "../data/data.gift";
 import * as dataContext from "../data/data.referential";
@@ -95,6 +93,7 @@ function makeState(): GT.AppState {
             giftReceiversMap: {},
             individualMap: {},
             receiverGiftsMap: {},
+            currentUserId: "0"
         },
         loading: false
     }

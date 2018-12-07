@@ -11,6 +11,7 @@ interface GiftEditProps {
   receiverIds: GT.Id[];
   individualMap: GT.KeyMap<GT.Individual>;
   eventMap: GT.KeyMap<GT.Event>;
+  currentUserId: GT.Id;
 }
 
 interface GiftEditActions {
@@ -46,6 +47,7 @@ class GiftEdit extends React.PureComponent<GiftEditProps & GiftEditActions, {}>
               individualMap={this.props.individualMap}
               events={Object.values(this.props.eventMap)}
               receiverIds={this.props.receiverIds}
+              currentUserId={this.props.currentUserId}
               save={() => this.save()}
               close={() => this.props.closeForm()}
               updateGift={(u) => this.props.updateGift(u)}
@@ -66,6 +68,7 @@ export function GiftEditContainer() {
         eventMap={dataStore.state.context.eventMap}
         closeForm={giftEditStore.closeGiftForm}
         currentGift={giftEditStore.state.gift}
+        currentUserId={dataStore.state.context.currentUserId}
         updateGift={giftEditStore.updateGift}
         updateReceivers={giftEditStore.updateReceivers}
         receiverIds={giftEditStore.state.receiverIds}

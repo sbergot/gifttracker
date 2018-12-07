@@ -40,7 +40,8 @@ namespace WebApplication.Controllers.Api
                 IndividualMap = await individuals.ToDictionaryAsync(i => i.Id),
                 EventMap = await DbContext.Events.ToDictionaryAsync(e => e.Id),
                 GiftMap = await gifts.ToDictionaryAsync(g => g.Id),
-                GiftReceiverPairs = await giftsWithReceivers.ToListAsync()
+                GiftReceiverPairs = await giftsWithReceivers.ToListAsync(),
+                CurrentUserId = userId
             };
         }
     }

@@ -18,6 +18,7 @@ namespace GT {
         giftReceiverPairs: Array<[Id, Id]>;
         giftReceiversMap: ChildMap;
         receiverGiftsMap: ChildMap;
+        currentUserId: Id;
     }
 
     export interface GiftWithReceivers

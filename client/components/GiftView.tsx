@@ -20,7 +20,7 @@ export function GiftView(props: GiftProps)
             {
                 receivers.length > 0 ? [
                     <dt key="receiver-label" >Receivers</dt>,
-                    <dd key="receiver-input">
+                    <dd key="receiver-value">
                         {receivers.map((receiver) =>
                             <span className="receiver" key={receiver.id} >
                                 {receiver.firstName + " " + receiver.lastName}

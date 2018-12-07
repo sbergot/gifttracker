@@ -306,4 +306,13 @@ DO $$
         "ReceiverId", "GiftId")
         VALUES (cabollengier, last_gift);
 
+    INSERT INTO public."Gifts"(
+        "Description", "EventId", "OwnerId", "PriceInCents", "Title", "IsVisibleToOthers")
+        VALUES ('an expensive toy', evt_1, cabollengier, 614, 'a toy', True)
+    RETURNING "Id" INTO last_gift;
+
+    INSERT INTO public."GiftReceiver"(
+        "ReceiverId", "GiftId")
+        VALUES (cabollengier, last_gift);
+
 END; $$;

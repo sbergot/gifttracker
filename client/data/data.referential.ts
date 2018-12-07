@@ -9,6 +9,7 @@ interface ReferentialData
     individualMap: GT.KeyMap<GT.Individual>;
     giftMap: GT.KeyMap<GT.Gift>;
     giftReceiverPairs: Array<[number, number]>;
+    currentUserId: number;
 }
 
 function createDataContext(referentialData: ReferentialData): GT.DataContext {
@@ -20,7 +21,8 @@ function createDataContext(referentialData: ReferentialData): GT.DataContext {
             .map(([giftid, individ]) => [giftid.toString(), individ.toString()] as [GT.Id, GT.Id]),
         eventGiftsMap: {},
         giftReceiversMap: {},
-        receiverGiftsMap: {}
+        receiverGiftsMap: {},
+        currentUserId: referentialData.currentUserId.toString()
     })
 }
 

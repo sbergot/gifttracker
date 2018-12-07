@@ -67,12 +67,9 @@ function groupBy<T, V>(
 
 export function refreshDataContext(context: GT.DataContext): GT.DataContext {
     return {
-        giftMap: context.giftMap,
-        individualMap: context.individualMap,
-        eventMap: context.eventMap,
-        giftReceiverPairs: context.giftReceiverPairs,
+        ...context,
         eventGiftsMap: groupBy(Object.values(context.giftMap), g => g.eventId!, g => g.id),
         giftReceiversMap: groupBy(context.giftReceiverPairs, gr => gr[0].toString(), gr => gr[1].toString()),
-        receiverGiftsMap: groupBy(context.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString())
+        receiverGiftsMap: groupBy(context.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString()),
     }
 }

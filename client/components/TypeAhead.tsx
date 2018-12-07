@@ -3,6 +3,7 @@ import * as React from 'react';
 interface TypeAheadProps<T extends { id: GT.Id }> {
     options: T[];
     selected: T[];
+    disabled?: boolean
     displayOption: (option: T) => string;
     removeElt: (id: GT.Id) => void;
     addElt: (id: GT.Id) => void;
@@ -51,7 +52,7 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
 
     render() {
         return <div className="form-autocomplete">
-            <div className="form-autocomplete-input form-input">
+            <div className={"form-autocomplete-input form-input" + (this.props.disabled ? " disabled" : "") }>
                 {
                     this.props.selected.map((elt) => {
                         return <SelectedElement
@@ -63,7 +64,13 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
                             onRemove={(id) => this.props.removeElt(id)} />
                     })
                 }
-                <input className="form-input" type="text" onChange={this.onInputChange} value={this.state.text} />
+                <input
+                    className="form-input"
+                    type="text"
+                    onChange={this.onInputChange}
+                    value={this.state.text}
+                    disabled={this.props.disabled}
+                />
             </div>
             {
                 this.state.text

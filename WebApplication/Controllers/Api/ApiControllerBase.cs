@@ -1,13 +1,14 @@
 namespace WebApplication.Controllers.Api
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Filters;
     using WebApplication.Services.Models;
 
-    [ServiceFilter(typeof(ApiExceptionFilter))]
-    [ModelValidationFilter]
+    [Authorize]
+    [ApiController]
     public class ApiControllerBase : ControllerBase
     {
         protected ApplicationDbContext DbContext { get; }

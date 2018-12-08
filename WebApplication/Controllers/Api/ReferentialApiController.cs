@@ -1,7 +1,6 @@
 namespace WebApplication.Controllers.Api
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -9,7 +8,6 @@ namespace WebApplication.Controllers.Api
     using WebApplication.ViewModels;
     using WebApplication.Services.Contracts;
 
-    [Authorize]
     [Route("api/referential")]
     public class ReferentialApiController : ApiControllerBase
     {

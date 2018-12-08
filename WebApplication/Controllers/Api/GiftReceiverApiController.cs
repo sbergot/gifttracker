@@ -1,19 +1,15 @@
 namespace WebApplication.Controllers.Api
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
-    using WebApplication.Models;
     using WebApplication.Services.Contracts;
     using WebApplication.Services.Models;
     using WebApplication.ViewModels;
 
-    [Authorize]
     [Route("api/giftreceiver")]
     public class GiftReceiverApiController : ApiControllerBase
     {

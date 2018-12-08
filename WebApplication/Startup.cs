@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,8 +55,11 @@ namespace WebApplication
             services.AddScoped<IAccessControlService, AccessControlService>();
             services.AddScoped<IGiftReceiverService, GiftReceiverService>();
 
-            services.AddMvc().AddRazorPagesOptions(options =>
-                { options.Conventions.AuthorizeFolder("/"); });
+            services
+                .AddMvc()
+                .AddRazorPagesOptions(options =>
+                { options.Conventions.AuthorizeFolder("/"); })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<WebApplication.Filters.ApiExceptionFilter>();
 

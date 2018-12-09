@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace WebApplication.ViewModels.AccountViewModels
+namespace WebApplication.Models.Mvc
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class LoginViewModel
     {
         [Required]

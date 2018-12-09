@@ -8,6 +8,8 @@ namespace WebApplication.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
+    using Database = WebApplication.Models.Database;
+    using WebApi = WebApplication.Models.WebApi;
     using WebApplication.Services.Contracts;
 
     [Route("api/gift")]
@@ -28,29 +30,30 @@ namespace WebApplication.Controllers.Api
         }
 
         [HttpGet]
-        async public Task<List<Gift>> Index()
+        async public Task<List<WebApi.Gift>> Index()
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
-            return await AccessControlService.GetVisibleGifts(userId).ToListAsync();
+            return await AccessControlService.GetVisibleGifts(userId).Select(g => g.ToWeb()).ToListAsync();
         }
 
         [HttpPost]
-        async public Task<IActionResult> Post([FromBody]Gift inputGift)
+        async public Task<IActionResult> Post(WebApi.Gift inputGift)
         {
             if (inputGift.Id > 0) {
                 return BadRequest("trying to post a new gift with positive id");
             }
-            inputGift.Id = 0;
+            var gift = inputGift.ToDatabase();
+            gift.Id = 0;
             var userId = await UserAccessor.GetCurrentIndividualId();
-            inputGift.OwnerId = userId;
-            var result = DbContext.Gifts.Add(inputGift);
+            gift.OwnerId = userId;
+            var result = DbContext.Gifts.Add(gift);
             await DbContext.SaveChangesAsync();
-            return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity);
+            return CreatedAtRoute("GetGift", new { controller = "GiftApi", id = result.Entity.Id }, result.Entity.ToWeb());
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        async public Task<IActionResult> Put(int id, [FromBody]Gift inputGift)
+        async public Task<IActionResult> Put(int id, WebApi.Gift inputGift)
         {
             if (inputGift == null) {
                 return BadRequest("gift not provided");
@@ -60,7 +63,7 @@ namespace WebApplication.Controllers.Api
                 return Forbid();
             }
             inputGift.Id = id;
-            DbContext.Entry(storedGift).CurrentValues.SetValues(inputGift);
+            DbContext.Entry(storedGift).CurrentValues.SetValues(inputGift.ToDatabase());
             await DbContext.SaveChangesAsync();
             return Ok(inputGift);
         }
@@ -88,7 +91,7 @@ namespace WebApplication.Controllers.Api
             return Ok(storedGift);
         }
 
-        async private Task<Gift> FetchGift(int id)
+        async private Task<Database.Gift> FetchGift(int id)
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
             return AccessControlService.GetVisibleGifts(userId).FirstOrDefault(g => g.Id == id);

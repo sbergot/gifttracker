@@ -1,4 +1,4 @@
-namespace WebApplication.Models
+namespace WebApplication.Models.Database
 {
     using Microsoft.AspNetCore.Identity;
 

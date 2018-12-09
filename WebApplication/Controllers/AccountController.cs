@@ -9,7 +9,8 @@ namespace WebApplication.Controllers
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
     using WebApplication.Models;
-    using WebApplication.ViewModels.AccountViewModels;
+    using WebApplication.Models.Database;
+    using WebApplication.Models.Mvc;
 
     [Authorize]
     public class AccountController : Controller

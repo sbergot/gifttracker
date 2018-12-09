@@ -1,4 +1,4 @@
-namespace WebApplication.Models
+namespace WebApplication.Models.Mvc
 {
     using System.ComponentModel.DataAnnotations;
 

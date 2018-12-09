@@ -11,7 +11,7 @@ namespace WebApplication.Tests
     using Moq;
 
     using WebApplication.Data;
-    using WebApplication.Models;
+    using WebApplication.Models.Database;
     using WebApplication.Services.Implementations;
     using WebApplication.Services.Contracts;
 

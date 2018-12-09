@@ -9,6 +9,8 @@ namespace WebApplication.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using WebApplication.Data;
     using WebApplication.Models;
+    using Database = WebApplication.Models.Database;
+    using WebApi = WebApplication.Models.WebApi;
 
     [Route("api/event")]
     public class EventApiController : ApiControllerBase
@@ -20,16 +22,16 @@ namespace WebApplication.Controllers.Api
         {}
 
         [HttpGet]
-        async public Task<List<Event>> Index()
+        async public Task<List<WebApi.Event>> Index()
         {
-            var events = await DbContext.Events.ToListAsync();
+            var events = await DbContext.Events.Select(e => e.ToWeb()).ToListAsync();
             return events;
         }
 
         [HttpPost("{year}/{type}")]
         async public Task<IActionResult> Create(int year, EventType type)
         {
-            var evt = new Event
+            var evt = new Database.Event
             {
                 Year = year,
                 Type = type
@@ -40,9 +42,9 @@ namespace WebApplication.Controllers.Api
         }
 
         [HttpGet("{year}/{type}", Name = "GetEvent")]
-        public Event GetEvent(int year, EventType type)
+        public WebApi.Event GetEvent(int year, EventType type)
         {
-            return DbContext.Events.First(o => o.Year == o.Year && o.Type == type);
+            return DbContext.Events.First(o => o.Year == o.Year && o.Type == type).ToWeb();
         }
 
         private EventType? ParseEventType(string input)

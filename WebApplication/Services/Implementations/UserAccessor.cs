@@ -3,7 +3,7 @@ namespace WebApplication.Services.Implementations
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
-    using WebApplication.Models;
+    using WebApplication.Models.Database;
     using WebApplication.Services.Contracts;
 
 

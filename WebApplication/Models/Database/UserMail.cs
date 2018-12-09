@@ -1,7 +1,5 @@
-namespace WebApplication.Models
+namespace WebApplication.Models.Database
 {
-    using System;
-
     public class UserMail
     {
         public string Mail { get; set; }

@@ -1,7 +1,7 @@
 namespace WebApplication.Services.Contracts
 {
     using System.Threading.Tasks;
-    using WebApplication.Models;
+    using WebApplication.Models.Database;
 
     public interface IUserAccessor
     {

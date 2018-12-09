@@ -1,4 +1,4 @@
-namespace WebApplication.ViewModels
+namespace WebApplication.Models.WebApi
 {
     using System.Collections.Generic;
     using WebApplication.Models;

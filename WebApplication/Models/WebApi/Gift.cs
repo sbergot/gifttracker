@@ -1,4 +1,4 @@
-namespace WebApplication.Models
+namespace WebApplication.Models.WebApi
 {
     using System.ComponentModel.DataAnnotations;
 

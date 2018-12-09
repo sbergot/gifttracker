@@ -3,7 +3,7 @@ namespace WebApplication.Services.Implementations
     using System.Linq;
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
-    using WebApplication.Models;
+    using WebApplication.Models.Database;
     using WebApplication.Services.Contracts;
     using WebApplication.Services.Models;
 

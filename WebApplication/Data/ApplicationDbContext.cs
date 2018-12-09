@@ -3,6 +3,7 @@ namespace WebApplication.Data
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using WebApplication.Models;
+    using WebApplication.Models.Database;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

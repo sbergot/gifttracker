@@ -3,7 +3,7 @@ namespace WebApplication.Services.Contracts
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using WebApplication.Models;
+    using WebApplication.Models.Database;
 
     public interface IAccessControlService
     {

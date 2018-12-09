@@ -8,7 +8,7 @@ namespace WebApplication.Services.Implementations
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using WebApplication.Data;
-    using WebApplication.Models;
+    using WebApplication.Models.Database;
     using WebApplication.Services.Contracts;
 
     public class AccessControlService: BaseService, IAccessControlService

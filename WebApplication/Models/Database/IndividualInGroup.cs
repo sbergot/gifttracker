@@ -1,4 +1,4 @@
-namespace WebApplication.Models
+namespace WebApplication.Models.Database
 {
     public class IndividualInGroup
     {

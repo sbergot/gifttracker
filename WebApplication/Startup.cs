@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Data;
-using WebApplication.Models;
+using WebApplication.Models.Database;
 using WebApplication.Services.Contracts;
 using WebApplication.Services.Implementations;
 

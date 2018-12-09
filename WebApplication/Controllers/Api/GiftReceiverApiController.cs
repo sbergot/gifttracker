@@ -8,7 +8,7 @@ namespace WebApplication.Controllers.Api
     using WebApplication.Data;
     using WebApplication.Services.Contracts;
     using WebApplication.Services.Models;
-    using WebApplication.ViewModels;
+    using WebApplication.Models.WebApi;
 
     [Route("api/giftreceiver")]
     public class GiftReceiverApiController : ApiControllerBase
@@ -40,11 +40,11 @@ namespace WebApplication.Controllers.Api
 
         [HttpPost]
         [Route("updates")]
-        async public Task<IActionResult> PostUpdates([FromBody] GiftReceiverUpdate[] updates)
+        async public Task<IActionResult> PostUpdates(GiftReceiverUpdate[] updates)
         {
             var userId = await UserAccessor.GetCurrentIndividualId();
             foreach (var update in updates) {
-                if (update.Operation == "Add") {
+                if (update.Operation == "Add") { 
                     Logger.LogInformation("added");
                     GiftReceiverService.AddGiftReceiver(userId, update.GiftId, update.ReceiverId);
                 }

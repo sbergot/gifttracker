@@ -1,11 +1,24 @@
 @using System.Collections.Generic
 @using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.ModelBinding
 @using Microsoft.AspNetCore.Http.Authentication
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
   ViewData["Title"] = "Log in";
+}
+
+@functions {
+  string ValidationClassFor(string field)
+  {
+    var fieldValidationState = ViewData.ModelState.GetFieldValidationState(field);
+    return fieldValidationState == ModelValidationState.Invalid
+          ? "has-error"
+          : fieldValidationState == ModelValidationState.Valid
+          ? "has-success"
+          : "";
+  }
 }
 
 <h1>
@@ -17,13 +30,17 @@
 <h2>Use a local account to log in.</h2>
 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <div asp-validation-summary="All" class="form-input-hint"></div>
-    <div class="form-group ">
+    <div class="form-group @ValidationClassFor("Email")">
         <label asp-for="Email" class="form-label"></label>
         <input asp-for="Email" class="form-input" />
         <span asp-validation-for="Email" class="form-input-hint"></span>
+    </div>
+    <div class="form-group @ValidationClassFor("Password")">
         <label asp-for="Password" class="form-label"></label>
         <input asp-for="Password" class="form-input" />
         <span asp-validation-for="Password" class="form-input-hint"></span>
+    </div>
+    <div class="form-group ">
         <label class="form-checkbox" asp-for="RememberMe">
             <input asp-for="RememberMe" />
             <i class="form-icon"></i>
@@ -73,7 +90,3 @@
 </div>
 
 </div>
-
-@section Scripts {
-  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}

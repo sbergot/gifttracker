@@ -4,6 +4,10 @@ namespace WebApplication.Models
     {
         public static WebApi.Individual ToWeb(this Database.Individual individual)
         {
+            if (individual == null)
+            {
+                return null;
+            }
             return new WebApi.Individual
             {
                 BirthDay = individual.BirthDay,
@@ -15,6 +19,10 @@ namespace WebApplication.Models
 
         public static Database.Individual ToDatabase(this WebApi.Individual individual)
         {
+            if (individual == null)
+            {
+                return null;
+            }
             return new Database.Individual
             {
                 BirthDay = individual.BirthDay,
@@ -26,6 +34,10 @@ namespace WebApplication.Models
 
         public static WebApi.Event ToWeb(this Database.Event evt)
         {
+            if (evt == null)
+            {
+                return null;
+            }
             return new WebApi.Event
             {
                 Id = evt.Id,
@@ -36,6 +48,10 @@ namespace WebApplication.Models
 
         public static Database.Event ToDatabase(this WebApi.Event evt)
         {
+            if (evt == null)
+            {
+                return null;
+            }
             return new Database.Event
             {
                 Id = evt.Id,
@@ -46,14 +62,21 @@ namespace WebApplication.Models
 
         public static WebApi.Gift ToWeb(this Database.Gift gift)
         {
+            if (gift == null)
+            {
+                return null;
+            }
             return new WebApi.Gift
             {
                 Buyer = gift.Buyer.ToWeb(),
+                BuyerId = gift.BuyerId,
                 Description = gift.Description,
                 Event = gift.Event.ToWeb(),
+                EventId = gift.EventId,
                 Id = gift.Id,
                 IsVisibleToOthers = gift.IsVisibleToOthers,
                 Owner = gift.Owner.ToWeb(),
+                OwnerId = gift.OwnerId,
                 PriceInCents = gift.PriceInCents,
                 Status = gift.Status,
                 Title = gift.Title,
@@ -63,13 +86,20 @@ namespace WebApplication.Models
 
         public static Database.Gift ToDatabase(this WebApi.Gift gift)
         {
+            if (gift == null)
+            {
+                return null;
+            }
             return new Database.Gift
             {
+                Buyer = gift.Buyer.ToDatabase(),
                 BuyerId = gift.BuyerId,
                 Description = gift.Description,
+                Event = gift.Event.ToDatabase(),
                 EventId = gift.EventId,
                 Id = gift.Id,
                 IsVisibleToOthers = gift.IsVisibleToOthers,
+                Owner = gift.Owner.ToDatabase(),
                 OwnerId = gift.OwnerId,
                 PriceInCents = gift.PriceInCents,
                 Status = gift.Status,

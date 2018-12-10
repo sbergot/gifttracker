@@ -1,0 +1,8 @@
+@model WebApplication.Models.Database.Individual
+
+@{
+    var indiv = Model;
+    var name = indiv != null ? indiv.FirstName : "annonymous";
+}
+
+<span>Welcome @name</span>

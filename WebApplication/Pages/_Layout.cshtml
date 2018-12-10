@@ -11,15 +11,19 @@
 </head>
 <body>
   <header class="navbar container grid-md">
-    <section class="brand">
-      <a class="brand-icon" asp-page="/"></a>
+    <section class="navbar-brand mr-2">
+      <a class="brand-icon" asp-page="/Index"></a>
       <span class="brand-title">
         giftTracker
       </span>
     </section>
     <section class="navbar-section" id="custom-section">
+      <a class="btn btn-link" asp-page="./Gift">gifts</a>
+      <a class="btn btn-link" asp-page="./Event">events</a>
+      <a class="btn btn-link" asp-page="./Individual">individuals</a>
     </section>
     <section class="navbar-section" id="logoff-section">
+        @await Component.InvokeAsync("UserName")
       <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
       </form>
@@ -33,7 +37,6 @@
   </div>
 
   <footer class="container grid-md">
-    <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   </footer>
 
   @RenderSection("scripts", required: false)

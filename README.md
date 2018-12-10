@@ -3,8 +3,8 @@
 ## ux improvements
 
 ### layout
-- [ ] display user name at the top
-- [ ] rework menu (event view, individual view, manage screen (with indiv visibility admin))
+- [x] display user name at the top
+- [x] rework menu
 - [ ] fix login / registration forms
 
 ### gift display

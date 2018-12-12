@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Subscribe } from "unstated"
 
-import { DataStore } from "../stores/dataStore";
-import { GiftEditStore } from "../stores/giftEditStore";
+import { DataStore } from "../../../stores/dataStore";
+import { GiftEditStore } from "../../../stores/giftEditStore";
 import { EventView } from "./EventView"
-import { sortByEvents } from '../services/service.referential'
-import { MainStore } from '../stores/mainStore';
+import { sortByEvents } from '../../../services/service.referential'
+import { MainStore } from '../../../stores/mainStore';
 
 interface EventAppProps
 {
@@ -65,7 +65,7 @@ export function EventAppContainer() {
           cancelEdition: giftEditStore.closeGiftForm,
           deleteGift: dataStore.deleteGift,
           editGift: mainStore.editGift,
-          newGift: giftEditStore.editNewGift,
+          newGift: mainStore.editNewGift,
           saveGift: dataStore.saveGift
         }}
       />

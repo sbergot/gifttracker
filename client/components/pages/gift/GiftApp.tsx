@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Subscribe } from "unstated"
 
-import { DataStore } from "../stores/dataStore";
+import { DataStore } from "../../../stores/dataStore";
 import { GiftView } from "./GiftView";
-import { GiftEditStore } from '../stores/giftEditStore';
-import { MainStore } from '../stores/mainStore';
+import { GiftEditStore } from '../../../stores/giftEditStore';
+import { MainStore } from '../../../stores/mainStore';
 
 interface GiftAppProps
 {
@@ -19,11 +19,17 @@ interface GiftAppActions
 function GiftApp(props: GiftAppProps & GiftAppActions)
 {
   const gifts = Object.values(props.context.getAllGifts());
-  return <div>
-      <button onClick={() => (props.giftActions.newGift({}))} >New</button>
+  return <div className="container grid-lg">
+    <button
+      className="btn btn-primary btn-action btn-lg float-right"
+      onClick={() => props.giftActions.newGift({})}>
+      <i className="icon icon-plus" />
+    </button>
+    <h1>Gifts</h1>
+    <div className="columns">
       {
-        gifts.map((gift : GT.Gift) => (
-          <div key={gift.id} >
+        gifts.map((gift: GT.Gift) => (
+          <div className="column col-4 col-md-6 col-sm-12 pt-2" key={gift.id} >
             <GiftView
               receivers={props.context.getReceivers(gift.id)}
               gift={gift}
@@ -31,6 +37,7 @@ function GiftApp(props: GiftAppProps & GiftAppActions)
               onEdit={() => props.giftActions.editGift(gift.id)} />
           </div>))
       }
+    </div>
   </div>;
 }
 
@@ -43,7 +50,7 @@ export function GiftAppContainer() {
         cancelEdition: giftEditStore.closeGiftForm,
         deleteGift: dataStore.deleteGift,
         editGift: mainStore.editGift,
-        newGift: giftEditStore.editNewGift,
+        newGift: mainStore.editNewGift,
         saveGift: dataStore.saveGift
       }}
     />

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { render } from "react-dom";
-import { IndividualApp } from "./components/IndividualApp";
+import { IndividualApp } from "./components/pages/individual/IndividualApp";
 
 // async function main()
 // {

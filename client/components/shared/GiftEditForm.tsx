@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Typeahead } from "./TypeAhead"
 
-import { showEvent, showGiftStatus, allGiftStatus } from '../services/service.referential';
+import { showEvent, showGiftStatus, allGiftStatus } from '../../services/service.referential';
 
 interface GiftEditFormProps
 {

@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-  <header class="navbar container grid-md">
+  <header class="navbar container grid-lg">
     <section class="navbar-brand mr-2">
       <a class="brand-icon" asp-page="/Index"></a>
       <span class="brand-title">
@@ -31,10 +31,7 @@
   </header>
 
 
-  <div class="container grid-md">
-    <h1>@ViewData["Title"]</h1>
-    @RenderBody()
-  </div>
+  @RenderBody()
 
   <footer class="container grid-md">
   </footer>

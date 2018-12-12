@@ -4,20 +4,23 @@ import * as dataGift from "../data/data.gift";
 import * as dataContext from "../data/data.referential";
 import * as dataGiftReceiver from "../data/data.giftreceiver";
 import { diffArray } from "../services/services.arraydiff";
+import { fromReferentialData, ContextServiceImpl } from "../services/service.context";
 
 export class DataStore extends Container<GT.AppState> {
 
     state: GT.AppState = makeState();
 
-    asyncOperationStart = () => this.setState({ loading: true })
+    getContextService = (): GT.ContextService => new ContextServiceImpl(this.state.context);
 
-    asyncOperationSuccess = () => this.setState({ loading: false })
+    asyncOperationStart = () => this.setState({ loading: true });
 
-    asyncOperationFailure = () => this.setState({ loading: false })
+    asyncOperationSuccess = () => this.setState({ loading: false });
+
+    asyncOperationFailure = () => this.setState({ loading: false });
 
     dataContextReceived = (dataContext: GT.DataContext) => {
         this.setState({ context: dataContext })
-    }
+    };
 
     asyncAction = async <T>(cb: () => Promise<T>) => {
         this.asyncOperationStart();
@@ -39,7 +42,7 @@ export class DataStore extends Container<GT.AppState> {
             return await dataContext.getReferential();
         });
         if (context) {
-            this.dataContextReceived(context);
+            this.dataContextReceived(fromReferentialData(context));
         }
     }
 
@@ -65,7 +68,7 @@ export class DataStore extends Container<GT.AppState> {
     }
 
     updateReceiver = async (giftId: GT.Id, receiverIds: GT.Id[]) => {
-        const previousReceiverIds = this.state.context.giftReceiversMap[giftId];
+        const previousReceiverIds = this.getContextService().getReceiverIds(giftId);
         const diff = diffArray(previousReceiverIds, receiverIds);
         const added = diff.added.map(receiverId => {
             const update: GT.GiftReceiverUpdate = { giftId, receiverId, operation: "Add" };

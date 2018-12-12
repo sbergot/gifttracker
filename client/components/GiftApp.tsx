@@ -8,7 +8,7 @@ import { MainStore } from '../stores/mainStore';
 
 interface GiftAppProps
 {
-  context: GT.DataContext,
+  context: GT.ContextService,
 }
 
 interface GiftAppActions
@@ -18,14 +18,14 @@ interface GiftAppActions
 
 function GiftApp(props: GiftAppProps & GiftAppActions)
 {
-  const gifts = Object.values(props.context.giftMap);
+  const gifts = Object.values(props.context.getAllGifts());
   return <div>
       <button onClick={() => (props.giftActions.newGift({}))} >New</button>
       {
         gifts.map((gift : GT.Gift) => (
           <div key={gift.id} >
             <GiftView
-              context={props.context}
+              receivers={props.context.getReceivers(gift.id)}
               gift={gift}
               onDelete={() => props.giftActions.deleteGift(gift.id)}
               onEdit={() => props.giftActions.editGift(gift.id)} />
@@ -38,7 +38,7 @@ export function GiftAppContainer() {
   return <Subscribe to={[DataStore, GiftEditStore, MainStore]}>
   {(dataStore: DataStore, giftEditStore: GiftEditStore, mainStore: MainStore) => (
     <GiftApp
-      context={dataStore.state.context}
+      context={dataStore.getContextService()}
       giftActions={{
         cancelEdition: giftEditStore.closeGiftForm,
         deleteGift: dataStore.deleteGift,

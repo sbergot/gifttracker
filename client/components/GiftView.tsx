@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface GiftProps {
-    context: GT.DataContext;
+    receivers: GT.Individual[];
     gift : GT.Gift;
     onDelete : () => void;
     onEdit :   () => void;
@@ -10,8 +10,7 @@ export interface GiftProps {
 export function GiftView(props: GiftProps)
 {
     const gift = props.gift;
-    const receiverIds = props.context.giftReceiversMap[gift.id] || [];
-    const receivers = receiverIds.map((r) => props.context.individualMap[r]);
+    const receivers = props.receivers;
     return (
     <div className="gift-view">
         <dl>

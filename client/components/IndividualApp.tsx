@@ -2,7 +2,7 @@ import * as React from "react"
 
 interface IndividualAppProps
 {
-  context: GT.DataContext
+  context: GT.ContextService
 }
 
 export class IndividualApp extends React.Component<IndividualAppProps>
@@ -15,16 +15,14 @@ export class IndividualApp extends React.Component<IndividualAppProps>
   render()
   {
     const context = this.props.context;
-    const individualIds = Object.keys(context.individualMap);
+    const individuals = context.getSortedIndividuals();
     return <div>
-      {individualIds.map(indivId =>
+      {individuals.map(indiv =>
         {
-          const individual = context.individualMap[indivId];
-          const giftIds = this.props.context.receiverGiftsMap[indivId];
-          return <div key={indivId}>{individual.firstName} {individual.lastName}
+          const gifts = context.getGiftsReceived(indiv.id);
+          return <div key={indiv.id}>{indiv.firstName} {indiv.lastName}
             <ul>
-              {giftIds.map(id => {
-                const gift = context.giftMap[id];
+              {gifts.map(gift => {
                 return <li key={gift.id}>{gift.title}</li>
               })}
             </ul>

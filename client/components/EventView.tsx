@@ -4,7 +4,7 @@ import { sortByIndividuals, showEvent } from '../services/service.referential'
 interface EventViewProps
 {
   eventId: GT.Id;
-  context: GT.DataContext;
+  context: GT.ContextService;
   editGift: (giftId: GT.Id) => void;
   deleteGift: (giftId: GT.Id) => void;
   createGift: (event: GT.Event, individual: GT.Individual) => void;
@@ -13,31 +13,30 @@ interface EventViewProps
 export function EventView(props: EventViewProps)
 {
   const context = props.context;
-  const evt  = context.eventMap[props.eventId];
-  const individualIds = Object.keys(context.individualMap);
+  const evt  = context.getEvent(props.eventId);
+  const individuals = context.getSortedIndividuals();
   return (
     <div>
       <h2>{showEvent(evt)}</h2>
       <ul className="individual-list">
         {
-          sortByIndividuals(individualIds, i => context.individualMap[i])
-          .map(indivId =>
+          individuals.map(indiv =>
             {
-              const indiv = context.individualMap[indivId];
-              const giftIds = context.receiverGiftsMap[indivId] || [];
+              const indivId = indiv.id;
+              const gifts = context.getGiftsReceived(indivId);
               return <li key={indivId}>
                 <span className="individual-list-elt">
                   {indiv.firstName}:
                 </span>
                 {
-                    giftIds.length === 0
+                    gifts.length === 0
                   ? <span className="gift-list-empty">nothing :-(</span>
                   : <ul className="gift-list">
                         {
-                          giftIds.map(giftId =>
+                          gifts.map(gift =>
                           <Gift
-                            key={giftId}
-                            gift={context.giftMap[giftId]}
+                            key={gift.id}
+                            gift={gift}
                             editGift={props.editGift}
                             deleteGift={props.deleteGift}/>
                           )

@@ -12,8 +12,9 @@ export class MainStore extends Container<{}> {
     }
 
     editGift = (giftId: GT.Id) => {
-        const gift = this.dataStore.state.context.giftMap[giftId];
-        const receiverIds = this.dataStore.state.context.giftReceiversMap[giftId] || [];
+        const context = this.dataStore.getContextService();
+        const gift = context.getGift(giftId);
+        const receiverIds = context.getReceiverIds(giftId);
         this.giftEditStore.editGift(gift, receiverIds);
     }
 

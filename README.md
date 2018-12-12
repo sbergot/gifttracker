@@ -2,14 +2,9 @@
 
 ## ux improvements
 
-### layout
-- [x] display user name at the top
-- [x] rework menu
-- [ ] fix login / registration forms
-
 ### gift display
-- [ ] use tile to display gifts
-- [ ] no-gift icon
+- [ ] use cards to display gifts
+- [ ] no gift empty state
 - [ ] status: nice radio
 
 ### event display
@@ -22,8 +17,6 @@
 
 # Next
 
-## write some documentation
-
 ## filter gifts
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
 
@@ -33,6 +26,8 @@
 
 ## vue personne
 timeline des cadeaux offerts à cette personne (par tout le monde)
+
+## gift drag and drop
 
 ## vue évennements
 

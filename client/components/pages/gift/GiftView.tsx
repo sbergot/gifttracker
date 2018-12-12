@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { ActionButton } from '../../shared/ActionButton';
+
 export interface GiftProps {
     receivers: GT.Individual[];
     gift: GT.Gift;
@@ -13,16 +15,16 @@ export function GiftView(props: GiftProps) {
     return (
         <div className="card gift-view">
             <div className="card-header">
-                <button
-                    className="gift-delete btn btn-primary btn-action btn-lg float-right"
-                    onClick={() => props.onDelete()}>
-                    <i className="icon icon-cross" />
-                </button>
-                <button
-                    className="gift-edit btn btn-primary btn-action btn-lg float-right"
-                    onClick={() => props.onEdit()}>
-                    <i className="icon icon-edit" />
-                </button>
+                <ActionButton
+                    className="gift-delete float-right"
+                    onClick={() => props.onDelete()}
+                    type="cross"
+                />
+                <ActionButton
+                    className="gift-edit float-right"
+                    onClick={() => props.onEdit()}
+                    type="edit"
+                />
                 <div className="card-title h4">
                     {gift.title}
                 </div>

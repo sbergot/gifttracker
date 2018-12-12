@@ -3,10 +3,6 @@ body {
     padding-bottom: 20px;
 }
 
-#gift-create-open {
-    margin-top: 8px;
-}
-
 header {
     margin-bottom: 20px;
 }
@@ -38,11 +34,6 @@ header > section.brand {
     margin-right: 10px;
 }
 
-.gift-list {
-    display: inline;
-    margin: 0px;
-}
-
 .gift-list-empty {
     font-size: 18px;
     color: #888888;
@@ -50,24 +41,23 @@ header > section.brand {
     margin-right: 10px;
 }
 
-.gift-list-elt {
-    display: inline;
-    font-size: 18px;
-    margin-right: 10px;
+.gift-view button {
+    opacity: 0;
+    transition: opacity .5s;
 }
 
-.gift-list-elt+.gift-list-elt::before {
-    content: '| ';
+.gift-view:hover button {
+    opacity: 1;
 }
 
-.gift-list-elt-ctrls {
-    display: none;
-    margin: 2px;
-    cursor: pointer;
+.gift-view {
+    box-shadow: 0 0 3px rgb(240, 240, 240);
+    transition: box-shadow .5s;
+    min-height: 120px;
 }
 
-.gift-list-elt:hover > .gift-list-elt-ctrls {
-    display: unset;
+.gift-view:hover {
+    box-shadow: 0 0 5px rgb(200, 200, 200);
 }
 
 #gift-edit-modal > .modal-body {

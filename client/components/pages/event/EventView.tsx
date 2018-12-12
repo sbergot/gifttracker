@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Gift } from "./Gift";
+import { GiftEmpty } from "./GiftEmpty";
 import { showEvent } from '../../../services/service.referential'
 
 interface EventViewProps
@@ -25,30 +27,34 @@ export function EventView(props: EventViewProps)
               const indivId = indiv.id;
               const gifts = context.getGiftsReceived(indivId);
               return <li key={indivId}>
-                <span className="individual-list-elt">
-                  {indiv.firstName}:
-                </span>
-                {
-                    gifts.length === 0
-                  ? <span className="gift-list-empty">nothing :-(</span>
-                  : <ul className="gift-list">
-                        {
-                          gifts.map(gift =>
-                          <Gift
-                            key={gift.id}
-                            gift={gift}
-                            editGift={props.editGift}
-                            deleteGift={props.deleteGift}/>
-                          )
-                        }
-                    </ul>
-                }
+                <h3 className="individual-list-elt d-inline">
+                  {indiv.firstName}
+                </h3>
                 <button
                   className="gift-list-elt-add btn btn-sm"
                   onClick={() => props.createGift(evt, indiv)}
                 >
                   <i className="icon icon-plus" />
                 </button>
+                {
+                    gifts.length === 0
+                    ? <GiftEmpty/>
+                    : <div className="grid-lg">
+                      <div className="columns">
+                        {
+                          gifts.map(gift =>
+                            <div className="column col-4 col-md-6 col-sm-12 py-2" key={gift.id} >
+                              <Gift
+                                key={gift.id}
+                                gift={gift}
+                                editGift={props.editGift}
+                                deleteGift={props.deleteGift} />
+                            </div>
+                          )
+                        }
+                      </div>
+                    </div>
+                }
               </li>
             }
           )
@@ -56,31 +62,4 @@ export function EventView(props: EventViewProps)
       </ul>
     </div>
   );
-}
-
-function Gift(
-  props: {
-    gift: GT.Gift,
-    editGift: (giftId: GT.Id) => void,
-    deleteGift: (giftId: GT.Id) => void
-  }) {
-  const giftId = props.gift.id;
-  return <li className="gift-list-elt" key={giftId}>
-    <GiftTitle {...props.gift} />
-    <span className="gift-list-elt-ctrls">
-      <button className="btn btn-sm" onClick={() => props.editGift(giftId)}>
-        <i className="icon icon-edit" />
-      </button>
-      <button className="btn btn-sm" onClick={() => props.deleteGift(giftId)}>
-        <i className="icon icon-cross" />
-      </button>
-    </span>
-  </li>;
-}
-
-
-function GiftTitle(gift: GT.Gift) {
-  return gift.url
-      ? <a href={gift.url} >{gift.title}</a>
-      : <span>{gift.title}</span>;
 }

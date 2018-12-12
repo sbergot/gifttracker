@@ -29,7 +29,7 @@ function GiftApp(props: GiftAppProps & GiftAppActions)
     <div className="columns">
       {
         gifts.map((gift: GT.Gift) => (
-          <div className="column col-4 col-md-6 col-sm-12 pt-2" key={gift.id} >
+          <div className="column col-4 col-md-6 col-sm-12 py-2" key={gift.id} >
             <GiftView
               receivers={props.context.getReceivers(gift.id)}
               gift={gift}

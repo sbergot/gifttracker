@@ -37,7 +37,8 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
         const dataContext = this.props.context;
         const events = dataContext.getSortedEvents();
         return (
-            <div>
+            <div className="container grid-lg">
+                <h1>Events</h1>
                 {
                     events.map((evt) =>
                             <div key={evt.id}>

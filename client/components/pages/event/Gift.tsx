@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import { ActionButton } from '../../shared/ActionButton';
+import { GiftCard } from '../../shared/GiftCard';
 
 export function Gift(
     props: {
@@ -9,27 +8,12 @@ export function Gift(
         deleteGift: (giftId: GT.Id) => void
     }) {
     const giftId = props.gift.id;
-    return <div className="card gift-view" key={giftId}>
-        <div className="card-header">
-            <ActionButton
-                className="float-right"
-                onClick={() => props.deleteGift(giftId)}
-                type="cross"
-            />
-            <ActionButton
-                className="float-right"
-                onClick={() => props.editGift(giftId)}
-                type="edit"
-            />
-            <div className="card-title h5">
-                <GiftTitle {...props.gift} />
-            </div>
-        </div>
-    </div>;
+    return <GiftCard
+        gift={props.gift}
+        onEdit={() => props.editGift(giftId)}
+        onDelete={() => props.deleteGift(giftId)}
+    >
+    </GiftCard>
 }
 
-function GiftTitle(gift: GT.Gift) {
-    return gift.url
-        ? <a href={gift.url} >{gift.title}</a>
-        : <span>{gift.title}</span>;
-}
+

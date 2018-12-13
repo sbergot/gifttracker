@@ -1,11 +1,8 @@
 import * as React from 'react';
 
 export function GiftEmpty() {
-    return <div className="empty mt-2">
-    <div className="empty-icon">
-      <i className="icon icon-4x icon-stop"></i>
-    </div>
-    <p className="empty-title h5">No gift :-(</p>
-    <p className="empty-subtitle">Click the '+' button to add a gift</p>
+  return <div className="empty-gift bg-gray text-center text-gray">
+    <i className="icon icon-3x icon-stop d-block"></i>
+    <span className="h4 d-block">No gift yet. Click the '+' button to add a gift</span>
   </div>
 }

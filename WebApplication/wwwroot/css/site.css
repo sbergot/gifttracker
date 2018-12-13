@@ -3,6 +3,8 @@ body {
     padding-bottom: 20px;
 }
 
+/* header */
+
 header {
     margin-bottom: 20px;
 }
@@ -24,22 +26,13 @@ header > section.brand {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-.individual-list {
-    list-style-type: none;
+/* modal */
+
+.modal-container {
+    max-height: 800px !important;
 }
 
-.individual-list-elt {
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.gift-list-empty {
-    font-size: 18px;
-    color: #888888;
-    font-style: italic;
-    margin-right: 10px;
-}
+/* gift card */
 
 .gift-view button {
     opacity: 0;
@@ -53,21 +46,26 @@ header > section.brand {
 .gift-view {
     box-shadow: 0 0 3px rgb(240, 240, 240);
     transition: box-shadow .5s;
-    min-height: 120px;
+    min-height: 240px;
 }
 
 .gift-view:hover {
     box-shadow: 0 0 5px rgb(200, 200, 200);
 }
 
-#gift-edit-modal > .modal-body {
-    max-height: 600px;
+.empty-gift {
+    border: 5px dashed rgb(188, 195, 206);
+    height: 240px;
+    padding-top: 40px;
 }
 
-.modal-container {
-    max-height: 800px !important;
+/* event page -- should be removed */
+
+.individual-list {
+    list-style-type: none;
 }
 
-.receiver {
-    margin-right: 3px;
+.event-individual-header {
+    display: flex;
+    align-items: flex-start;
 }

@@ -29,7 +29,7 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
 
     createGift = (event: GT.Event, individual: GT.Individual) => {
         const newGift = { eventId: event.id };
-        this.props.giftActions.newGift(newGift);
+        this.props.giftActions.newGift(newGift, [individual.id]);
     }
 
     render()

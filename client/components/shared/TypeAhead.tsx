@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { HotKeys } from 'react-hotkeys';
 
 interface TypeAheadProps<T extends { id: GT.Id }> {
     options: T[];
@@ -15,19 +16,21 @@ interface Option {
 }
 
 interface TypeaheadState {
-    text: string
+    text: string;
+    selectedSuggestion: number;
 }
 
 export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<TypeAheadProps<T>, TypeaheadState> {
     constructor(props: TypeAheadProps<T>) {
         super(props);
         this.state = {
-            text: ""
+            text: "",
+            selectedSuggestion: 0
         };
     }
 
     onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ text: event.target.value })
+        this.setState({ text: event.target.value, selectedSuggestion: 0 })
     }
 
     getSuggestions = () => {
@@ -38,7 +41,7 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
         const allOptions = this.props.options.map(o => {
             return {
                 label: this.props.displayOption(o),
-                id: o.id
+                id: o.id.toString()
             }
         });
         const lowerText = this.state.text.toLowerCase();
@@ -52,37 +55,65 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
 
     render() {
         return <div className="form-autocomplete">
-            <div className={"form-autocomplete-input form-input" + (this.props.disabled ? " disabled" : "") }>
+            <HotKeys 
+                keyMap={{
+                    nextSuggestion: "down",
+                    prevSuggestion: "up",
+                    pickSuggestion: "right"
+                }}
+                handlers={{
+                    nextSuggestion: () => {
+                        console.log("next " + this.state.selectedSuggestion);
+                        this.setState(state => ({
+                            ...state,
+                            selectedSuggestion: state.selectedSuggestion + 1
+                        }))
+                    },
+                    prevSuggestion: () => {
+                        this.setState(state => ({
+                            ...state,
+                            selectedSuggestion: state.selectedSuggestion - 1
+                        }))
+                    },
+                    pickSuggestion: () => {
+                        const suggestionId = this.getSuggestions()[this.state.selectedSuggestion].id;
+                        this.setState({text: '', selectedSuggestion: 0});
+                        this.props.addElt(suggestionId);
+                    }
+                }}
+            >
+                <div className={"form-autocomplete-input form-input" + (this.props.disabled ? " disabled" : "")}>
+                    {
+                        this.props.selected.map((elt) => {
+                            return <SelectedElement
+                                key={elt.id}
+                                option={{
+                                    label: this.props.displayOption(elt),
+                                    id: elt.id.toString()
+                                }}
+                                onRemove={(id) => this.props.removeElt(id)} />
+                        })
+                    }
+                    <input
+                        className="form-input"
+                        type="text"
+                        onChange={this.onInputChange}
+                        value={this.state.text}
+                        disabled={this.props.disabled}
+                    />
+                </div>
                 {
-                    this.props.selected.map((elt) => {
-                        return <SelectedElement
-                            key={elt.id}
-                            option={{
-                                label: this.props.displayOption(elt),
-                                id: elt.id.toString()
-                            }}
-                            onRemove={(id) => this.props.removeElt(id)} />
-                    })
+                    this.state.text
+                        ? <SuggestionList
+                            suggestions={this.getSuggestions()}
+                            selected={this.state.selectedSuggestion}
+                            onSuggestionClick={(id) => {
+                                this.props.addElt(id);
+                                this.setState({ text: "", selectedSuggestion: 0 });
+                            }} />
+                        : null
                 }
-                <input
-                    className="form-input"
-                    type="text"
-                    onChange={this.onInputChange}
-                    value={this.state.text}
-                    disabled={this.props.disabled}
-                />
-            </div>
-            {
-                this.state.text
-                    ? <SuggestionList
-                        suggestions={this.getSuggestions()}
-                        onSuggestionClick={(id) => {
-                            this.props.addElt(id);
-                            this.setState({text: ""});
-                        }} />
-                    : null
-            }
-
+            </HotKeys>
         </div>
     }
 }
@@ -107,13 +138,14 @@ function SelectedElement(props: SelectedElementProps) {
 
 interface SuggestionListProps {
     suggestions: Option[];
+    selected: number;
     onSuggestionClick: (id: GT.Id) => void;
 }
 
 function SuggestionList(props: SuggestionListProps) {
     return <ul className="menu">
-        {props.suggestions.map((option) => {
-            return <li className="menu-item"
+        {props.suggestions.map((option, index) => {
+            return <li className={`menu-item ${index === props.selected ? 'bg-gray' : ''}`}
                 key={option.id}>
                 <a
                     href="#"

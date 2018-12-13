@@ -2,30 +2,29 @@ import * as React from 'react';
 
 import { ActionButton } from './ActionButton';
 
-interface GiftCardsProps {
-    gift: GT.Gift;
-    buyer: GT.Individual | null;
-    onEdit(): void;
-    onDelete(): void;
-    children?: React.ReactNode;
-}
-
-
 function GiftTitle(gift: GT.Gift) {
+    const title = `${gift.title} ${gift.ownerId}`;
     return gift.url
         ? <a href={gift.url}>{gift.title}</a>
         : <span>{gift.title}</span>;
 }
 
-function GiftSubTitle(props: { gift: GT.Gift, buyer: GT.Individual | null }) {
+function GiftSubTitle(props: { gift: GT.Gift }) {
     const status = props.gift.status != "None" ? props.gift.status : "";
-    const buyerText = status && (props.buyer !== null)
-        ? `by ${props.buyer.firstName} ${props.buyer.lastName}`
+    const buyerText = status && (props.gift.buyer !== null)
+        ? `by ${props.gift.buyer.firstName} ${props.gift.buyer.lastName}`
         : '';
     const priceText = props.gift.priceInCents ? `${props.gift.priceInCents / 100} €` : '';
     return <div className="card-subtitle text-gray">
         {status} {buyerText} {priceText}
     </div>
+}
+
+interface GiftCardsProps {
+    gift: GT.Gift;
+    onEdit(): void;
+    onDelete(): void;
+    children?: React.ReactNode;
 }
 
 export function GiftCard(props: GiftCardsProps) {
@@ -45,7 +44,6 @@ export function GiftCard(props: GiftCardsProps) {
                 <GiftTitle {...props.gift} />
             </div>
             <GiftSubTitle
-                buyer={props.buyer}
                 gift={props.gift}
             />
         </div>

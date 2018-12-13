@@ -1,30 +1,26 @@
 # Now
 
-## improve typeahead
-- [ ] up/down arrows to select entries
-- [ ] tab key to validate
-- [ ] by default the first entry is selected
+## gift cards layout
 
-# Next
+### show owner in title if not me
 
-## filter gifts
-- [ ] pouvoir filtrer sur mes idées ou les idées des autres
+### fix height (overflow elipse on receivers)
 
-## init data
-- [ ] add the younger generation
-- [ ] check birthdates
+### add body in the event view
 
 ## vue personne
 timeline des cadeaux offerts à cette personne (par tout le monde)
 - [ ] faire la vue
 - [ ] naviguer vers la page d'une personne depuis la vue évennement ou le carton cadeau
 
-## gift drag and drop
-- [ ] draggable area to drop gifts in event view
+## filter gifts
+- [ ] pouvoir filtrer sur mes idées ou les idées des autres
 
+# Next
 
-## event display
-- [ ] mean price per person for an event
+## init data
+- [ ] add the younger generation
+- [ ] check birthdates
 
 ## édition cadeaux
 - [ ] valider les entrées du formulaire (prix, url?)

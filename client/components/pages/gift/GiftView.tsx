@@ -3,7 +3,6 @@ import { GiftCard } from '../../shared/GiftCard';
 
 export interface GiftViewProps {
     receivers: GT.Individual[];
-    buyer: GT.Individual | null;
     gift: GT.Gift;
     onDelete: () => void;
     onEdit: () => void;
@@ -17,7 +16,6 @@ export function GiftView(props: GiftViewProps) {
             gift={gift}
             onDelete={props.onDelete}
             onEdit={props.onEdit}
-            buyer={props.buyer}
         >
             <p>{gift.description}</p>
             {

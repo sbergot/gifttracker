@@ -16,12 +16,16 @@ function groupBy<T, V>(
 }
 
 export function refreshDataContext(context: GT.DataContext): GT.DataContext {
-    return {
+    const newContext = {
         ...context,
         eventGiftsMap: groupBy(Object.values(context.giftMap), g => g.eventId!, g => g.id),
         giftReceiversMap: groupBy(context.giftReceiverPairs, gr => gr[0].toString(), gr => gr[1].toString()),
         receiverGiftsMap: groupBy(context.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString()),
-    }
+    };
+    Object.values(newContext.giftMap).forEach(g => {
+        g.owner = newContext.individualMap[g.ownerId];
+    })
+    return newContext;
 }
 
 export function fromReferentialData(referentialData: GT.ReferentialData): GT.DataContext {
@@ -73,16 +77,20 @@ export class ContextServiceImpl implements GT.ContextService {
         return Object.values(this.context.individualMap);
     }
 
-    getSortedEvents(): GT.Event[] {
+    getSortedEvents = (): GT.Event[] => {
         return sortByEvents(this.getAllEvents(), e => e);
     }
 
-    getSortedIndividuals(): GT.Individual[] {
+    getSortedIndividuals = (): GT.Individual[] => {
         return sortByIndividuals(this.getAllIndividuals(), i => i);
     }
 
     getGiftsReceived = (indivId: string): GT.Gift[] => {
         const giftIds = this.context.receiverGiftsMap[indivId] || [];
         return giftIds.map(this.getGift);
+    }
+
+    getCurrentUser = (): GT.Individual => {
+        return this.getIndividual(this.context.currentUserId);
     }
 }

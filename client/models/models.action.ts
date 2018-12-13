@@ -9,7 +9,7 @@ namespace GT {
 
     export interface GiftUpdate {
         field: keyof GT.Gift;
-        value: string;
+        value: any;
       }
 
     export interface GiftReceiverUpdate {

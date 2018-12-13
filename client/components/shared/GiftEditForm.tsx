@@ -181,11 +181,28 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                         {status}
                       </button>
                     )) 
-                  }
+                      }
+                      <div className="form-group">
+                        <label
+                          className="form-switch"
+                          htmlFor="isVisibleToOthers"
+                          onClick={() => this.props.updateGift({
+                            field: 'isVisibleToOthers',
+                            value: (!this.props.gift.isVisibleToOthers)
+                          })}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={this.props.gift.isVisibleToOthers}
+                            readOnly
+                          />
+                          <i className="form-icon"></i> Visible to others
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="column col-6">
-                  {this.textField('url', 'Url', "An url to a website")}
+                  <div className="column col-6">
+                    {this.textField('url', 'Url', "An url to a website")}
                   {this.textField('priceInCents', 'Price', "The price in cents of the gift")}
                   <div className="form-group">
                     <label className="form-label" htmlFor="gift-edit-description">Description</label>

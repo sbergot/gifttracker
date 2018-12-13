@@ -11,5 +11,6 @@ namespace GT {
         getReceiverIds(giftId: Id): Id[];
         getReceivers(giftId: Id): Individual[];
         getGiftsReceived(indivId: Id): Gift[];
+        getCurrentUser(): Individual;
     }
 }

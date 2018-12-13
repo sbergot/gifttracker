@@ -1,6 +1,6 @@
 import * as React from "react"
-import { Typeahead } from "./TypeAhead"
 
+import { Typeahead } from "./TypeAhead"
 import { showEvent, showGiftStatus, allGiftStatus } from '../../services/service.referential';
 
 interface GiftEditFormProps
@@ -166,16 +166,23 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                           })),
                         'no event')
                   }
+                  <div className="form-group">
+                  <label className="form-label" htmlFor="status">Status</label>
                   {
-                      this.dropDownField(
-                        'status',
-                        'Status',
-                        allGiftStatus.map(status => (
-                          {
-                            value: status,
-                            descr: showGiftStatus(status)
-                          })))
+                    allGiftStatus.map((status) => (
+                      <button
+                        key={status}
+                        className={`btn ${status === this.props.gift.status ? 'btn-primary' : ''}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.props.updateGift({ field: 'status', value: status });
+                        }}
+                      >
+                        {status}
+                      </button>
+                    )) 
                   }
+                  </div>
                 </div>
                 <div className="column col-6">
                   {this.textField('url', 'Url', "An url to a website")}

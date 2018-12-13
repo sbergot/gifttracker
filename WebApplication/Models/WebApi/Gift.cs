@@ -28,7 +28,8 @@ namespace WebApplication.Models.WebApi
 
         public Event Event { get; set; }
 
-        public GiftStatus Status { get; set; }
+        [RegularExpression(@"^(None|Reserved|Bought)$")]
+        public string Status { get; set; }
 
         public bool? IsVisibleToOthers { get; set; }
     }

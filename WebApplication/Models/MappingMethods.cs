@@ -78,7 +78,7 @@ namespace WebApplication.Models
                 Owner = gift.Owner.ToWeb(),
                 OwnerId = gift.OwnerId,
                 PriceInCents = gift.PriceInCents,
-                Status = gift.Status,
+                Status = gift.Status.ToString(),
                 Title = gift.Title,
                 Url = gift.Url
             };
@@ -102,7 +102,7 @@ namespace WebApplication.Models
                 Owner = gift.Owner.ToDatabase(),
                 OwnerId = gift.OwnerId,
                 PriceInCents = gift.PriceInCents,
-                Status = gift.Status,
+                Status = System.Enum.Parse<GiftStatus>(gift.Status),
                 Title = gift.Title,
                 Url = gift.Url
             };

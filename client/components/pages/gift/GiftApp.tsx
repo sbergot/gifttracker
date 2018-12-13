@@ -33,6 +33,7 @@ function GiftApp(props: GiftAppProps & GiftAppActions)
             <GiftView
               receivers={props.context.getReceivers(gift.id)}
               gift={gift}
+              buyer={gift.buyerId ? props.context.getIndividual(gift.buyerId) : null}
               onDelete={() => props.giftActions.deleteGift(gift.id)}
               onEdit={() => props.giftActions.editGift(gift.id)} />
           </div>))

@@ -1,11 +1,5 @@
 # Now
 
-## ux improvements
-
-### gift display
-- [x] use cards to display gifts
-- [ ] gift edit status: nice radio
-
 ## improve typeahead
 - [ ] up/down arrows to select entries
 - [ ] tab key to validate

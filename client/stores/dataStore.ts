@@ -1,4 +1,4 @@
-import { NEW_GIFT_ID, NO_GIFT_ID } from "../constant/constant";
+import { NEW_GIFT_ID } from "../constant/constant";
 import { Container } from "unstated";
 import * as dataGift from "../data/data.gift";
 import * as dataContext from "../data/data.referential";

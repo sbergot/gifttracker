@@ -46,6 +46,7 @@ export function EventView(props: EventViewProps) {
                           <Gift
                             key={gift.id}
                             gift={gift}
+                            buyer={gift.buyerId ? props.context.getIndividual(gift.buyerId) : null}
                             editGift={props.editGift}
                             deleteGift={props.deleteGift} />
                         </div>

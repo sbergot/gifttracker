@@ -4,6 +4,9 @@
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
 - [ ] pouvoir filtrer par destinataire
 
+## event navigation
+- [ ] add anchors and links to navigate to events
+
 # Next
 
 ## gift deletion

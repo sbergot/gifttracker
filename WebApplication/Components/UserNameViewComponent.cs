@@ -17,7 +17,7 @@ namespace WebApplication.Controllers
     [Authorize]
     public class UserNameViewComponent : ViewComponent
     {
-        private  ILogger Logger { get; }
+        private ILogger Logger { get; }
         private IUserAccessor UserAccessor { get; }
         private ApplicationDbContext DbContext { get; }
         public UserManager<ApplicationUser> UserManager { get; }
@@ -39,9 +39,12 @@ namespace WebApplication.Controllers
             var normalizedUserName = User.Identity.Name.ToUpper();
             var user = await DbContext.Users
                 .Include(u => u.Individual)
-                .FirstAsync(u => u.NormalizedUserName == normalizedUserName);
-            return View(user.Individual);
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == normalizedUserName);
+            var individual = user != null ? user.Individual : new Individual
+            {
+                FirstName = "annonymous"
+            };
+            return View(individual);
         }
-
     }
 }

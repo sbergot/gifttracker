@@ -1,3 +1,4 @@
+import { produce } from "immer";
 import { sortByEvents, sortByIndividuals } from "./service.referential";
 
 function groupBy<T, V>(
@@ -15,14 +16,29 @@ function groupBy<T, V>(
     return result;
 }
 
+function convertIds(context: GT.DataContext): GT.DataContext {
+    return produce(context, draft => {
+        Object.values(draft.individualMap).forEach(i => { i.id = i.id.toString(); })
+        Object.values(draft.eventMap).forEach(g => { g.id = g.id.toString(); })
+        Object.values(draft.giftMap).forEach(g => {
+            g.id = g.id.toString();
+            g.ownerId = g.ownerId.toString();
+            if (g.buyerId) { g.buyerId = g.buyerId.toString(); }
+            if (g.eventId) { g.eventId = g.eventId.toString(); }
+        })
+    });
+}
+
+function refreshChildMaps(context: GT.DataContext): GT.DataContext {
+    return produce(context, draft => {
+        draft.eventGiftsMap = groupBy(Object.values(context.giftMap), g => g.eventId!, g => g.id);
+        draft.giftReceiversMap = groupBy(context.giftReceiverPairs, gr => gr[0], gr => gr[1]);
+        draft.receiverGiftsMap = groupBy(context.giftReceiverPairs, gr => gr[1], gr => gr[0]);
+    });
+}
+
 export function refreshDataContext(context: GT.DataContext): GT.DataContext {
-    const newContext = {
-        ...context,
-        eventGiftsMap: groupBy(Object.values(context.giftMap), g => g.eventId!, g => g.id),
-        giftReceiversMap: groupBy(context.giftReceiverPairs, gr => gr[0].toString(), gr => gr[1].toString()),
-        receiverGiftsMap: groupBy(context.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString()),
-    };
-    return newContext;
+    return refreshChildMaps(convertIds(context));
 }
 
 export function fromReferentialData(referentialData: GT.ReferentialData): GT.DataContext {

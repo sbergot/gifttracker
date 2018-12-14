@@ -4,8 +4,6 @@
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
 - [ ] pouvoir filtrer par destinataire
 
-## color other people's idea in gray
-
 # Next
 
 ## gift deletion

@@ -17,15 +17,15 @@ export function EventView(props: EventViewProps) {
   const evt = context.getEvent(props.eventId);
   const individuals = context.getSortedIndividuals();
   const eltClasses = "gift-list-elt";
+  const currentUserId = context.getCurrentUser().id;
   return (
     <div>
       <h2>{showEvent(evt)}</h2>
       <div className="individual-list">
         {
           individuals.map(indiv => {
-            const indivId = indiv.id;
-            const gifts = context.getGiftsReceived(indivId);
-            return <div key={indivId}>
+            const gifts = context.getGiftsReceived(indiv.id);
+            return <div key={indiv.id}>
               <div className="event-individual-header m-2">
                 <h3>{indiv.firstName}</h3>
               </div>
@@ -39,7 +39,9 @@ export function EventView(props: EventViewProps) {
                           key={gift.id}
                           gift={gift}
                           onEdit={() => props.editGift(gift.id)}
-                          onDelete={() => props.deleteGift(gift.id)} />
+                          onDelete={() => props.deleteGift(gift.id)}
+                          isOwner={currentUserId === gift.ownerId}
+                        />
                       </div>
                     )
                 }
@@ -48,9 +50,7 @@ export function EventView(props: EventViewProps) {
                   type='default'
                   icon='plus'
                   size='lg'
-                  className="icon-4x"
                 />
-
               </div>
             </div>
           })

@@ -4,7 +4,7 @@ interface ActionButtonProps {
     className?: string;
     size?: 'sm' | 'lg';
     type?: 'primary' | 'default';
-    icon: 'cross' | 'edit' | 'plus';
+    icon: 'cross' | 'edit' | 'plus' | 'search';
     onClick: () => void;
 }
 

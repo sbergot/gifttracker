@@ -172,6 +172,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                     allGiftStatus.map((status) => (
                       <button
                         key={status}
+                        disabled={!this.getIsOwner()}
                         className={`btn ${status === this.props.gift.status ? 'btn-primary' : ''}`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -193,6 +194,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                         >
                           <input
                             type="checkbox"
+                            disabled={!this.getIsOwner()}
                             checked={this.props.gift.isVisibleToOthers}
                             readOnly
                           />

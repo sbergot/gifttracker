@@ -1,23 +1,24 @@
-function compareObjFor<T>(convert: (i: T) => string) {
+function compareObjFor<T>(convert: (i: T) => string, desc: boolean = false) {
+    const factor = desc ? -1 : 1;
     return function (a: T, b: T) {
         const keyA = convert(a);
         const keyB = convert(b);
         if (keyA < keyB) {
-            return -1;
+            return -1 * factor;
         }
         if (keyA > keyB) {
-            return 1;
+            return 1 * factor;
         }
         return 0;
     }
 }
 
 function getEventCompareKey(evt: GT.Event): string {
-    return evt.type.toString() + evt.year.toString();
+    return evt.year.toString() + evt.type.toString();
 }
 
 export function sortByEvents<T>(events: T[], convert: (i: T) => GT.Event): T[] {
-    return events.sort(compareObjFor((i) => getEventCompareKey(convert(i))));
+    return events.sort(compareObjFor((i) => getEventCompareKey(convert(i)), true));
 }
 
 export function sortEvents(events: GT.Event[]): GT.Event[] {

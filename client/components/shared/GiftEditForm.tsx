@@ -28,7 +28,7 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
   }
 
   getIsOwner = () => {
-    return this.props.currentUserId === this.props.gift.ownerId.toString();
+    return this.props.currentUserId === this.props.gift.ownerId;
   }
 
   onGiftChange = (event: React.FormEvent<HTMLElement>) => {

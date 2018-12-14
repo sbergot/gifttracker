@@ -41,7 +41,7 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
         const allOptions = this.props.options.map(o => {
             return {
                 label: this.props.displayOption(o),
-                id: o.id.toString()
+                id: o.id
             }
         });
         const lowerText = this.state.text.toLowerCase();
@@ -89,7 +89,7 @@ export class Typeahead<T extends { id: GT.Id }> extends React.PureComponent<Type
                                 key={elt.id}
                                 option={{
                                     label: this.props.displayOption(elt),
-                                    id: elt.id.toString()
+                                    id: elt.id
                                 }}
                                 onRemove={(id) => this.props.removeElt(id)} />
                         })
@@ -149,7 +149,7 @@ function SuggestionList(props: SuggestionListProps) {
                 key={option.id}>
                 <a
                     href="#"
-                    onClick={() => props.onSuggestionClick(option.id.toString())}>
+                    onClick={() => props.onSuggestionClick(option.id)}>
                     <div className="tile tile-centered">
                         {option.label}
                     </div>

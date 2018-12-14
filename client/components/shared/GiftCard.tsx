@@ -15,20 +15,20 @@ interface GiftCardsProps {
 }
 
 export function GiftCard(props: GiftCardsProps) {
-    return <div className="card gift-view">
+    return <div className="card gift-view m-2">
         <div className="card-body">
-            <ActionButton
-                className="gift-delete float-right"
-                onClick={() => props.onDelete()}
-                icon="cross"
-            />
-            <ActionButton
-                className="gift-edit float-right"
-                onClick={() => props.onEdit()}
-                icon="edit"
-            />
-            <div className="card-title h4">
+            <div className="card-title mx-2 h4">
                 <GiftTitle {...props.gift} />
+            </div>
+            <div className="gift-view-actions">
+                <ActionButton
+                    onClick={() => props.onDelete()}
+                    icon="cross"
+                />
+                <ActionButton
+                    onClick={() => props.onEdit()}
+                    icon="edit"
+                />
             </div>
         </div>
     </div>

@@ -7,13 +7,11 @@ import { EventView } from "./EventView"
 import { sortByEvents } from '../../../services/service.referential'
 import { MainStore } from '../../../stores/mainStore';
 
-interface EventAppProps
-{
+interface EventAppProps {
     context: GT.ContextService;
 }
 
-interface EventAppActions
-{
+interface EventAppActions {
     giftActions: GT.EditGiftActions;
 }
 
@@ -32,25 +30,22 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
         this.props.giftActions.newGift(newGift, [individual.id]);
     }
 
-    render()
-    {
+    render() {
         const dataContext = this.props.context;
         const events = dataContext.getSortedEvents();
         return (
             <div className="container grid-lg">
-                <h1>Events</h1>
                 {
                     events.map((evt) =>
-                            <div key={evt.id}>
-                                <EventView
-                                    context={this.props.context}
-                                    eventId={evt.id}
-                                    editGift={this.editGift}
-                                    deleteGift={this.deleteGift}
-                                    createGift={this.createGift}
-                                />
-                            </div>
-                        )
+                        <EventView
+                            key={evt.id}
+                            context={this.props.context}
+                            eventId={evt.id}
+                            editGift={this.editGift}
+                            deleteGift={this.deleteGift}
+                            createGift={this.createGift}
+                        />
+                    )
                 }
             </div>
         );
@@ -59,18 +54,18 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
 
 export function EventAppContainer() {
     return <Subscribe to={[DataStore, GiftEditStore, MainStore]}>
-    {(dataStore: DataStore, giftEditStore: GiftEditStore, mainStore: MainStore) => (
-      <EventApp
-        context={dataStore.getContextService()}
-        giftActions={{
-          cancelEdition: giftEditStore.closeGiftForm,
-          deleteGift: dataStore.deleteGift,
-          editGift: mainStore.editGift,
-          newGift: mainStore.editNewGift,
-          saveGift: dataStore.saveGift
-        }}
-      />
-    )}
+        {(dataStore: DataStore, giftEditStore: GiftEditStore, mainStore: MainStore) => (
+            <EventApp
+                context={dataStore.getContextService()}
+                giftActions={{
+                    cancelEdition: giftEditStore.closeGiftForm,
+                    deleteGift: dataStore.deleteGift,
+                    editGift: mainStore.editGift,
+                    newGift: mainStore.editNewGift,
+                    saveGift: dataStore.saveGift
+                }}
+            />
+        )}
     </Subscribe>
-  
+
 }

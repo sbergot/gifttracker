@@ -32,6 +32,14 @@ header > section.brand {
     max-height: 800px !important;
 }
 
+/* gift list */
+
+.gift-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 /* gift card */
 
 .gift-view button {
@@ -46,16 +54,23 @@ header > section.brand {
 .gift-view {
     box-shadow: 0 0 3px rgb(240, 240, 240);
     transition: box-shadow .5s;
-    /* min-height: 240px; */
 }
 
 .gift-view:hover {
     box-shadow: 0 0 5px rgb(200, 200, 200);
 }
 
+.gift-view .card-body {
+    display: flex;
+}
+
+.gift-view-actions {
+    display: flex;
+}
+
 .empty-gift {
     border: 5px dashed rgb(188, 195, 206);
-    padding: 14px 0;
+    padding: 14px;
 }
 
 /* event page -- should be removed */

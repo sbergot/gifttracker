@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Gift } from "./Gift";
+import { GiftCard } from "../../shared/GiftCard";
 import { GiftEmpty } from "./GiftEmpty";
 import { showEvent } from '../../../services/service.referential'
 import { ActionButton } from "../../shared/ActionButton";
@@ -16,48 +16,46 @@ export function EventView(props: EventViewProps) {
   const context = props.context;
   const evt = context.getEvent(props.eventId);
   const individuals = context.getSortedIndividuals();
-  const eltClasses = "column col-6 col-md-12 py-2";
+  const eltClasses = "gift-list-elt";
   return (
     <div>
       <h2>{showEvent(evt)}</h2>
-      <ul className="individual-list">
+      <div className="individual-list">
         {
           individuals.map(indiv => {
             const indivId = indiv.id;
             const gifts = context.getGiftsReceived(indivId);
-            return <li key={indivId}>
-              <div className="event-individual-header">
-                <h4>{indiv.firstName}</h4>
+            return <div key={indivId}>
+              <div className="event-individual-header m-2">
+                <h3>{indiv.firstName}</h3>
+              </div>
+              <div className="gift-list">
+                {
+                  gifts.length === 0
+                    ? <div className={eltClasses}><GiftEmpty /></div>
+                    : gifts.map(gift =>
+                      <div className={eltClasses} key={gift.id} >
+                        <GiftCard
+                          key={gift.id}
+                          gift={gift}
+                          onEdit={() => props.editGift(gift.id)}
+                          onDelete={() => props.deleteGift(gift.id)} />
+                      </div>
+                    )
+                }
                 <ActionButton
                   onClick={() => props.createGift(evt, indiv)}
                   type='default'
                   icon='plus'
-                  size='sm'
-                  className="mx-2"
+                  size='lg'
+                  className="icon-4x"
                 />
+
               </div>
-              <div className="grid-lg">
-                <div className="columns">
-                  {
-                    gifts.length === 0
-                      ? <div className={eltClasses}><GiftEmpty/></div>
-                      : gifts.map(gift =>
-                        <div className={eltClasses} key={gift.id} >
-                          <Gift
-                            key={gift.id}
-                            gift={gift}
-                            editGift={props.editGift}
-                            deleteGift={props.deleteGift} />
-                        </div>
-                      )
-                  }
-                </div>
-              </div>
-            </li>
-          }
-          )
+            </div>
+          })
         }
-      </ul>
+      </div>
     </div>
   );
 }

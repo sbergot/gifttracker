@@ -1,12 +1,16 @@
 # Now
 
-## set custom grid to better adapt to content (using flexbox)
-
 ## filter gifts
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
 - [ ] pouvoir filtrer par destinataire
 
+## color other people's idea in gray
+
 # Next
+
+## gift deletion
+- [ ] confirm popup?
+- [ ] soft delete?
 
 ## init data
 - [ ] add the younger generation

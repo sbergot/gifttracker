@@ -1,20 +1,10 @@
 # Now
 
-## gift cards layout
-
-### show owner in title if not me
-
-### fix height (overflow elipse on receivers)
-
-### add body in the event view
-
-## vue personne
-timeline des cadeaux offerts à cette personne (par tout le monde)
-- [ ] faire la vue
-- [ ] naviguer vers la page d'une personne depuis la vue évennement ou le carton cadeau
+## set custom grid to better adapt to content (using css grid?)
 
 ## filter gifts
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
+- [ ] pouvoir filtrer par destinataire
 
 # Next
 

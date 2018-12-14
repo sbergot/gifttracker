@@ -68,14 +68,11 @@ namespace WebApplication.Models
             }
             return new WebApi.Gift
             {
-                Buyer = gift.Buyer.ToWeb(),
                 BuyerId = gift.BuyerId,
                 Description = gift.Description,
-                Event = gift.Event.ToWeb(),
                 EventId = gift.EventId,
                 Id = gift.Id,
                 IsVisibleToOthers = gift.IsVisibleToOthers,
-                Owner = gift.Owner.ToWeb(),
                 OwnerId = gift.OwnerId,
                 PriceInCents = gift.PriceInCents,
                 Status = gift.Status.ToString(),
@@ -92,14 +89,11 @@ namespace WebApplication.Models
             }
             return new Database.Gift
             {
-                Buyer = gift.Buyer.ToDatabase(),
                 BuyerId = gift.BuyerId,
                 Description = gift.Description,
-                Event = gift.Event.ToDatabase(),
                 EventId = gift.EventId,
                 Id = gift.Id,
                 IsVisibleToOthers = gift.IsVisibleToOthers,
-                Owner = gift.Owner.ToDatabase(),
                 OwnerId = gift.OwnerId,
                 PriceInCents = gift.PriceInCents,
                 Status = System.Enum.Parse<GiftStatus>(gift.Status),

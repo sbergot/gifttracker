@@ -22,9 +22,6 @@ export function refreshDataContext(context: GT.DataContext): GT.DataContext {
         giftReceiversMap: groupBy(context.giftReceiverPairs, gr => gr[0].toString(), gr => gr[1].toString()),
         receiverGiftsMap: groupBy(context.giftReceiverPairs, gr => gr[1].toString(), gr => gr[0].toString()),
     };
-    Object.values(newContext.giftMap).forEach(g => {
-        g.owner = newContext.individualMap[g.ownerId];
-    })
     return newContext;
 }
 

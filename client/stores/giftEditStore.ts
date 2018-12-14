@@ -37,24 +37,21 @@ export class GiftEditStore extends Container<GT.GiftEditState> {
         }))
     }
 
-    editNewGift = (gift: Partial<GT.Gift>, currentUser: GT.Individual, receiverIds: GT.Id[] = []) => {
-        this.editGift({ ...makeGift(currentUser), ...gift }, receiverIds);
+    editNewGift = (gift: Partial<GT.Gift>, receiverIds: GT.Id[] = []) => {
+        this.editGift({ ...makeGift(), ...gift }, receiverIds);
     }
 }
 
-function makeGift(currentUser: GT.Individual) : GT.Gift {
+function makeGift() : GT.Gift {
     return {
         id: NEW_GIFT_ID,
-        ownerId: currentUser.id,
-        owner: currentUser,
+        ownerId: "0",
         priceInCents: 0,
         title: "",
         description: "",
         url: "",
         buyerId: null,
-        buyer: null,
         eventId: null,
-        event: null,
         status: "None",
         isVisibleToOthers: false
     };

@@ -46,7 +46,7 @@ header > section.brand {
 .gift-view {
     box-shadow: 0 0 3px rgb(240, 240, 240);
     transition: box-shadow .5s;
-    min-height: 240px;
+    /* min-height: 240px; */
 }
 
 .gift-view:hover {
@@ -55,8 +55,7 @@ header > section.brand {
 
 .empty-gift {
     border: 5px dashed rgb(188, 195, 206);
-    height: 240px;
-    padding-top: 40px;
+    padding: 14px 0;
 }
 
 /* event page -- should be removed */

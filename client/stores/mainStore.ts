@@ -22,7 +22,8 @@ export class MainStore extends Container<{}> {
         const newGift = {...gift};
         const context = this.dataStore.getContextService();
         const currentUser = context.getCurrentUser();
-        this.giftEditStore.editNewGift(newGift, currentUser, receiverIds);
+        if (!newGift.ownerId) { newGift.ownerId = currentUser.id; }
+        this.giftEditStore.editNewGift(newGift, receiverIds);
     }
 
     saveGift = async (gift: GT.Gift, receiverIds: GT.Id[]) => {

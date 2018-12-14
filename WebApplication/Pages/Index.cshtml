@@ -1,12 +1,12 @@
 @page
 
 @{
-  ViewData["Title"] = "Home Page";
+  ViewData["Title"] = "Home";
 }
 
-<ul>
-  <li><a asp-page="./Gift">gifts</a></li>
-  <li><a asp-page="./Event">events</a></li>
-  <li><a asp-page="./Individual">individuals</a></li>
-</ul>
+<div id="event-app"></div>
 
+@section Scripts {
+  <script src="~/js/vendors~event.js"></script>
+  <script src="~/js/event.js"></script>
+}

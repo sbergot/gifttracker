@@ -7,9 +7,7 @@ module.exports = {
     devtool: "inline-source-map",
 
     entry: {
-        gift : path.join(clientPath, "index.gift.tsx"),
         event : path.join(clientPath, "index.event.tsx"),
-        individual : path.join(clientPath, "index.individual.tsx")
     },
 
     output: {
@@ -36,6 +34,6 @@ module.exports = {
     },
 
     plugins: [
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin()
     ]
 }

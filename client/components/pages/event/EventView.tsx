@@ -16,7 +16,7 @@ export function EventView(props: EventViewProps) {
   const context = props.context;
   const evt = context.getEvent(props.eventId);
   const individuals = context.getSortedIndividuals();
-  const eltClasses = "column col-4 col-md-6 col-sm-12 py-2";
+  const eltClasses = "column col-6 col-md-12 py-2";
   return (
     <div>
       <h2>{showEvent(evt)}</h2>

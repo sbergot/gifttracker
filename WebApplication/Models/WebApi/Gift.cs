@@ -18,15 +18,9 @@ namespace WebApplication.Models.WebApi
 
         public int OwnerId { get; set; }
 
-        public Individual Owner { get; set; }
-
         public int? BuyerId { get; set; }
 
-        public Individual Buyer { get; set; }
-
         public int? EventId { get; set; }
-
-        public Event Event { get; set; }
 
         [RegularExpression(@"^(None|Reserved|Bought)$")]
         public string Status { get; set; }

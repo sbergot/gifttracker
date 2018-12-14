@@ -33,11 +33,8 @@ namespace GT {
         priceInCents: number;
         url : string;
         ownerId : Id;
-        owner : Individual;
         buyerId : Id | null;
-        buyer : Individual | null;
         eventId : Id | null;
-        event : Event | null;
         status : GiftStatus;
         isVisibleToOthers: boolean;
     }

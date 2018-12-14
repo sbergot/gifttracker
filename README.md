@@ -1,6 +1,6 @@
 # Now
 
-## set custom grid to better adapt to content (using css grid?)
+## set custom grid to better adapt to content (using flexbox)
 
 ## filter gifts
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres

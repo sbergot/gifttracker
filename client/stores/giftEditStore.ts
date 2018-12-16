@@ -52,7 +52,7 @@ function makeGift() : GT.Gift {
         url: "",
         buyerId: null,
         eventId: null,
-        status: "None",
+        status: "Available",
         isVisibleToOthers: false
     };
 }

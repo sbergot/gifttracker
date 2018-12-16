@@ -22,7 +22,7 @@ namespace WebApplication.Models.WebApi
 
         public int? EventId { get; set; }
 
-        [RegularExpression(@"^(None|Reserved|Bought)$")]
+        [RegularExpression(@"^(Available|Reserved|Deleted)$")]
         public string Status { get; set; }
 
         public bool? IsVisibleToOthers { get; set; }

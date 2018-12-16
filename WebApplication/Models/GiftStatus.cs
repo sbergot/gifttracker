@@ -2,8 +2,8 @@ namespace WebApplication.Models
 {
     public enum GiftStatus
     {
-        None,
+        Available,
         Reserved,
-        Bought
+        Deleted
     }
 }

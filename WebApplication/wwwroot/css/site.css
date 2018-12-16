@@ -54,14 +54,13 @@ header > section.brand {
 .gift-view {
     box-shadow: 0 0 3px rgb(240, 240, 240);
     transition: box-shadow .5s;
+    border: .8px rgb(218, 222, 228) solid;
+    padding: 7px;
+    display: flex;
 }
 
 .gift-view:hover {
     box-shadow: 0 0 5px rgb(200, 200, 200);
-}
-
-.gift-view .card-body {
-    display: flex;
 }
 
 .gift-view-actions {
@@ -69,8 +68,8 @@ header > section.brand {
 }
 
 .empty-gift {
-    border: 5px dashed rgb(188, 195, 206);
-    padding: 14px;
+    border: 3px dashed rgb(188, 195, 206);
+    padding: 5px;
 }
 
 /* event page -- should be removed */
@@ -80,6 +79,22 @@ header > section.brand {
 }
 
 .event-individual-header {
-    display: flex;
-    align-items: flex-start;
+    font-size: 25px;
+    margin-top: .3em;
+}
+
+/* additional icons */
+
+.icon-lock-closed {
+    background: url("../icons/lock_closed.svg");
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
+}
+
+.icon-lock-open {
+    background: url("../icons/lock_open.svg");
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
 }

@@ -26,8 +26,8 @@ export function EventView(props: EventViewProps) {
           individuals.map(indiv => {
             const gifts = context.getGiftsReceived(indiv.id);
             return <div key={indiv.id}>
-              <div className="event-individual-header m-2">
-                <h3>{indiv.firstName}</h3>
+              <div className="event-individual-header">
+                {indiv.firstName}
               </div>
               <div className="gift-list">
                 {
@@ -41,6 +41,7 @@ export function EventView(props: EventViewProps) {
                           onEdit={() => props.editGift(gift.id)}
                           onDelete={() => props.deleteGift(gift.id)}
                           isOwner={currentUserId === gift.ownerId}
+                          isInReceivers={context.getReceiverIds(gift.id).findIndex( v => v === currentUserId) > -1}
                         />
                       </div>
                     )

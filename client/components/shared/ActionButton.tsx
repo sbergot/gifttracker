@@ -10,7 +10,7 @@ interface ActionButtonProps {
 
 export function ActionButton(props: ActionButtonProps) {
     return <button
-        className={`btn btn-action mx-1 btn-${props.type || 'primary'} btn-${props.size || 'lg'} ${props.className || ""}`}
+        className={`btn btn-action mx-1 btn-${props.type || 'primary'} btn-${props.size || 'sm'} ${props.className || ""}`}
         onClick={props.onClick}>
         <i className={`icon icon-${props.icon}`} />
     </button>

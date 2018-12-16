@@ -19,7 +19,7 @@ namespace WebApplication.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<UserMail>().HasKey(m => m.Mail);
-            builder.Entity<Gift>().Property(g => g.Status).HasDefaultValue(GiftStatus.None);
+            builder.Entity<Gift>().Property(g => g.Status).HasDefaultValue(GiftStatus.Available);
             builder.Entity<Gift>().Property(g => g.IsVisibleToOthers).HasDefaultValue(true);
             builder.Entity<IndividualInGroup>().HasKey(ig => new { ig.IndividualId, ig.GroupId });
             builder.Entity<IndividualVisibility>().HasKey(ig => new { ig.ViewerId, ig.ViewedId });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export function GiftEmpty() {
-  return <div className="empty-gift bg-gray text-center text-gray m-2">
-    <span className="h4 d-block">No gift yet.</span>
+  return <div className="empty-gift bg-gray text-center text-gray m-1">
+    <span className="h5 d-block">No gift yet.</span>
   </div>
 }

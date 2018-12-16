@@ -1,10 +1,10 @@
 import * as React from "react"
 
 import { Typeahead } from "./TypeAhead"
-import { showEvent, showGiftStatus, allGiftStatus } from '../../services/service.referential';
+import { TextField } from "./TextField"
+import { showEvent, normalStatus } from '../../services/service.referential';
 
-interface GiftEditFormProps
-{
+interface GiftEditFormProps {
   gift: GT.Gift;
   individualMap: GT.KeyMap<GT.Individual>;
   events: GT.Event[];
@@ -18,8 +18,7 @@ interface GiftEditFormProps
 
 export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
 {
-  constructor(props: GiftEditFormProps)
-  {
+  constructor(props: GiftEditFormProps) {
     super(props);
   }
 
@@ -31,31 +30,15 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
     return this.props.currentUserId === this.props.gift.ownerId;
   }
 
+  getIsInReceiver = () => {
+    return this.props.receiverIds.findIndex((v) => v === this.props.currentUserId) > -1;
+  }
+
   onGiftChange = (event: React.FormEvent<HTMLElement>) => {
     const target = (event.target as HTMLInputElement);
     const field = target.name as keyof GT.Gift;
     const value = target.value;
     this.props.updateGift({ field, value });
-  }
-
-  textField = (
-    key: keyof GT.Gift,
-    title: string,
-    placeholder: string = '') => {
-    const fieldid = "gift-edit-" + key;
-    const fieldvalue = (this.props.gift[key] || '') as number | string;
-    return (
-      <div className="form-group">
-        <label className="form-label" htmlFor={fieldid}>{title}</label>
-        <input
-          disabled={!this.getIsOwner()}
-          className="form-input"
-          id={fieldid}
-          placeholder={placeholder}
-          name={key}
-          value={fieldvalue}
-          onChange={this.onGiftChange} />
-      </div>);
   }
 
   typeaheadTextField = (
@@ -86,14 +69,15 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
     key: keyof GT.Gift,
     title: string,
     options: { value: GT.Id, descr: string }[],
-    emptyDescr?: string) => {
+    emptyDescr?: string,
+    disabled?: boolean) => {
     const fieldid = "gift-edit-" + key;
     const fieldvalue = this.props.gift[key] as number | null;
     return (
       <div className="form-group">
         <label className="form-label" htmlFor={fieldid}>{title}</label>
         <select
-          disabled={!this.getIsOwner()}
+          disabled={disabled}
           className="form-input"
           id={fieldid}
           value={fieldvalue || -1}
@@ -101,14 +85,14 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
           onChange={this.onGiftChange} >
           {
             emptyDescr
-            ? <option key="no_value" value="">{emptyDescr}</option>
-            : null
+              ? <option key="no_value" value="">{emptyDescr}</option>
+              : null
           }
           {
             options.map(o => (
-            <option key={o.value} value={o.value}>
-              {o.descr}
-            </option>
+              <option key={o.value} value={o.value}>
+                {o.descr}
+              </option>
             ))
           }
         </select>
@@ -128,34 +112,55 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
     return `${owner.firstName} ${owner.lastName}`
   }
 
-  render()
-  {
+  render() {
     return (
-    <div className="modal-container" id="gift-edit-modal">
-      <div className="modal-header">
-        <button className="btn btn-clear float-right" onClick={this.props.close}></button>
-        <div className="modal-title h4">Edit gift (Owner: {this.getOwnerName()})</div>
-      </div>
-      <div className="modal-body">
-        <div className="content">
-          <form>
-            <div className="container">
-              <div className="columns">
-                <div className="column col-12">
-                  {this.textField('title', 'Title', 'A short title')}
-                </div>
-                <div className="column col-12">
-                  {this.typeaheadTextField('Receivers')}
-                </div>
-                <div className="column col-6">
-                  {
-                      this.dropDownField(
-                        'buyerId',
-                        'Buyer',
-                        this.getIndividualOptions(),
-                        'no buyer')
-                  }
-                  {
+      <div className="modal-container" id="gift-edit-modal">
+        <div className="modal-header">
+          <button className="btn btn-clear float-right" onClick={this.props.close}></button>
+          <div className="modal-title h4">Edit gift (Owner: {this.getOwnerName()})</div>
+        </div>
+        <div className="modal-body">
+          <div className="content">
+            <form>
+              <div className="container">
+                <div className="columns">
+                  <div className="column col-12">
+                    <TextField
+                      key="title"
+                      disabled={!this.getIsOwner()}
+                      onChange={this.onGiftChange}
+                      placeholder="A short title"
+                      title="Title"
+                      value={this.props.gift.title}
+                    />
+                  </div>
+                  <div className="column col-12">
+                    {this.typeaheadTextField('Receivers')}
+                  </div>
+                  <div className="column col-6">
+                    {
+                      this.getIsInReceiver()
+                        ? null
+                        : <>
+                          {
+                            this.dropDownField(
+                              'buyerId',
+                              'Buyer',
+                              this.getIndividualOptions(),
+                              'no buyer')
+                          }
+                          <button
+                            className={`btn`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.props.updateGift({ field: 'buyerId', value: this.props.currentUserId });
+                            }}
+                          >
+                            Make me buyer
+                          </button>
+                        </>
+                    }
+                    {
                       this.dropDownField(
                         'eventId',
                         'Event',
@@ -164,24 +169,28 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                             value: event.id,
                             descr: showEvent(event)
                           })),
-                        'no event')
-                  }
-                  <div className="form-group">
-                  <label className="form-label" htmlFor="status">Status</label>
-                  {
-                    allGiftStatus.map((status) => (
-                      <button
-                        key={status}
-                        disabled={!this.getIsOwner()}
-                        className={`btn ${status === this.props.gift.status ? 'btn-primary' : ''}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.props.updateGift({ field: 'status', value: status });
-                        }}
-                      >
-                        {status}
-                      </button>
-                    )) 
+                        'no event',
+                        !this.getIsOwner())
+                    }
+                    <div className="form-group">
+                      {
+                        this.getIsInReceiver() ? null : <>
+                          <label className="form-label" htmlFor="status">Status</label>
+                          {
+                            normalStatus.map((status) => (
+                              <button
+                                key={status}
+                                className={`btn ${status === this.props.gift.status ? 'btn-primary' : ''}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.props.updateGift({ field: 'status', value: status });
+                                }}
+                              >
+                                {status}
+                              </button>
+                            ))
+                          }
+                        </>
                       }
                       <div className="form-group">
                         <label
@@ -204,43 +213,57 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                     </div>
                   </div>
                   <div className="column col-6">
-                    {this.textField('url', 'Url', "An url to a website")}
-                  {this.textField('priceInCents', 'Price', "The price in cents of the gift")}
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="gift-edit-description">Description</label>
-                    <textarea
+                    <TextField
+                      key="url"
                       disabled={!this.getIsOwner()}
-                      rows={5}
-                      className="form-input"
-                      id="gift-edit-description"
-                      placeholder="detailed descript of the gift"
-                      name="description"
-                      value={this.props.gift.description}
-                      onChange={this.onGiftChange} />
+                      onChange={this.onGiftChange}
+                      placeholder="An url to a website"
+                      title="Url"
+                      value={this.props.gift.url}
+                    />
+                    <TextField
+                      key="priceInCents"
+                      disabled={!this.getIsOwner()}
+                      onChange={this.onGiftChange}
+                      placeholder="The price in cents of the gift"
+                      title="Price"
+                      value={this.props.gift.priceInCents}
+                    />
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="gift-edit-description">Description</label>
+                      <textarea
+                        disabled={!this.getIsOwner()}
+                        rows={5}
+                        className="form-input"
+                        id="gift-edit-description"
+                        placeholder="detailed descript of the gift"
+                        name="description"
+                        value={this.props.gift.description}
+                        onChange={this.onGiftChange} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-default"
+            data-dismiss="modal"
+            onClick={this.props.close}>
+            Close
+        </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            id="gift-edit-save"
+            onClick={() => this.props.save(this.props.gift)}>
+            Save changes
+        </button>
         </div>
       </div>
-      <div className="modal-footer">
-        <button
-          type="button" 
-          className="btn btn-default" 
-          data-dismiss="modal"
-          onClick={this.props.close}>
-          Close
-        </button>
-        <button
-          type="button" 
-          className="btn btn-primary" 
-          id="gift-edit-save"
-          onClick={() => this.props.save(this.props.gift)}>
-          Save changes
-        </button>
-      </div>
-    </div>
     )
   }
 }

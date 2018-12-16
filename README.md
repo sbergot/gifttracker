@@ -3,11 +3,20 @@
 ## filter gifts
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
 - [ ] pouvoir filtrer par destinataire
+- [ ] filtrer par statut
+- [ ] filter les cadeaux sur lesquels je suis acheteur
+
+## delete action
+- [ ] make it soft (via status)
+- [ ] add a warning
+- [ ] add a filter to show deleted idea
+
+# Next
 
 ## event navigation
 - [ ] add anchors and links to navigate to events
 
-# Next
+## translate in french
 
 ## gift deletion
 - [ ] confirm popup?

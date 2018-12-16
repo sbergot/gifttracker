@@ -8,7 +8,7 @@ namespace GT {
 
     export type EventType = "Christmas" | "Birthday";
 
-    export type GiftStatus = "None" | "Reserved" | "Bought";
+    export type GiftStatus = "Available" | "Reserved" | "Deleted";
 
     export interface Event
     {

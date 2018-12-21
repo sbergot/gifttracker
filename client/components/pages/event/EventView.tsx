@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { GiftCard } from "../../shared/GiftCard";
+import { GiftCard } from "./GiftCard";
 import { GiftEmpty } from "./GiftEmpty";
 import { showEvent } from '../../../services/service.referential'
-import { ActionButton } from "../../shared/ActionButton";
+import { ActionButton } from "../../shared/molecules/ActionButton";
 
 interface EventViewProps {
   eventId: GT.Id;

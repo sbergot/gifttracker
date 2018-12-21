@@ -13,21 +13,17 @@
 
 # Next
 
-## event navigation
-- [ ] add anchors and links to navigate to events
-
 ## translate in french
-
-## gift deletion
-- [ ] confirm popup?
-- [ ] soft delete?
 
 ## init data
 - [ ] add the younger generation
 - [ ] check birthdates
 
+## event navigation
+- [ ] add anchors and links to navigate to events
+
 ## édition cadeaux
-- [ ] valider les entrées du formulaire (prix, url?)
+- [ ] ajouter https:// si pas de protocole
 
 ## SAGA: cadeaux par tirage au sort
 

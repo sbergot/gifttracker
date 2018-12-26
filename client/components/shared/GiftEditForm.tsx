@@ -21,10 +21,19 @@ interface GiftEditFormProps {
     close: () => void;
 }
 
+
 export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
 {
     constructor(props: GiftEditFormProps) {
         super(props);
+    }
+
+    getField<TV extends GT.GiftVals>(propName: keyof GT.Gift, label: string): GT.Field<GT.Gift, TV> {
+        return {
+            key: propName,
+            label,
+            value: this.props.gift[propName] as TV
+        }
     }
 
     getIndividuals = () => {
@@ -68,12 +77,10 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
             >
                 <div className="column col-12">
                     <TextField
-                        key="title"
+                        field={this.getField("title", "Title")}
                         disabled={!this.IsCurrentUserOwner()}
                         onChange={this.onGiftChange}
                         placeholder="A short title"
-                        title="Title"
-                        value={this.props.gift.title}
                     />
                 </div>
                 <div className="column col-12">
@@ -95,15 +102,34 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                     </div>
                 </div>
                 <div className="column col-6">
+                    <DropDownField
+                        field={this.getField("eventId", "Event")}
+                        emptyDescr="no event"
+                        onChange={this.onGiftChange}
+                        options={this.props.events.map(event => (
+                            {
+                                value: event.id,
+                                descr: showEvent(event)
+                            }))}
+                        disabled={!this.IsCurrentUserOwner()}
+                    />
+                    <div className="form-group">
+                        <ToggleField
+                            field={this.getField("isVisibleToOthers", "Visible to other")}
+                            disabled={!this.IsCurrentUserOwner()}
+                            onClick={() => this.props.updateGift({
+                                field: 'isVisibleToOthers',
+                                value: (!this.props.gift.isVisibleToOthers)
+                            })}
+                        />
+                    </div>
                     {
                         this.IsCurrentUserInReceiver()
                             ? null
                             : <>
                                 <DropDownField
-                                    key={'buyerId'}
+                                    field={this.getField("buyerId", "Buyer")}
                                     emptyDescr="no buyer"
-                                    fieldvalue={this.props.gift.buyerId}
-                                    title="Buyer"
                                     onChange={this.onGiftChange}
                                     options={this.getIndividualOptions()}
                                 />
@@ -116,69 +142,40 @@ export class GiftEditForm extends React.PureComponent<GiftEditFormProps, {}>
                                 >
                                     Make me buyer
                                 </button>
+                                <div className="form-group">
+                                    <RadioButtonField
+                                        title="Status"
+                                        options={normalStatus}
+                                        onChange={status => this.props.updateGift({
+                                            field: 'status',
+                                            value: status
+                                        })}
+                                        selected={this.props.gift.status}
+                                        propname="status"
+                                    />
+                                </div>
                             </>
                     }
-                    <DropDownField
-                        key={'eventId'}
-                        emptyDescr="no event"
-                        fieldvalue={this.props.gift.eventId}
-                        title="Event"
-                        onChange={this.onGiftChange}
-                        options={this.props.events.map(event => (
-                            {
-                                value: event.id,
-                                descr: showEvent(event)
-                            }))}
-                        disabled={!this.IsCurrentUserOwner()}
-                    />
-                    <div className="form-group">
-                        <RadioButtonField
-                            title="Status"
-                            options={normalStatus}
-                            onChange={status => this.props.updateGift({
-                                field: 'status',
-                                value: status
-                            })}
-                            selected={this.props.gift.status}
-                            key="status"
-                        />
-                        <div className="form-group">
-                            <ToggleField
-                                key="isVisibleToOthers"
-                                fieldValue={this.props.gift.isVisibleToOthers}
-                                disabled={!this.IsCurrentUserOwner()}
-                                label="Visible to others"
-                                onClick={() => this.props.updateGift({
-                                    field: 'isVisibleToOthers',
-                                    value: (!this.props.gift.isVisibleToOthers)
-                                })}
-                            />
-                        </div>
-                    </div>
                 </div>
                 <div className="column col-6">
                     <TextField
-                        key="url"
+                        field={this.getField('url', "Url")}
                         disabled={!this.IsCurrentUserOwner()}
                         onChange={this.onGiftChange}
                         placeholder="An url to a website"
-                        title="Url"
-                        value={this.props.gift.url}
                     />
                     <TextField
-                        key="priceInCents"
+                        field={this.getField("priceInCents", "Price")}
                         disabled={!this.IsCurrentUserOwner()}
                         onChange={this.onGiftChange}
                         placeholder="The price in cents of the gift"
-                        title="Price"
-                        value={this.props.gift.priceInCents}
                     />
                     <div className="form-group">
                         <label
                             className="form-label"
                             htmlFor="gift-edit-description"
                         >
-                                Description
+                            Description
                         </label>
                         <textarea
                             disabled={!this.IsCurrentUserOwner()}

@@ -1,24 +1,23 @@
 import * as React from "react"
 
 export function ToggleField(props: {
-    key: keyof GT.Gift;
-    label: string;
+    field: GT.Field<GT.Gift, boolean>;
     disabled: boolean;
-    fieldValue: boolean;
     onClick: () => void;
 }) {
     return <label
         className="form-switch"
-        htmlFor="isVisibleToOthers"
+        htmlFor={props.field.key}
         onClick={() => props.onClick()}
     >
         <input
             type="checkbox"
+            id={props.field.key}
             disabled={props.disabled}
-            checked={props.fieldValue}
+            checked={props.field.value}
             readOnly
         />
-        <i className="form-icon"></i> {props.label}
+        <i className="form-icon"></i> {props.field.label}
     </label>
 
 }

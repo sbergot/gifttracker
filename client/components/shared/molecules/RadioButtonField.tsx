@@ -2,12 +2,12 @@ import * as React from "react"
 
 export function RadioButtonField(props: {
     title: string;
-    key: keyof GT.Gift;
+    propname: keyof GT.Gift;
     options: string[];
     selected: string;
     onChange: (option: string) => void;
 }) {
-    const fieldid = "gift-edit-" + props.key;
+    const fieldid = "gift-edit-" + props.propname;
     return <>
     <label className="form-label" htmlFor={fieldid}>{props.title}</label>
     {

@@ -2,24 +2,22 @@ import * as React from "react"
 
 export function DropDownField(
     props: {
-        key: keyof GT.Gift,
-        title: string,
+        field: GT.Field<GT.Gift, string | null>
         options: { value: GT.Id, descr: string }[],
         emptyDescr?: string,
         disabled?: boolean,
-        fieldvalue: string | null
         onChange: React.ChangeEventHandler<HTMLSelectElement>
     }) {
-    const fieldid = "gift-edit-" + props.key;
+    const fieldid = "gift-edit-" + props.field.key;
     return (
         <div className="form-group">
-            <label className="form-label" htmlFor={fieldid}>{props.title}</label>
+            <label className="form-label" htmlFor={fieldid}>{props.field.label}</label>
             <select
                 disabled={props.disabled}
                 className="form-input"
                 id={fieldid}
-                value={props.fieldvalue || -1}
-                name={props.key}
+                value={props.field.value || -1}
+                name={props.field.key}
                 onChange={props.onChange} >
                 {
                     props.emptyDescr

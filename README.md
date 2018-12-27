@@ -2,12 +2,6 @@
 
 ## filter gifts
 
-### fonctionalités
-- [ ] pouvoir filtrer sur mes idées ou les idées des autres
-- [ ] pouvoir filtrer par destinataire
-- [ ] filtrer par statut
-- [ ] filter les cadeaux sur lesquels je suis acheteur
-
 ### style
 - [ ] améliorer le design
 - [ ] pouvoir masquer/monter les filtres
@@ -21,6 +15,8 @@
 - [ ] add a filter to show deleted idea
 
 # Next
+
+## ajouter tslint
 
 ## translate in french
 

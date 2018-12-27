@@ -12,6 +12,11 @@ namespace GT {
         value: GiftVals;
     }
 
+    export interface FilterUpdate {
+        field: keyof GT.FilterState;
+        value: FilterVals;
+    }
+
     export interface GiftReceiverUpdate {
         giftId: GT.Id
         receiverId: GT.Id
@@ -22,14 +27,10 @@ namespace GT {
 
     export type GiftVals = GT.Gift[keyof GT.Gift];
 
+    export type FilterVals = GT.FilterState[keyof GT.FilterState];
+
     export interface ReceiverUpdate {
         receiverId: GT.Id;
         operation: AddRemove;
-    }
-
-    export interface Field<TO, TV> {
-        label: string;
-        key: keyof TO;
-        value: TV;
     }
 }

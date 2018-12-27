@@ -2,9 +2,10 @@ import * as React from "react";
 import { Subscribe } from "unstated"
 
 import { DataStore } from "../../stores/dataStore";
-import { GiftEditForm } from "./GiftEditForm";
 import { GiftEditStore } from "../../stores/giftEditStore";
 import { MainStore } from "../../stores/mainStore";
+
+import { GiftEditForm } from "./GiftEditForm";
 
 interface GiftEditProps {
   currentGift: GT.Gift | null;

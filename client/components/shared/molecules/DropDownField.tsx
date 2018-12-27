@@ -1,8 +1,8 @@
 import * as React from "react"
 
-export function DropDownField(
+export function DropDownField<TO>(
     props: {
-        field: GT.Field<GT.Gift, string | null>
+        field: GT.Field<TO, string | null>
         options: { value: GT.Id, descr: string }[],
         emptyDescr?: string,
         disabled?: boolean,
@@ -17,7 +17,7 @@ export function DropDownField(
                 className="form-input"
                 id={fieldid}
                 value={props.field.value || -1}
-                name={props.field.key}
+                name={props.field.key as string}
                 onChange={props.onChange} >
                 {
                     props.emptyDescr

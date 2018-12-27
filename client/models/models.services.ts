@@ -13,4 +13,14 @@ namespace GT {
         getGiftsReceived(indivId: Id): Gift[];
         getCurrentUser(): Individual;
     }
+
+    export type IndividualType = "Me" | "Other" | "Any";
+
+    export interface FilterState {
+        showEmptyIndividuals: boolean;
+        receiverId: Id | null;
+        ownerType: IndividualType;
+        giftStatus: GiftStatus | null;
+        buyerType: IndividualType;
+    }
 }

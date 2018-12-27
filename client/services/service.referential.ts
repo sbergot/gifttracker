@@ -52,3 +52,5 @@ export function showGiftStatus(gs: GT.GiftStatus): string {
 export const allGiftStatus: GT.GiftStatus[] = [ "Available", "Reserved", "Deleted" ];
 
 export const normalStatus: GT.GiftStatus[] = [ "Available", "Reserved" ];
+
+export const allIndividualType: GT.IndividualType[] = [ "Any", "Me", "Other" ];

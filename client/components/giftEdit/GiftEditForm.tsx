@@ -1,13 +1,13 @@
 import * as React from "react"
 
-import { Typeahead } from "./molecules/TypeAhead"
-import { TextField } from "./molecules/TextField"
-import { EditFormLayout } from "./organisms/EditFormLayout"
+import { Typeahead } from "../shared/molecules/TypeAhead"
+import { TextField } from "../shared/molecules/TextField"
+import { EditFormLayout } from "../shared/organisms/EditFormLayout"
 
 import { showEvent, normalStatus } from '../../services/service.referential';
-import { DropDownField } from "./molecules/DropDownField";
-import { RadioButtonField } from "./molecules/RadioButtonField";
-import { ToggleField } from "./molecules/ToggleField";
+import { DropDownField } from "../shared/molecules/DropDownField";
+import { RadioButtonField } from "../shared/molecules/RadioButtonField";
+import { ToggleField } from "../shared/molecules/ToggleField";
 
 interface GiftEditFormProps {
     gift: GT.Gift;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ActionButton } from '../../shared/molecules/ActionButton';
+import { ActionButton } from '../shared/molecules/ActionButton';
 
 function GiftTitle(gift: GT.Gift) {
     return gift.url

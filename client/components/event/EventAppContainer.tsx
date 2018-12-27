@@ -1,30 +1,18 @@
 import * as React from 'react';
 import { Subscribe } from "unstated"
 
-import { DataStore } from "../../../stores/dataStore";
-import { GiftEditStore } from "../../../stores/giftEditStore";
 import { EventView } from "./EventView"
-import { sortByEvents } from '../../../services/service.referential'
-import { MainStore } from '../../../stores/mainStore';
+import { DataStore } from "../../stores/dataStore";
+import { GiftEditStore } from "../../stores/giftEditStore";
+import { MainStore } from '../../stores/mainStore';
 
 interface EventAppProps {
     context: GT.ContextService;
-}
-
-interface EventAppActions {
     giftActions: GT.EditGiftActions;
 }
 
-class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
+class EventApp extends React.Component<EventAppProps>
 {
-    editGift = (giftId: GT.Id) => {
-        this.props.giftActions.editGift(giftId);
-    }
-
-    deleteGift = async (giftId: GT.Id) => {
-        await this.props.giftActions.deleteGift(giftId);
-    }
-
     createGift = (event: GT.Event, individual: GT.Individual) => {
         const newGift = { eventId: event.id };
         this.props.giftActions.newGift(newGift, [individual.id]);
@@ -33,6 +21,7 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
     render() {
         const dataContext = this.props.context;
         const events = dataContext.getSortedEvents();
+        const actions = this.props.giftActions;
         return (
             <div className="container grid-lg">
                 {
@@ -41,8 +30,8 @@ class EventApp extends React.Component<EventAppProps & EventAppActions, {}>
                             key={evt.id}
                             context={this.props.context}
                             eventId={evt.id}
-                            editGift={this.editGift}
-                            deleteGift={this.deleteGift}
+                            editGift={actions.editGift}
+                            deleteGift={actions.deleteGift}
                             createGift={this.createGift}
                         />
                     )

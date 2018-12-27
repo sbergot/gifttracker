@@ -6,6 +6,8 @@
 - [ ] filtrer par statut
 - [ ] filter les cadeaux sur lesquels je suis acheteur
 
+- [ ] pouvoir masquer/monter les filtres
+
 ## delete action
 - [ ] make it soft (via status)
 - [ ] add a warning

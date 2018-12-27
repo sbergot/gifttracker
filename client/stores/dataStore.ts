@@ -4,13 +4,11 @@ import * as dataGift from "../data/data.gift";
 import * as dataContext from "../data/data.referential";
 import * as dataGiftReceiver from "../data/data.giftreceiver";
 import { diffArray } from "../services/services.arraydiff";
-import { fromReferentialData, ContextServiceImpl } from "../services/service.context";
+import { fromReferentialData } from "../services/service.context";
 
 export class DataStore extends Container<GT.AppState> {
 
     state: GT.AppState = makeState();
-
-    getContextService = (): GT.ContextService => new ContextServiceImpl(this.state.context);
 
     asyncOperationStart = () => this.setState({ loading: true });
 
@@ -68,7 +66,7 @@ export class DataStore extends Container<GT.AppState> {
     }
 
     updateReceiver = async (giftId: GT.Id, receiverIds: GT.Id[]) => {
-        const previousReceiverIds = this.getContextService().getReceiverIds(giftId);
+        const previousReceiverIds = this.state.context.giftReceiversMap[giftId];
         const diff = diffArray(previousReceiverIds, receiverIds);
         const added = diff.added.map(receiverId => {
             const update: GT.GiftReceiverUpdate = { giftId, receiverId, operation: "Add" };

@@ -5,20 +5,19 @@ import { FilterStore } from "../../stores/filterStore";
 import { DropDownField } from '../shared/molecules/DropDownField';
 import { allIndividualType, normalStatus } from '../../services/service.referential';
 import { ToggleField } from '../shared/molecules/ToggleField';
-import { DataStore } from '../../stores/dataStore';
+import { MainStore } from '../../stores/mainStore';
 
 export function FiltersContainer() {
     return <Subscribe
-        to={[FilterStore, DataStore]}
+        to={[FilterStore, MainStore]}
     >
         {
-            (filterStore: FilterStore, dataStore: DataStore) => {
+            (filterStore: FilterStore, mainStore: MainStore) => {
                 return <div className="container grid-lg">
-                    {JSON.stringify(filterStore.state)}
                     <div className="columns">
                         <Filters
                             filterStore={filterStore}
-                            individuals={dataStore.getContextService().getAllIndividuals()}
+                            individuals={mainStore.getContextService().getAllIndividuals()}
                         />
                     </div>
                 </div>

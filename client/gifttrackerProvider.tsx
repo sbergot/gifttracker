@@ -9,8 +9,8 @@ import { FilterStore } from "./stores/filterStore";
 const dataStore = new DataStore();
 dataStore.refreshData();
 const giftEditStore = new GiftEditStore();
-const mainStore = new MainStore(dataStore, giftEditStore);
 const filterStore = new FilterStore();
+const mainStore = new MainStore(dataStore, giftEditStore, filterStore);
 
 export function GiftTrackerProvider(props: { children: React.ReactNode }) {
     return <Provider inject={[dataStore, giftEditStore, mainStore, filterStore]}>

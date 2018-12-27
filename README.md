@@ -1,12 +1,19 @@
 # Now
 
 ## filter gifts
+
+### fonctionalités
 - [ ] pouvoir filtrer sur mes idées ou les idées des autres
 - [ ] pouvoir filtrer par destinataire
 - [ ] filtrer par statut
 - [ ] filter les cadeaux sur lesquels je suis acheteur
 
+### style
+- [ ] améliorer le design
 - [ ] pouvoir masquer/monter les filtres
+
+## individual picker
+- [ ] typeahead limité à un choix
 
 ## delete action
 - [ ] make it soft (via status)

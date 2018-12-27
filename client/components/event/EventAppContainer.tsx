@@ -3,25 +3,21 @@ import { Subscribe } from "unstated"
 
 import { EventView } from "./EventView"
 import { DataStore } from "../../stores/dataStore";
-import { GiftEditStore } from "../../stores/giftEditStore";
 import { MainStore } from '../../stores/mainStore';
+import { FilterStore } from '../../stores/filterStore';
 
 interface EventAppProps {
     context: GT.ContextService;
     giftActions: GT.EditGiftActions;
+    showEmpty: boolean;
+    showOnly: GT.Id | null;
 }
 
 class EventApp extends React.Component<EventAppProps>
 {
-    createGift = (event: GT.Event, individual: GT.Individual) => {
-        const newGift = { eventId: event.id };
-        this.props.giftActions.newGift(newGift, [individual.id]);
-    }
-
     render() {
         const dataContext = this.props.context;
         const events = dataContext.getSortedEvents();
-        const actions = this.props.giftActions;
         return (
             <div className="container grid-lg">
                 {
@@ -30,9 +26,9 @@ class EventApp extends React.Component<EventAppProps>
                             key={evt.id}
                             context={this.props.context}
                             eventId={evt.id}
-                            editGift={actions.editGift}
-                            deleteGift={actions.deleteGift}
-                            createGift={this.createGift}
+                            actions={this.props.giftActions}
+                            showEmpty={this.props.showEmpty}
+                            showOnlyIndiv={this.props.showOnly}
                         />
                     )
                 }
@@ -42,17 +38,17 @@ class EventApp extends React.Component<EventAppProps>
 }
 
 export function EventAppContainer() {
-    return <Subscribe to={[DataStore, GiftEditStore, MainStore]}>
-        {(dataStore: DataStore, giftEditStore: GiftEditStore, mainStore: MainStore) => (
+    return <Subscribe to={[DataStore, FilterStore, MainStore]}>
+        {(dataStore: DataStore, filterStore: FilterStore, mainStore: MainStore) => (
             <EventApp
-                context={dataStore.getContextService()}
+                context={mainStore.getContextService()}
                 giftActions={{
-                    cancelEdition: giftEditStore.closeGiftForm,
                     deleteGift: dataStore.deleteGift,
                     editGift: mainStore.editGift,
-                    newGift: mainStore.editNewGift,
-                    saveGift: dataStore.saveGift
+                    newGift: mainStore.editNewGift
                 }}
+                showEmpty={filterStore.state.showEmptyIndividuals}
+                showOnly={filterStore.state.receiverId}
             />
         )}
     </Subscribe>

@@ -56,11 +56,13 @@ export function fromReferentialData(referentialData: GT.ReferentialData): GT.Dat
 }
 
 export class ContextServiceImpl implements GT.ContextService {
-    constructor(private context: GT.DataContext) {
-    }
+    constructor(
+        private context: GT.DataContext,
+        private filters: GT.FilterState
+    ) {}
 
-    static fromReferentialData(referentialData: GT.ReferentialData) {
-        return new ContextServiceImpl(fromReferentialData(referentialData));
+    static fromReferentialData(referentialData: GT.ReferentialData, filters: GT.FilterState) {
+        return new ContextServiceImpl(fromReferentialData(referentialData), filters);
     }
 
     getGift = (id: GT.Id) => this.context.giftMap[id];
@@ -100,7 +102,43 @@ export class ContextServiceImpl implements GT.ContextService {
 
     getGiftsReceived = (indivId: string): GT.Gift[] => {
         const giftIds = this.context.receiverGiftsMap[indivId] || [];
-        return giftIds.map(this.getGift);
+        const gifts = giftIds.map(this.getGift);
+        const currentUserId = this.context.currentUserId;
+        const filteredGifts = gifts.filter(g => {
+            let keep = true;
+            const receivers = this.context.giftReceiversMap[g.id] || [];
+            const isInReceivers = receivers.findIndex(i => i === currentUserId) > -1;
+
+            switch (this.filters.ownerType) {
+                case "Me":
+                    keep = keep && (g.ownerId === currentUserId);
+                    break;
+                case "Other":
+                    keep = keep && (g.ownerId !== currentUserId)
+                    break;
+            }
+            if (!keep) { return false; }
+
+            switch (this.filters.buyerType) {
+                case "Me":
+                    keep = keep && (g.buyerId === currentUserId) && (!isInReceivers);
+                    break;
+                case "Other":
+                    keep = keep && (g.buyerId !== currentUserId) && (!isInReceivers);
+                    break;
+            }
+            if (!keep) { return false; }
+
+            if (this.filters.giftStatus) {
+                const samestatus = g.status === this.filters.giftStatus;
+                keep = keep && samestatus && (!isInReceivers);
+            }
+            if (!keep) { return false; }
+
+            return true;
+        });
+
+        return filteredGifts;
     }
 
     getCurrentUser = (): GT.Individual => {

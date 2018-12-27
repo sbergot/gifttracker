@@ -1,18 +1,26 @@
 import { Container } from "unstated";
 import { DataStore } from "./dataStore";
 import { GiftEditStore } from "./giftEditStore";
+import { FilterStore } from "./filterStore";
+import { ContextServiceImpl } from "../services/service.context";
 
 export class MainStore extends Container<{}> {
-    dataStore: DataStore;
-    giftEditStore: GiftEditStore;
-    constructor(dataStore: DataStore, giftEditStore: GiftEditStore) {
+    constructor(
+        private dataStore: DataStore,
+        private giftEditStore: GiftEditStore,
+        private filterStore: FilterStore
+    ) {
         super();
-        this.dataStore = dataStore;
-        this.giftEditStore = giftEditStore;
+        this.dataStore.subscribe(() => this.setState({}));
+        this.filterStore.subscribe(() => this.setState({}));
     }
 
+    getContextService = (): GT.ContextService => new ContextServiceImpl(
+        this.dataStore.state.context,
+        this.filterStore.state);
+
     editGift = (giftId: GT.Id) => {
-        const context = this.dataStore.getContextService();
+        const context = this.getContextService();
         const gift = context.getGift(giftId);
         const receiverIds = context.getReceiverIds(giftId);
         this.giftEditStore.editGift(gift, receiverIds);
@@ -20,7 +28,7 @@ export class MainStore extends Container<{}> {
 
     editNewGift = (gift: Partial<GT.Gift>, receiverIds: GT.Id[] = []) => {
         const newGift = {...gift};
-        const context = this.dataStore.getContextService();
+        const context = this.getContextService();
         const currentUser = context.getCurrentUser();
         if (!newGift.ownerId) { newGift.ownerId = currentUser.id; }
         this.giftEditStore.editNewGift(newGift, receiverIds);
